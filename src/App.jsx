@@ -1,14 +1,13 @@
-import { useState } from 'react'
-import './App.css'
+import { BrowserRouter } from "react-router-dom";
+import HeaderComponent from "./components/headerComponent";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-    
-    </>
-  )
+    <BrowserRouter>
+      <HeaderComponent />
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

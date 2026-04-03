@@ -1,0 +1,29 @@
+#contactMain {
+  height: 80vh;
+  background-color: #e4ebf0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#contactForm_container {
+  width: 50%;
+  border: 1px solid #8ab3cf;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+#btnEnviar_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#btnEnviarMensaje {
+  border: 1px solid #4180ab;
+  background-color: #bdd1de;
+  color: black;
+  text-align: center;
+  width: 40%;
+}

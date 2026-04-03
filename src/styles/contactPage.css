@@ -3,27 +3,56 @@
   background-color: #e4ebf0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: space-evenly; */
   align-items: center;
 }
 
+#contacto_tittle {
+  /* background-color: red; */
+  font-family: Cormorant Garamond;
+  font-size: x-large;
+  font-weight: bolder;
+  margin: 20px 0px 0px 0px;
+}
+
 #contactForm_container {
-  width: 50%;
-  border: 1px solid #8ab3cf;
+  /* background-color: green; */
+  height: auto;
+  width: 40%;
+  border: 1.5px solid #8ab3cf;
   border-radius: 10px;
+  margin-top: 40px;
   padding: 15px;
 }
 
+.campos_Container {
+  /* background-color: pink; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 15px;
+}
+
+.labels_formContacto {
+  /* background-color: beige; */
+  width: 20%;
+  text-align: start;
+  margin-right: 5px;
+}
+
 #btnEnviar_container {
+  /* background-color: antiquewhite; */
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 #btnEnviarMensaje {
   border: 1px solid #4180ab;
   background-color: #bdd1de;
-  color: black;
+  color: #1e293b;
   text-align: center;
-  width: 40%;
+  margin-top: 10px;
+  width: 95%;
 }

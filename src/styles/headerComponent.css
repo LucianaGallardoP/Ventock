@@ -1,27 +1,20 @@
 #header_Container {
-  background-color: #8ab3cf;
+  background-color: #1e293b;
   width: 100vw;
-  height: auto;
+  height: 12vh;
   display: flex;
   justify-content: center;
 }
 
-#logo_Container {
-  /* background-color: pink; */
-  height: fit-content;
-  text-align: center;
-}
-
-.imgLogo{
-    width: 150px;
+.imgLogotipo {
+  width: 150px;
 }
 
 #navbar_Container {
-  /* background-color: blue; */
   width: 80%;
-  height: auto;
+  height: fit-content;
   display: flex;
-  /* flex-direction: column; */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -32,16 +25,14 @@
 }
 
 .navLinks {
-  color: #1e293b;
-  padding: 5px;
+  color: #e4ebf0;
+  padding: 8px;
   margin: 0px 20px;
-  font-size: larger;
   text-decoration: none;
 }
 
 .navLinks:hover {
-  color: #e4ebf0;
-  border: 1px solid #e4ebf0;
+  background-color: #bdd1de;
+  color: #4180ab;
   border-radius: 5px;
-  font-weight: bold;
 }

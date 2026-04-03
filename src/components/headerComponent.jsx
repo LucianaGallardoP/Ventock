@@ -1,17 +1,22 @@
 import { Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import ventockLogo from "../assets/Ventock.png";
+import logotipoVentock from "../assets/logotipoVentock.png";
+// import ventockLogo from "../assets/Ventock.png";
 import "../styles/headerComponent.css";
 
 export default function HeaderComponent() {
   return (
     <Navbar id="header_Container" expand="md">
       <Navbar.Brand id="logo_Container">
-        {" "}
-        <img src={ventockLogo} alt="logoVentock" className="imgLogo" />
+        <img
+          src={logotipoVentock}
+          alt="Logotipo Ventock"
+          className="imgLogotipo"
+        />
       </Navbar.Brand>
+
       <div id="navbar_Container">
-        {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto" id="navLinks_Container">
@@ -19,23 +24,23 @@ export default function HeaderComponent() {
               Inicio
             </NavLink>
 
-            <NavLink to="" className="navLinks">
+            <NavLink to="*" className="navLinks">
               Presupuestos
             </NavLink>
 
-            <NavLink to="/ventasDelDia" className="navLinks">
+            <NavLink to="*" className="navLinks">
               Ventas del día
             </NavLink>
 
-            <NavLink to="/registroVentasMeses" className="navLinks">
+            <NavLink to="*" className="navLinks">
               Ventas Mensuales
             </NavLink>
 
-            <NavLink to="" className="navLinks">
+            <NavLink to="*" className="navLinks">
               Notas de Crédito
             </NavLink>
 
-            <NavLink to="" className="navLinks">
+            <NavLink to="*" className="navLinks">
               Gestión de Categorías
             </NavLink>
           </Nav>

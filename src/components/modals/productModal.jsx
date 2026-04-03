@@ -47,9 +47,8 @@ export default function ProductModal({ showModalCarga, handleCloseModalCarga }) 
     catSeleccionada !== "Elige una categoría" &&
     catSeleccionada !== "Crea una categoría";
 
-  {
     /* Modal CARGAR PRODUCTO */
-  }
+  
   return (
     <Modal
       show={showModalCarga}

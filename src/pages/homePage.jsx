@@ -3,97 +3,45 @@ import ProductListComponent from "../components/productListComponent.jsx";
 import OrderDetailComponent from "../components/orderDetailComponent.jsx";
 import { OrderProvider } from "../context/OrderContext.jsx";
 import ProductModal from "../components/modals/productModal.jsx";
+import ConfirmOrderModal from "../components/modals/confirmOrderModal.jsx";
+import PaymentModal from "../components/modals/paymentModal.jsx";
 import "../styles/homePage.css";
 
 export default function HomePage() {
-  // Único estado necesario: controlar la visibilidad del modal de productos
- const [showProductModal, setShowProductModal] = useState(false);
+  // Controlan la visibilidad de cada uno de los modales (productos, confirmacion de pedido, metodo pago)
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   return (
     <OrderProvider>
       <section id="main_container">
         <div id="prodSistema_pedido_container">
           <ProductListComponent setShowModalCarga={setShowProductModal} />
-          <OrderDetailComponent />
+          <OrderDetailComponent setShowConfirmModal={setShowConfirmModal} />
         </div>
 
         <ProductModal
+          // MODAL 1
           show={showProductModal}
           onHide={() => setShowProductModal(false)}
         />
 
-        {/* Modal GUARDAR PEDIDO */}
-        {/* <Modal
-          show={showModalGuardarPedido}
-          onHide={() => setShowModalGuardarPedido(false)}
-          size="md"
-          backdrop="static"
-          centered
-        >
-          <Modal.Header closeButton style={{ backgroundColor: "#e4ebf0" }}>
-            <h5 id="cargarProducto_title">Finalizar Pedido</h5>
-          </Modal.Header>
-          <Modal.Body id="guardarPedido_container">
-            <p style={{ fontWeight: "bold", fontSize: "1.1rem" }}>
-              ¿Cómo desea registrar esta operación?
-            </p>
-            <div id="btnsGuardarVenta_container">
-              <Button
-                className="btnsGuardarVenta"
-                onClick={() => {
-                  setShowModalGuardarPedido(false);
-                  setShowModalMetodoPago(true);
-                }}
-              >
-                Vendido
-              </Button>
-              <Button className="btnsGuardarVenta">Presupuesto</Button>
-            </div>
-          </Modal.Body>
-          <Modal.Footer style={{ backgroundColor: "#e4ebf0" }}></Modal.Footer>
-        </Modal> */}
+        {/* MODAL 2: Vendido o Presupuesto? */}
+        <ConfirmOrderModal
+          show={showConfirmModal}
+          onHide={() => setShowConfirmModal(false)}
+          onConfirm={() => {
+            setShowConfirmModal(false);
+            setShowPaymentModal(true);
+          }}
+        />
 
-        {/* Modal Metodo de Pago */}
-        {/* <Modal
-          show={showModalMetodoPago}
-          onHide={() => setShowModalMetodoPago(false)}
-          size="md"
-          backdrop="static"
-          centered
-        >
-          <Modal.Header closeButton style={{ backgroundColor: "#e4ebf0" }}>
-            <h5 id="cargarProducto_title">Seleccionar Método de Pago</h5>
-          </Modal.Header>
-          <Modal.Body id="metodoPago_container">
-            <Button
-              className="btnsMetodoPago"
-              onClick={() => procesarPago("Efectivo")}
-            >
-              Efectivo
-            </Button>
-            <Button
-              className="btnsMetodoPago"
-              onClick={() => procesarPago("Transferencia")}
-            >
-              Transferencia
-            </Button>
-
-            <Button
-              className="btnsMetodoPago"
-              onClick={() => procesarPago("Débito")}
-            >
-              Débito
-            </Button>
-
-            <Button
-              className="btnsMetodoPago"
-              onClick={() => procesarPago("Crédito")}
-            >
-              Crédito
-            </Button>
-          </Modal.Body>
-          <Modal.Footer style={{ backgroundColor: "#e4ebf0" }}></Modal.Footer>
-        </Modal> */}
+        {/* MODAL 3: Seleccion del pago y cierre de stock */}
+        <PaymentModal
+          show={showPaymentModal}
+          onHide={() => setShowPaymentModal(false)}
+        />
       </section>
     </OrderProvider>
   );

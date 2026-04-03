@@ -1,0 +1,25 @@
+#errorMain{
+background-color: #B5CADA;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 80vh;
+position: relative;
+}
+
+#p{
+    color: white;
+    font-weight: bolder;
+    font-size:larger;
+    position: absolute;
+    top: 35%;
+    text-align: center;
+}
+
+video{
+    width: 50%;
+    height: fit-content;
+    position: absolute;
+    bottom: 0;
+}

@@ -1,11 +1,13 @@
-import React from "react";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { Dropdown, Form, Button } from "react-bootstrap";
 import { FaTrash, FaPen } from "react-icons/fa";
 import { CiCirclePlus } from "react-icons/ci";
 import { ProductContext } from "../context/ProductContext";
+import { OrderContext } from "../context/OrderContext";
+import "../styles/productListComponent.css";
 
 export default function ProductListComponent({ setShowModalCarga }) {
+  // Traemos lo referente al inventario
   const {
     categorias,
     filtro,
@@ -13,8 +15,11 @@ export default function ProductListComponent({ setShowModalCarga }) {
     resultadosBusqueda,
     eliminarProducto,
     prepararEdicion,
-    agregarAlDetalle, // Esta función la moveremos al context de Carrito luego, por ahora úsala si existe
+    productos,
   } = useContext(ProductContext);
+
+  // Traemos lo referente a la venta
+  const { agregarAlDetalle } = useContext(OrderContext);
 
   return (
     <section id="productList_container">
@@ -25,7 +30,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
           <Form.Control
             style={{ width: "auto" }}
             type="search"
-            placeholder="ID o Nombre del Producto"
+            placeholder="Buscar producto..."
             value={filtro}
             // Filtra mientras se escribe
             onChange={(e) => setFiltro(e.target.value)}
@@ -117,7 +122,9 @@ export default function ProductListComponent({ setShowModalCarga }) {
                           <Button
                             style={{ backgroundColor: "none" }}
                             variant="warning"
-                            onClick={() => prepararEdicion(producto, setShowModalCarga)}
+                            onClick={() =>
+                              prepararEdicion(producto, setShowModalCarga)
+                            }
                           >
                             <FaPen style={{ color: "white" }} />
                           </Button>

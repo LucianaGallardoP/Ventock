@@ -1,0 +1,89 @@
+/* PRODUCTOS EN SISTEMA */
+#productList_container {
+  /* background-color: red; */
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#productList_header {
+  /* background-color: antiquewhite; */
+  width: 98%;
+  height: auto;
+  /* padding: 5px; */
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#inputBuscar_container {
+  /* background-color: blue; */
+  width: fit-content;
+}
+
+/* BOTONES GENERALES:
+
+.btnBuscar {
+  border: 1px solid #4180ab;
+  background-color: #bdd1de;
+  color: black;
+}
+
+.btnBuscar:hover {
+  color: white;
+  background-color: #4180ab;
+} */
+
+/* --- */
+
+#productList_tableSection {
+  background-color: white;
+  height: auto;
+  width: 98%;
+  margin-top: 5px;
+  overflow-y: auto;
+}
+
+#productsTable_thead {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.itemsCategories_dropD {
+  color: black;
+  display: flex;
+  justify-content: center;
+}
+
+.itemsCategories_dropD:hover {
+  color: #4180ab;
+  background-color: white;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  height: fit-content;
+  /* padding-left: 5px; */
+}
+
+.productsTable_header {
+  background-color: #8ab3cf;
+  text-align: center;
+  position: sticky;
+}
+
+.titleCategories_table {
+  background-color: #bdd1de;
+  height: 6vh;
+  font-weight: bold;
+  text-align: center;
+  position: sticky;
+  top: 11vh;
+}

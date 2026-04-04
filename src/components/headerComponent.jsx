@@ -1,7 +1,6 @@
 import { Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import logotipoVentock from "../assets/logotipoVentock.png";
-// import ventockLogo from "../assets/Ventock.png";
 import "../styles/headerComponent.css";
 
 export default function HeaderComponent() {

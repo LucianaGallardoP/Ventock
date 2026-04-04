@@ -1,21 +1,10 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-export default function ConfirmOrderModal({
-  showModalGuardarPedido,
-  setShowModalGuardarPedido,
-  onConfirm,
-}) {
-
-    /* Modal GUARDAR PEDIDO */
+export default function ConfirmOrderModal({ show, onHide, onConfirm }) {
+  /* Modal GUARDAR PEDIDO */
   return (
-    <Modal
-      show={showModalGuardarPedido}
-      onHide={() => setShowModalGuardarPedido(false)}
-      size="md"
-      backdrop="static"
-      centered
-    >
+    <Modal show={show} onHide={onHide} size="md" backdrop="static" centered>
       <Modal.Header closeButton style={{ backgroundColor: "#e4ebf0" }}>
         <h5 id="cargarProducto_title">Finalizar Pedido</h5>
       </Modal.Header>
@@ -24,12 +13,7 @@ export default function ConfirmOrderModal({
           ¿Cómo desea registrar esta operación?
         </p>
         <div id="btnsGuardarVenta_container">
-          <Button
-            className="btnsGuardarVenta"
-            onClick={() => {
-              {onConfirm}
-            }}
-          >
+          <Button className="btnsGuardarVenta" onClick={onConfirm}>
             Vendido
           </Button>
           <Button className="btnsGuardarVenta">Presupuesto</Button>

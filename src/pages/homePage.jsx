@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ProductListComponent from "../components/productListComponent.jsx";
 import OrderDetailComponent from "../components/orderDetailComponent.jsx";
-import { OrderProvider } from "../context/OrderContext.jsx";
 import ProductModal from "../components/modals/productModal.jsx";
 import ConfirmOrderModal from "../components/modals/confirmOrderModal.jsx";
 import PaymentModal from "../components/modals/paymentModal.jsx";
@@ -14,35 +13,33 @@ export default function HomePage() {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   return (
-    <OrderProvider>
-      <section id="main_container">
-        <div id="prodSistema_pedido_container">
-          <ProductListComponent setShowModalCarga={setShowProductModal} />
-          <OrderDetailComponent setShowConfirmModal={setShowConfirmModal} />
-        </div>
+    <section id="main_container">
+      <div id="prodSistema_pedido_container">
+        <ProductListComponent setShowModalCarga={setShowProductModal} />
+        <OrderDetailComponent setShowConfirmModal={setShowConfirmModal} />
+      </div>
 
-        <ProductModal
-          // MODAL 1
-          show={showProductModal}
-          onHide={() => setShowProductModal(false)}
-        />
+      <ProductModal
+        // MODAL 1
+        show={showProductModal}
+        onHide={() => setShowProductModal(false)}
+      />
 
-        {/* MODAL 2: Vendido o Presupuesto? */}
-        <ConfirmOrderModal
-          show={showConfirmModal}
-          onHide={() => setShowConfirmModal(false)}
-          onConfirm={() => {
-            setShowConfirmModal(false);
-            setShowPaymentModal(true);
-          }}
-        />
+      {/* MODAL 2: Vendido o Presupuesto? */}
+      <ConfirmOrderModal
+        show={showConfirmModal}
+        onHide={() => setShowConfirmModal(false)}
+        onConfirm={() => {
+          setShowConfirmModal(false);
+          setShowPaymentModal(true);
+        }}
+      />
 
-        {/* MODAL 3: Seleccion del pago y cierre de stock */}
-        <PaymentModal
-          show={showPaymentModal}
-          onHide={() => setShowPaymentModal(false)}
-        />
-      </section>
-    </OrderProvider>
+      {/* MODAL 3: Seleccion del pago y cierre de stock */}
+      <PaymentModal
+        show={showPaymentModal}
+        onHide={() => setShowPaymentModal(false)}
+      />
+    </section>
   );
 }

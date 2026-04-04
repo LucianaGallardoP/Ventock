@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ProductProvider } from "./context/ProductContext";
 import { OrderProvider } from "./context/OrderContext";
 import HeaderComponent from "./components/headerComponent";
+import LogInPage from "./pages/logInPage";
 import HomePage from "./pages/homePage";
 import FooterComponent from "./components/footerComponent";
 import ErrorPage from "./pages/errorPage";
@@ -17,6 +18,7 @@ function App() {
         <BrowserRouter>
           <HeaderComponent />
           <Routes>
+            <Route path="/login" element={<LogInPage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />

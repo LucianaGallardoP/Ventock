@@ -1,0 +1,17 @@
+#logIn_main{
+    background-color: #1e293b;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+}
+
+#logIn_tittle{
+color: white;
+}
+
+#logInForm_container{
+    width: 30%;
+    height: auto;
+    background-color: red;
+    border: 1.5px solid white;
+}

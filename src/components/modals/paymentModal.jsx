@@ -4,10 +4,10 @@ import { OrderContext } from "../../context/OrderContext";
 import { ProductContext } from "../../context/ProductContext";
 
 export default function PaymentModal({
-  showModalMetodoPago,
-  setShowModalMetodoPago,
+  show,
+  onHide,
 }) {
-  const { detallePedido, vaciarCarrito } = useContext(OrderContext);
+  const { detallePedido, setDetallePedido } = useContext(OrderContext);
   const { productos, setProductos } = useContext(ProductContext);
 
   const procesarVenta = (metodo) => {
@@ -30,15 +30,15 @@ export default function PaymentModal({
     // Aquí guardar la venta en una DB.
     alert(`Venta registrada con éxito (${metodo}). Stock actualizado.`);
 
-    vaciarCarrito();
+    setDetallePedido([]);
     onHide();
   };
 
   /* Modal Metodo de Pago */
   return (
     <Modal
-      show={showModalMetodoPago}
-      onHide={() => setShowModalMetodoPago(false)}
+      show={show}
+      onHide={onHide}
       size="md"
       backdrop="static"
       centered

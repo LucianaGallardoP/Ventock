@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Modal, Button, Form, Dropdown } from "react-bootstrap";
 import { ProductContext } from "../../context/ProductContext";
 
-export default function ProductModal({ showModalCarga, handleCloseModalCarga }) {
+export default function ProductModal({ show, onHide }) {
   const {
     categorias,
     crearNuevaCategoria,
@@ -51,8 +51,8 @@ export default function ProductModal({ showModalCarga, handleCloseModalCarga }) 
   
   return (
     <Modal
-      show={showModalCarga}
-      onHide={handleCloseModalCarga}
+      show={show}
+      onHide={onHide}
       size="lg"
       backdrop="static"
     >
@@ -64,7 +64,7 @@ export default function ProductModal({ showModalCarga, handleCloseModalCarga }) 
       <Modal.Body id="cargarProducto_container">
         {/* Cada input tiene su 'value' conectado a un estado y su 'onChange' para actualizarlo */}
         <Form
-          onSubmit={(e) => handleSubmitProducto(e, handleCloseModalCarga)}
+          onSubmit={(e) => handleSubmitProducto(e, onHide)}
           id="cargarProducto_form"
         >
           <Form.Group className="formGroup" controlId="formGroupIdProducto">

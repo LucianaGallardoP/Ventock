@@ -122,9 +122,10 @@ export default function ProductListComponent({ setShowModalCarga }) {
                           <Button
                             style={{ backgroundColor: "none" }}
                             variant="warning"
-                            onClick={() =>
-                              prepararEdicion(producto, setShowModalCarga)
-                            }
+                            onClick={() => {
+                              prepararEdicion(producto);
+                              setShowModalCarga(true);
+                            }}
                           >
                             <FaPen style={{ color: "white" }} />
                           </Button>

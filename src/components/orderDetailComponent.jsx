@@ -4,14 +4,13 @@ import { FaTrash } from "react-icons/fa";
 import { OrderContext } from "../context/OrderContext";
 import "../styles/orderDetailComponent.css";
 
-export default function OrderDetailComponent() {
+export default function OrderDetailComponent({setShowConfirmModal}) {
   // Extraemos todo directamente del contexto
   const {
     detallePedido,
     eliminarDelDetalle,
     manejarCambioCantidad,
     importeTotalPedido,
-    setShowModalGuardarPedido,
   } = useContext(OrderContext);
 
   return (
@@ -100,7 +99,7 @@ export default function OrderDetailComponent() {
         <Button
           id="guardarPedido_btn"
           style={{ fontSize: "1.1rem" }}
-          onClick={() => setShowModalGuardarPedido(true)}
+          onClick={() => setShowConfirmModal(true)}
         >
           Guardar Pedido
         </Button>

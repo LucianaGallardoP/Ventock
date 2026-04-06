@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
-import "../styles/contactPage.css";
 import { Button, Form } from "react-bootstrap";
 import emailjs from "@emailjs/browser";
+import "../styles/contactPage.css";
 
 export default function ContactPage() {
   const form = useRef();
@@ -29,16 +29,18 @@ export default function ContactPage() {
   };
 
   return (
-    <section id="contactMain">
-      <h5 id="contacto_tittle"
-      >
-        Contáctate con el soporte de VENTOCK
-      </h5>
+    <section id="contact_main">
       <Form id="contactForm_container" ref={form} onSubmit={enviarEmail}>
-        <Form.Group className="campos_Container" controlId="formBasicEmail">
+        <h5 id="contact_tittle">Contáctate con el soporte de VENTOCK</h5>
+
+        <Form.Group
+          className="contactCampos_Container"
+          controlId="formBasicEmail"
+        >
           <Form.Label className="labels_formContacto">E-mail:</Form.Label>
 
           <Form.Control
+            className="controls_formContact"
             type="email"
             name="email"
             placeholder="Ingrese su correo electrónico"
@@ -46,9 +48,13 @@ export default function ContactPage() {
           />
         </Form.Group>
 
-        <Form.Group className="campos_Container" controlId="formBasicUserName">
+        <Form.Group
+          className="contactCampos_Container"
+          controlId="formBasicUserName"
+        >
           <Form.Label className="labels_formContacto">Usuario:</Form.Label>
           <Form.Control
+            className="controls_formContact"
             type="text"
             name="nombreUsuario"
             placeholder="Ingrese su nombre de usuario"
@@ -56,9 +62,13 @@ export default function ContactPage() {
           />
         </Form.Group>
 
-        <Form.Group className="campos_Container" controlId="formGroupMessage">
+        <Form.Group
+          className="contactCampos_Container"
+          controlId="formGroupMessage"
+        >
           <Form.Label className="labels_formContacto">Mensaje:</Form.Label>
           <Form.Control
+            className="controls_formContact"
             as="textarea"
             rows={2}
             name="mensaje"
@@ -68,7 +78,7 @@ export default function ContactPage() {
           />
         </Form.Group>
 
-        <Form.Text className="text-muted" style={{ marginLeft: "15px" }}>
+        <Form.Text className="text-light text">
           Nunca compartiremos tu información con nadie.
         </Form.Text>
 

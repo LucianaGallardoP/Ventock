@@ -1,22 +1,29 @@
 /* PRODUCTOS EN SISTEMA */
-#productList_container {
+#productSist_container {
   /* background-color: red; */
-  width: 60%;
+  width: 55%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-#productList_header {
+#productSist_header {
   /* background-color: antiquewhite; */
-  width: 98%;
+  width: 95%;
   height: auto;
-  /* padding: 5px; */
   margin-top: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+#productSist_tittle {
+  color: #1e293b;
+  font-size: x-large;
+  font-weight: bolder;
+  font-family: "Cormorant Garamond";
+  /* font-family: "Poppins"; */
 }
 
 #inputBuscar_container {
@@ -24,33 +31,37 @@
   width: fit-content;
 }
 
-/* BOTONES GENERALES:
-
-.btnBuscar {
-  border: 1px solid #4180ab;
-  background-color: #bdd1de;
-  color: black;
-}
-
-.btnBuscar:hover {
-  color: white;
-  background-color: #4180ab;
-} */
-
-/* --- */
-
-#productList_tableSection {
-  background-color: white;
+#productSist_table {
+  background-color: #f3f3f2;
   height: auto;
-  width: 98%;
+  width: 95%;
   margin-top: 5px;
   overflow-y: auto;
+}
+
+#productsTable {
+  width: 100%;
 }
 
 #productsTable_thead {
   position: sticky;
   top: 0;
   z-index: 1000;
+}
+
+.dropdown_categorias {
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  /* background-color: #8ab3cf; */
+  background-color: #bdd1de;
+  color: #1e293b;
+}
+
+.dropdown_categorias:hover,
+.dropdown_categorias:active,
+.dropdown_categorias[aria-expanded="true"] {
+  background-color: #4180ab;
 }
 
 .itemsCategories_dropD {
@@ -67,16 +78,18 @@
 table,
 th,
 td {
-  border: 1px solid black;
+  border: 1px solid #4180ab;
   border-collapse: collapse;
   height: fit-content;
   /* padding-left: 5px; */
 }
 
-.productsTable_header {
+.columnsTableProducts th {
+  color: #1e293b;
   background-color: #8ab3cf;
   text-align: center;
   position: sticky;
+  font-weight: 500;
 }
 
 .titleCategories_table {

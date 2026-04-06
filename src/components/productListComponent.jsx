@@ -22,9 +22,11 @@ export default function ProductListComponent({ setShowModalCarga }) {
   const { agregarAlDetalle } = useContext(OrderContext);
 
   return (
-    <section id="productList_container">
-      <div id="productList_header">
-        <h5 style={{ fontWeight: "bold" }}>Productos en Sistema</h5>
+    <section id="productSist_container">
+      <div id="productSist_header">
+        <h5 id="productSist_tittle">Productos en Sistema</h5>
+
+        <button onClick={() => setShowModalCarga(true)}>Nuevo Producto</button>
 
         <div id="inputBuscar_container">
           <Form.Control
@@ -36,19 +38,17 @@ export default function ProductListComponent({ setShowModalCarga }) {
             onChange={(e) => setFiltro(e.target.value)}
           />
         </div>
-
-        <button onClick={() => setShowModalCarga(true)}>Nuevo Producto</button>
       </div>
 
-      <div id="productList_tableSection">
-        <table id="productsTable" style={{ width: "100%" }}>
+      <div id="productSist_table">
+        <table id="productsTable">
           <thead id="productsTable_thead">
             <tr>
               <th colSpan={9} style={{ padding: "0%" }}>
                 <Dropdown>
                   <Dropdown.Toggle
                     id="dropdown-basic"
-                    style={{ borderRadius: "0", border: "none" }}
+                    className="dropdown_categorias"
                   >
                     Filtrar Categorías
                   </Dropdown.Toggle>
@@ -68,7 +68,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
               </th>
             </tr>
 
-            <tr className="productsTable_header">
+            <tr className="columnsTableProducts">
               <th>ID</th>
               <th>Nombre</th>
               <th>Stock - Últ. Modif.</th>

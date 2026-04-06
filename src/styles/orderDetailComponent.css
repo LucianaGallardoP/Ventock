@@ -1,23 +1,23 @@
 /* DETALLE DEL PEDIDO */
-#customerOrders_container {
+#orders_container {
   /* background-color: blue; */
-  width: 40%;
+  width: 45%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-#orderDetail_tableSection {
-  width: 98%;
+#orderDetail_table {
+  width: 95%;
   height: 100%;
   overflow-y: auto;
   display: flex;
   justify-content: center;
-  background-color: white;
+  background-color: #f3f3f2;
 }
 
-#orderTable_header {
+#columnsOrderTable {
   background-color: #8ab3cf;
   text-align: center;
   position: sticky;
@@ -28,16 +28,18 @@
   background-color: #bdd1de;
   width: 100%;
   height: 8vh;
+  border-radius: 10px 10px 0px 0px;
   text-align: center;
 }
 
 #guardarPedido_btn {
   width: 100%;
   height: auto;
-  background-color: #4180ab;
-  color: black;
+  background-color: #6a8ea7;
+  color: #1e293b;
   border: none;
-  border-radius: 0px;
+  border-radius: 0px 0px 10px 10px;
+  margin-bottom: 5px;
 }
 
 #guardarPedido_btn:hover {

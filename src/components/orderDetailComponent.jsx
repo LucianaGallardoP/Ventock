@@ -14,7 +14,7 @@ export default function OrderDetailComponent({setShowConfirmModal}) {
   } = useContext(OrderContext);
 
   return (
-    <section id="customerOrders_container">
+    <section id="orders_container">
       <div>
         <h5
           style={{
@@ -27,10 +27,10 @@ export default function OrderDetailComponent({setShowConfirmModal}) {
         </h5>
       </div>
 
-      <div id="orderDetail_tableSection">
+      <div id="orderDetail_table">
         <table style={{ width: "100%" }}>
           <thead>
-            <tr id="orderTable_header">
+            <tr id="columnsOrderTable">
               <th>ID</th>
               <th>Producto</th>
               <th>Cantidad</th>
@@ -84,10 +84,10 @@ export default function OrderDetailComponent({setShowConfirmModal}) {
         </table>
       </div>
 
-      <div style={{ width: "98%" }}>
+      <div style={{ width: "95%" }}>
         <table id="orderDetail_Importe">
           <tr>
-            <th style={{ width: "40%", fontWeight: "normal" }}>
+            <th style={{ width: "35%", fontWeight: "normal" }}>
               Importe Total
             </th>
             <th style={{ fontSize: "1.5rem" }}>

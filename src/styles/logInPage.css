@@ -1,17 +1,104 @@
-#logIn_main{
-    background-color: #1e293b;
-    height: 80vh;
-    display: flex;
-    justify-content: center;
+#logIn_main {
+  height: 90vh;
+  width: 100%;
+  background-image: url(../assets/fondoLogIn.jpg);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#logIn_tittle{
-color: white;
+#form_section {
+  width: 30%;
+  height: 85%;
+  display: flex;
+  align-items: center;
 }
 
-#logInForm_container{
-    width: 30%;
-    height: auto;
-    background-color: red;
-    border: 1.5px solid white;
+#logInForm_container {
+  width: 100%;
+  height: auto;
+  color: #f3f3f2;
+  padding: 15px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(30, 41, 59, 0.05);
+  backdrop-filter: blur(1px);
+  box-shadow: 0 15px 25px 0 rgb(228, 235, 240, 0.5);
+}
+
+#img_container {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#imgIsotipo {
+  width: 30px;
+  margin-bottom: 3px;
+}
+
+#imgLogotipo {
+  width: 80px;
+}
+
+#logIn_tittle {
+  color: #f3f3f2;
+  margin: 20px 0px 10px 0px;
+  text-align: center;
+  font-size: x-large;
+  font-family: "Cormorant Garamond";
+  /* letter-spacing: 0.6px; */
+}
+
+.campos_Container {
+  display: flex;
+  flex-direction: column;
+}
+
+.labels_formLogIn {
+  width: 100%;
+  text-align: start;
+}
+
+.controls_formLogIn {
+  background-color: rgba(30, 41, 59, 0.4);
+  color: #f3f3f2 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.controls_formLogIn::placeholder {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 0.9rem;
+}
+
+/* Quitar el borde azul por defecto de Bootstrap al hacer click */
+.controls_formLogIn:focus {
+  background-color: rgba(30, 41, 59, 0.6);
+  color: #f3f3f2;
+  box-shadow: none;
+  border-color: rgb(243, 243, 242, 0.5);
+}
+
+#btnIngresar {
+  width: 40%;
+  border-radius: 20px;
+  margin-top: 15px;
+  background-color: #8ab3cf;
+  color: #1e293b;
+  border: none;
+  /* font-weight: bold; */
+  /* font-family: "Cormorant Garamond"; */
+  /* font-size: larger; */
+}
+
+#btnIngresar:hover {
+  border: 1px solid #8ab3cf;
+  color: #8ab3cf;
+  /* font-weight: ; */
+  background-color: transparent;
 }

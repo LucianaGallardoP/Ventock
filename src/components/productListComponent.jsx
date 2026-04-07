@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { Dropdown, Form, Button } from "react-bootstrap";
 import { FaTrashCan } from "react-icons/fa6";
 import {  FaPen } from "react-icons/fa";
-import { CiCirclePlus } from "react-icons/ci";
 import { IoIosAddCircle } from "react-icons/io";
 import { ProductContext } from "../context/ProductContext";
 import { OrderContext } from "../context/OrderContext";

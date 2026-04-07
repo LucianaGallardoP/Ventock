@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Form, Button } from "react-bootstrap";
-import { FaTrash } from "react-icons/fa";
+import { FaTrashCan } from "react-icons/fa6";
 import { OrderContext } from "../context/OrderContext";
 import "../styles/orderDetailComponent.css";
 
-export default function OrderDetailComponent({setShowConfirmModal}) {
+export default function OrderDetailComponent({ setShowConfirmModal }) {
   // Extraemos todo directamente del contexto
   const {
     detallePedido,
@@ -16,28 +16,20 @@ export default function OrderDetailComponent({setShowConfirmModal}) {
   return (
     <section id="orders_container">
       <div>
-        <h5
-          style={{
-            fontWeight: "bold",
-            marginTop: "10px",
-            marginBottom: "15px",
-          }}
-        >
-          Detalle del Pedido
-        </h5>
+        <h5 id="orders_tittle">Detalle del Pedido</h5>
       </div>
 
       <div id="orderDetail_table">
         <table style={{ width: "100%" }}>
           <thead>
-            <tr id="columnsOrderTable">
+            <tr id="columns_OrderTable">
               <th>ID</th>
-              <th>Producto</th>
-              <th>Cantidad</th>
-              <th>Importe</th>
-              <th>Subtotal</th>
+              <th>PRODUCTO</th>
+              <th>CANTIDAD</th>
+              <th>IMPORTE</th>
+              <th>SUBTOTAL</th>
               <th>
-                <FaTrash />
+                <FaTrashCan />
               </th>
             </tr>
           </thead>
@@ -87,10 +79,12 @@ export default function OrderDetailComponent({setShowConfirmModal}) {
       <div style={{ width: "95%" }}>
         <table id="orderDetail_Importe">
           <tr>
-            <th style={{ width: "35%", fontWeight: "normal" }}>
+            <th
+              style={{ width: "35%", fontWeight: "lighter", color: "#1e293b" }}
+            >
               Importe Total
             </th>
-            <th style={{ fontSize: "1.5rem" }}>
+            <th style={{ fontSize: "1.5rem", color: "#1e293b" }}>
               ${importeTotalPedido.toFixed(2)}
             </th>
           </tr>
@@ -98,7 +92,7 @@ export default function OrderDetailComponent({setShowConfirmModal}) {
 
         <Button
           id="guardarPedido_btn"
-          style={{ fontSize: "1.1rem" }}
+          style={{ fontSize: "1.05rem" }}
           onClick={() => setShowConfirmModal(true)}
         >
           Guardar Pedido

@@ -1,14 +1,10 @@
-/* MAIN CONTAINER */
 #main_container {
   display: flex;
-  flex-direction: column;
-  background-color: #e4ebf0;
+  background-color: #f0f2f5;
 }
 
-/* CONTENEDOR PRODUCTOS EN SISTEMA Y DETALLE DEL PEDIDO */
-#prodSistema_pedido_container {
+#productos_pedido_container {
   width: 100vw;
-  height: 80vh;
+  height: 82vh;
   display: flex;
-  /* background-color: red; */
 }

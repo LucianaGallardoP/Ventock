@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
 import { Dropdown, Form, Button } from "react-bootstrap";
-import { FaTrash, FaPen } from "react-icons/fa";
+import { FaTrashCan } from "react-icons/fa6";
+import {  FaPen } from "react-icons/fa";
 import { CiCirclePlus } from "react-icons/ci";
+import { IoIosAddCircle } from "react-icons/io";
 import { ProductContext } from "../context/ProductContext";
 import { OrderContext } from "../context/OrderContext";
 import "../styles/productListComponent.css";
@@ -22,15 +24,16 @@ export default function ProductListComponent({ setShowModalCarga }) {
   const { agregarAlDetalle } = useContext(OrderContext);
 
   return (
-    <section id="productSist_container">
-      <div id="productSist_header">
-        <h5 id="productSist_tittle">Productos en Sistema</h5>
-
-        <button onClick={() => setShowModalCarga(true)}>Nuevo Producto</button>
+    <section id="products_container">
+      <div id="products_header">
+        <button id="cargarProducto" onClick={() => setShowModalCarga(true)}>
+          Nuevo Producto
+        </button>
+        <h5 id="products_tittle">Lista de Productos</h5>
 
         <div id="inputBuscar_container">
           <Form.Control
-            style={{ width: "auto" }}
+            id="controlBuscar"
             type="search"
             placeholder="Buscar producto..."
             value={filtro}
@@ -40,15 +43,15 @@ export default function ProductListComponent({ setShowModalCarga }) {
         </div>
       </div>
 
-      <div id="productSist_table">
-        <table id="productsTable">
+      <div id="products_main">
+        <table id="products_table">
           <thead id="productsTable_thead">
             <tr>
               <th colSpan={9} style={{ padding: "0%" }}>
                 <Dropdown>
                   <Dropdown.Toggle
-                    id="dropdown-basic"
-                    className="dropdown_categorias"
+                    // id="dropdown-basic"
+                    className="dropd_categorias"
                   >
                     Filtrar Categorías
                   </Dropdown.Toggle>
@@ -58,7 +61,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
                     {categorias.map((cat, index) => (
                       <Dropdown.Item
                         key={index}
-                        className="itemsCategories_dropD"
+                        className="itemsCategorias_dropD"
                       >
                         {cat}
                       </Dropdown.Item>
@@ -68,19 +71,19 @@ export default function ProductListComponent({ setShowModalCarga }) {
               </th>
             </tr>
 
-            <tr className="columnsTableProducts">
+            <tr className="columns_TableProducts">
               <th>ID</th>
-              <th>Nombre</th>
-              <th>Stock - Últ. Modif.</th>
+              <th>NOMBRE</th>
+              <th>STOCK (Ult modif)</th>
               <th>P.U</th>
-              <th>%Desc</th>
-              <th>%IVA</th>
-              <th>Importe</th>
+              <th>DESC</th>
+              <th>IVA</th>
+              <th>IMPORTE</th>
               <th>
-                <CiCirclePlus />
+                <IoIosAddCircle />
               </th>
-              <th>
-                <FaPen /> <FaTrash />
+              <th id="icons_container">
+                <FaPen /> <FaTrashCan />
               </th>
             </tr>
           </thead>
@@ -90,7 +93,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
               return (
                 <React.Fragment key={cat}>
                   <tr>
-                    <td className="titleCategories_table" colSpan={9}>
+                    <td className="titleCategorias_table" colSpan={9}>
                       {cat.toUpperCase()}
                     </td>
                   </tr>

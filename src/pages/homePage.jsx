@@ -14,7 +14,7 @@ export default function HomePage() {
 
   return (
     <section id="main_container">
-      <div id="prodSistema_pedido_container">
+      <div id="productos_pedido_container">
         <ProductListComponent setShowModalCarga={setShowProductModal} />
         <OrderDetailComponent setShowConfirmModal={setShowConfirmModal} />
       </div>

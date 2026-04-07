@@ -1,5 +1,6 @@
 /* DETALLE DEL PEDIDO */
 #orders_container {
+  /* background-color: #f0f2f5; */
   /* background-color: blue; */
   width: 45%;
   height: 100%;
@@ -14,7 +15,7 @@
   overflow-y: auto;
   display: flex;
   justify-content: center;
-  background-color: #f3f3f2;
+  /* background-color: #f3f3f2; */
 }
 
 #columnsOrderTable {
@@ -35,7 +36,7 @@
 #guardarPedido_btn {
   width: 100%;
   height: auto;
-  background-color: #6a8ea7;
+  background-color: #bdd1de;
   color: #1e293b;
   border: none;
   border-radius: 0px 0px 10px 10px;

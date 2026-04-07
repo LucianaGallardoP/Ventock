@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { OrderContext } from "../../context/OrderContext";
 import { ProductContext } from "../../context/ProductContext";
+import ("../../styles/paymentModal.css");
 
 export default function PaymentModal({
   show,
@@ -39,7 +40,7 @@ export default function PaymentModal({
     <Modal
       show={show}
       onHide={onHide}
-      size="md"
+      size="lg"
       backdrop="static"
       centered
     >

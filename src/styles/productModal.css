@@ -1,0 +1,108 @@
+/* MODAL CARGAR PRODUCTO NUEVO */
+#cargarProducto_container {
+  background-color: #e4ebf0;
+  width: 100%;
+  height: 72vh;
+  padding: 0%;
+  margin: 0%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#cargarProducto_title {
+  position: absolute;
+  top: 10px;
+  font-weight: bold;
+}
+
+#cargarProducto_form {
+  height: 100%;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.formGroup {
+  width: 100%;
+  height: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formGroupLabel {
+  background-color: #8ab3cf;
+  width: 40%;
+  height: 90%;
+  margin: 0;
+  border-radius: 5px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formGroupControl {
+  background-color: white;
+  width: 60%;
+  height: 90%;
+}
+
+#selectCat_addProduct_container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0%;
+}
+
+#dropdown-basic {
+  color: black;
+  width: 100%;
+  background-color: #bdd1de;
+  border: 1px solid #4180ab;
+}
+
+#dropdown-basic:hover {
+  color: #4180ab;
+}
+
+#dropDownMenu {
+  background-color: #bdd1de;
+  width: 100%;
+}
+
+.dropDownItem {
+  display: flex;
+  justify-content: center;
+}
+
+.dropDownItem:hover {
+  color: #4180ab;
+  background-color: white;
+}
+
+#btnCrearCat {
+  color: black;
+  background-color: #4180ab;
+  border: none;
+}
+
+#btnCrearCat:hover {
+  color: white;
+}
+
+#btnAddProduct {
+  color: black;
+  background-color: #4180ab;
+  border: none;
+  width: 60%;
+}
+
+#btnAddProduct:hover {
+  color: white;
+}

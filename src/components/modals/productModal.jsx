@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Modal, Button, Form, Dropdown } from "react-bootstrap";
 import { ProductContext } from "../../context/ProductContext";
+import ('../../styles/productModal.css')
 
 export default function ProductModal({ show, onHide }) {
   const {

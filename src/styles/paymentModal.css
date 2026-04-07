@@ -1,0 +1,23 @@
+#metodoPago_container{
+    background-color: #e4ebf0;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+.btnsMetodoPago {
+  width: fit-content;
+  height: 40%;
+  background-color: #8ab3cf;
+  border: 1px solid #1e293b;
+  color: #1e293b;
+  font-size: x-large;
+}
+
+.btnsMetodoPago:hover{
+    background-color: #bdd1de;
+  border: 1px solid #4180ab;
+  color: #4180ab;
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
+import ("../../styles/confirmOrderModal.css")
 
 export default function ConfirmOrderModal({ show, onHide, onConfirm }) {
   /* Modal GUARDAR PEDIDO */

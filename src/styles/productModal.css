@@ -1,6 +1,6 @@
 /* MODAL CARGAR PRODUCTO NUEVO */
 #cargarProducto_container {
-  background-color: #e4ebf0;
+  background-color: #f0f2f5;
   width: 100%;
   height: 72vh;
   padding: 0%;
@@ -12,46 +12,59 @@
 
 #cargarProducto_title {
   position: absolute;
-  top: 10px;
-  font-weight: bold;
+  top: 12px;
+  color: #1e293b;
+  font-family: "Inter";
+  font-size: larger;
+  font-weight: 700;
 }
 
 #cargarProducto_form {
+  width: 70%;
   height: 100%;
-  width: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* justify-content: center; */
   position: relative;
 }
 
 .formGroup {
   width: 100%;
-  height: 8vh;
+  height: fit-content;
+  /* margin: 4px; */
+  margin-top: 8px;
+  /* background-color: orange; */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .formGroupLabel {
-  background-color: #8ab3cf;
   width: 40%;
-  height: 90%;
+  height: 100%;
+  color: #1e293b;
+  background-color: #8ab3cf;
   margin: 0;
-  border-radius: 5px;
-  font-weight: bold;
+  border: 1px solid #4180ab;
+  border-radius: 20px 0px 0px 20px;
+  font-family: "Inter";
+  font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .formGroupControl {
-  background-color: white;
   width: 60%;
-  height: 90%;
+  height: 100%;
+  background-color: #bdd1de;
+  border: 1px solid #4180ab;
+  border-left: none;
+  border-radius: 0px 20px 20px 0px;
 }
 
-#selectCat_addProduct_container {
+#selectCat_guardar_container {
   width: 100%;
   height: auto;
   display: flex;
@@ -61,14 +74,16 @@
 }
 
 #dropdown-basic {
-  color: black;
   width: 100%;
+  color: #1e293b;
   background-color: #bdd1de;
   border: 1px solid #4180ab;
+  border-radius: 20px;
 }
 
 #dropdown-basic:hover {
-  color: #4180ab;
+  color: #1e293b;
+  background-color: #8ab3cf;
 }
 
 #dropDownMenu {
@@ -77,32 +92,48 @@
 }
 
 .dropDownItem {
+  color: #1e293b;
   display: flex;
   justify-content: center;
 }
 
 .dropDownItem:hover {
-  color: #4180ab;
-  background-color: white;
+  background-color: #8ab3cf;
+  border: 1px solid #4180ab;
+  border-radius: 15px;
+}
+
+#formControl_newCat {
+  color: #1e293b;
+  background-color: #f0f2f5;
+  border: 1px solid #1e293b;
+  border-radius: 20px;
 }
 
 #btnCrearCat {
-  color: black;
-  background-color: #4180ab;
+  color: #f0f2f5;
+  background-color: #1e293b;
   border: none;
+  border-radius: 20px;
 }
 
 #btnCrearCat:hover {
-  color: white;
+  background-color: transparent;
+  color: #1e293b;
+  border: 1px solid #1e293b;
 }
 
 #btnAddProduct {
-  color: black;
-  background-color: #4180ab;
-  border: none;
   width: 60%;
+  color: #1e293b;
+  background-color: #bdd1de;
+  border: 1px solid #4180ab;
+  border-radius: 20px;
+  font-weight: 500;
 }
 
 #btnAddProduct:hover {
-  color: white;
+  color: #f0f2f5;
+  background-color: #1e293b;
+  border: none;
 }

@@ -87,7 +87,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="text-center">
             {categorias.map((cat) => (
               <React.Fragment key={cat}>
                 <tr>
@@ -105,12 +105,15 @@ export default function ProductListComponent({ setShowModalCarga }) {
                       <td>{producto.nombreProducto}</td>
                       <td>{producto.stock}</td>
                       <td>${producto.precioUnitario}</td>
-                      <td>{producto.ganancia}</td>
-                      <td>{producto.iva}</td>
+                      <td>%{producto.ganancia}</td>
+                      <td>%{producto.iva}</td>
                       <td>${producto.importe}</td>
                       <td style={{ textAlign: "center" }}>
-                        <Button onClick={() => agregarAlDetalle(producto)}>
-                          +
+                        <Button
+                          id="btn_agg"
+                          onClick={() => agregarAlDetalle(producto)}
+                        >
+                          <IoIosAddCircle />
                         </Button>
                       </td>
                       <td
@@ -121,20 +124,19 @@ export default function ProductListComponent({ setShowModalCarga }) {
                         }}
                       >
                         <Button
-                          style={{ backgroundColor: "none" }}
-                          variant="warning"
+                          id="btn_modificar"
                           onClick={() => {
                             prepararEdicion(producto);
                             setShowModalCarga(true);
                           }}
                         >
-                          <FaPen style={{ color: "white" }} />
+                          <FaPen />
                         </Button>
                         <Button
-                          variant="danger"
+                          className="btn_eliminar"
                           onClick={() => eliminarProducto(producto.id)}
                         >
-                          <FaTrash />
+                          <FaTrashCan />
                         </Button>
                       </td>
                     </tr>

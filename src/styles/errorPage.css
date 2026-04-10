@@ -4,13 +4,14 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-height: 80vh;
+height: 82vh;
 position: relative;
 }
 
 #p{
     color: white;
-    font-weight: bolder;
+    /* font-family: "Lora"; */
+    font-weight: 500;
     font-size:larger;
     position: absolute;
     top: 35%;

@@ -130,3 +130,38 @@ td {
   position: sticky;
   top: 11vh;
 }
+
+#btn_agg {
+  background-color: transparent;
+  border: none;
+  color: #4180ab;
+}
+
+#btn_agg:hover {
+  border: 1px solid #4180ab;
+  border-radius: 20px;
+}
+
+#btn_modificar {
+  background-color: transparent;
+  border: none;
+  color: orange;
+}
+
+#btn_modificar:hover {
+  border: 1px solid orange;
+  border-radius: 20px;
+}
+
+.btn_eliminar {
+  color: rgb(223, 36, 36);
+  background-color: transparent;
+  border: none;
+}
+
+.btn_eliminar:hover {
+  color: rgb(223, 36, 36);
+  background-color: transparent;
+  border: 1px solid rgb(223, 36, 36);
+  border-radius: 20px;
+}

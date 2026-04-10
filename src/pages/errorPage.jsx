@@ -6,8 +6,10 @@ export default function ErrorPage() {
   return (
     <div id="errorMain">
       <div id="p">
-        <p style={{ margin:"0"}} >Lo sentimos, no se encontró la página que buscas...</p>
-        <p >Inténtalo de nuevo mas tarde.</p>
+        <p style={{ margin: "0" }}>
+          Lo sentimos, no se encontró la página que buscas...
+        </p>
+        <p>Inténtalo de nuevo mas tarde.</p>
       </div>
 
       <video autoPlay muted loop>

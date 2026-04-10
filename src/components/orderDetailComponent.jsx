@@ -35,10 +35,10 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
           </thead>
 
           {/* Aquí se mapea 'detallePedido' para mostrar el carrito */}
-          <tbody>
+          <tbody  className="text-center">
             {detallePedido.length === 0 ? (
               <tr>
-                <td colSpan={6} className="text-center text-muted">
+                <td colSpan={6} className=" text-muted">
                   No hay productos
                 </td>
               </tr>
@@ -52,7 +52,7 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
                       type="number"
                       value={item.cantidad}
                       min="1"
-                      style={{ width: "70px", margin: "auto" }}
+                      style={{ width: "90px", margin: "auto", backgroundColor:"transparent" }}
                       onChange={(e) =>
                         manejarCambioCantidad(item.id, e.target.value)
                       }
@@ -62,11 +62,11 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
                   <td>${item.subtotal.toFixed(2)}</td>
                   <td style={{ textAlign: "center" }}>
                     <Button
-                      variant="outline-danger"
+                      className="btn_eliminar"
                       size="sm"
                       onClick={() => eliminarDelDetalle(item.id)}
                     >
-                      <FaTrash />
+                      <FaTrashCan />
                     </Button>
                   </td>
                 </tr>
@@ -79,9 +79,25 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
       <div style={{ width: "95%" }}>
         <table id="orderDetail_Importe">
           <tr>
+            <td>
+              <Form.Control
+                type="number"
+                className="no-spinners"
+                placeholder="%Desc"
+                style={{
+                  height:"100%",
+                  backgroundColor:"transparent",
+                  border:"none",
+                  fontFamily: "Inter",
+                  fontWeight: "500",
+                  color: "#1e293b",
+                }}
+              />
+            </td>
+
             <th
               style={{
-                width: "35%",
+                width: "30%",
                 fontFamily: "Inter",
                 fontWeight: "500",
                 color: "#1e293b",
@@ -89,7 +105,7 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
             >
               IMPORTE TOTAL
             </th>
-            <th style={{ fontSize: "1.5rem", color: "#1e293b" }}>
+            <th style={{ width: "55%", fontSize: "1.5rem", color: "#1e293b" }}>
               ${importeTotalPedido.toFixed(2)}
             </th>
           </tr>

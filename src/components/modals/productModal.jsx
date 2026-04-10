@@ -63,9 +63,9 @@ export default function ProductModal({ show, onHide }) {
 
   return (
     <Modal show={show} onHide={onHide} size="lg" backdrop="static">
-      <Modal.Header closeButton style={{ backgroundColor: "#e4ebf0" }}>
+      <Modal.Header closeButton style={{ backgroundColor: "#f0f2f5", display:"flex", justifyContent:"center" }}>
         <h5 id="cargarProducto_title">
-          {modificandoId ? "Modificar producto" : "Cargar Producto"}
+          {modificandoId ? "MODIFICAR PRODUCTO" : "CARGAR PRODUCTO"}
         </h5>
       </Modal.Header>
       <Modal.Body id="cargarProducto_container">
@@ -174,7 +174,7 @@ export default function ProductModal({ show, onHide }) {
             />
           </Form.Group>
 
-          <div id="selectCat_addProduct_container">
+          <div id="selectCat_guardar_container">
             {/* DropDowm Categorias */}
             <Dropdown
               style={{ width: "40%" }}
@@ -206,6 +206,7 @@ export default function ProductModal({ show, onHide }) {
 
                 <div className="d-flex ">
                   <Form.Control
+                  id="formControl_newCat"
                     placeholder="Nueva categoría"
                     value={nuevaCatInput}
                     onChange={(e) => setNuevaCatInput(e.target.value)}
@@ -231,12 +232,12 @@ export default function ProductModal({ show, onHide }) {
               // El botón se bloquea si el form no esta completo
               disabled={!formularioValido}
             >
-              {modificandoId ? "Actualizar Producto" : "Guardar"}
+              {modificandoId ? "ACTUALIZAR PRODUCTO" : "GUARDAR"}
             </Button>
           </div>
         </Form>
       </Modal.Body>
-      <Modal.Footer style={{ backgroundColor: "#e4ebf0" }}></Modal.Footer>
+      <Modal.Footer style={{ backgroundColor: "#f0f2f5" }}></Modal.Footer>
     </Modal>
   );
 }

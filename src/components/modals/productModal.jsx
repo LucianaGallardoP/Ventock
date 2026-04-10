@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { Modal, Button, Form, Dropdown } from "react-bootstrap";
 import { ProductContext } from "../../context/ProductContext";
-import ('../../styles/productModal.css')
+import("../../styles/productModal.css");
 
 export default function ProductModal({ show, onHide }) {
   const {
@@ -14,8 +14,8 @@ export default function ProductModal({ show, onHide }) {
     setStock,
     precioU,
     setPrecioU,
-    descuento,
-    setDescuento,
+    ganancia,
+    setGanancia,
     iva,
     setIva,
     importe,
@@ -27,14 +27,25 @@ export default function ProductModal({ show, onHide }) {
 
   const [nuevaCatInput, setNuevaCatInput] = useState("");
 
+  // // Lógica de cálculo interna del modal
+  // const recalcularImporte = (p, i, d) => {
+  //   const precioBase = Number(p) || 0;
+  //   const impuesto = Number(i) || 0;
+  //   const desc = Number(d) || 0;
+  //   const precioConDescuento = precioBase - (precioBase * desc) / 100;
+  //   const resultadoFinal =
+  //     precioConDescuento + (precioConDescuento * impuesto) / 100;
+  //   setImporte(resultadoFinal.toFixed(2));
+  // };
+
   // Lógica de cálculo interna del modal
-  const recalcularImporte = (p, i, d) => {
-    const precioBase = Number(p) || 0;
-    const impuesto = Number(i) || 0;
-    const desc = Number(d) || 0;
-    const precioConDescuento = precioBase - (precioBase * desc) / 100;
+  const recalcularImporte = (p, g, i) => {
+    const costo = Number(p) || 0;
+    const porcGanancia = Number(g) || 0;
+    const porcIva = Number(i) || 0;
+    const precioConGanancia = costo + (costo * porcGanancia) / 100;
     const resultadoFinal =
-      precioConDescuento + (precioConDescuento * impuesto) / 100;
+      precioConGanancia + (precioConGanancia * porcIva) / 100;
     setImporte(resultadoFinal.toFixed(2));
   };
 
@@ -42,21 +53,16 @@ export default function ProductModal({ show, onHide }) {
     nombreProd.trim() !== "" &&
     stock !== "" &&
     precioU !== "" &&
-    descuento !== "" &&
+    ganancia !== "" &&
     iva !== "" &&
     importe !== "" &&
     catSeleccionada !== "Elige una categoría" &&
     catSeleccionada !== "Crea una categoría";
 
-    /* Modal CARGAR PRODUCTO */
-  
+  /* Modal CARGAR PRODUCTO */
+
   return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      size="lg"
-      backdrop="static"
-    >
+    <Modal show={show} onHide={onHide} size="lg" backdrop="static">
       <Modal.Header closeButton style={{ backgroundColor: "#e4ebf0" }}>
         <h5 id="cargarProducto_title">
           {modificandoId ? "Modificar producto" : "Cargar Producto"}
@@ -73,7 +79,7 @@ export default function ProductModal({ show, onHide }) {
             <Form.Control
               className="formGroupControl"
               type="text"
-              placeholder="Ingresar ID del producto"
+              placeholder="ID del producto"
               disabled
               required
             />
@@ -84,7 +90,7 @@ export default function ProductModal({ show, onHide }) {
             <Form.Control
               className="formGroupControl"
               type="text"
-              placeholder="Ingrese Nombre del Producto"
+              placeholder="Nombre del Producto"
               value={nombreProd}
               onChange={(e) => setNombreProd(e.target.value)}
             />
@@ -95,7 +101,7 @@ export default function ProductModal({ show, onHide }) {
             <Form.Control
               className="formGroupControl"
               type="number"
-              placeholder="Ingrese Stock del Producto"
+              placeholder="Stock del Producto"
               value={stock}
               onChange={(e) => setStock(e.target.value)}
             />
@@ -113,28 +119,30 @@ export default function ProductModal({ show, onHide }) {
           </Form.Group>
 
           <Form.Group className="formGroup" controlId="formGroupPrecioUnitario">
-            <Form.Label className="formGroupLabel">Precio Unitario</Form.Label>
+            <Form.Label className="formGroupLabel">
+              Precio Costo(P.U)
+            </Form.Label>
             <Form.Control
               className="formGroupControl"
               type="number"
-              placeholder="Ingrese P.U del Producto"
+              placeholder="Precio Unitario del Producto"
               value={precioU}
               onChange={(e) => {
                 setPrecioU(e.target.value);
-                recalcularImporte(e.target.value, iva, descuento);
+                recalcularImporte(e.target.value, iva, ganancia);
               }}
             />
           </Form.Group>
 
-          <Form.Group className="formGroup" controlId="formGroupDescuento">
-            <Form.Label className="formGroupLabel">% Descuento</Form.Label>
+          <Form.Group className="formGroup" controlId="formGroupGanancia">
+            <Form.Label className="formGroupLabel">% Ganancia</Form.Label>
             <Form.Control
               className="formGroupControl"
               type="number"
-              placeholder="Ingrese Descuento del Producto"
-              value={descuento}
+              placeholder="Ganancia del Producto"
+              value={ganancia}
               onChange={(e) => {
-                setDescuento(e.target.value);
+                setGanancia(e.target.value);
                 recalcularImporte(precioU, iva, e.target.value);
               }}
             />
@@ -145,11 +153,11 @@ export default function ProductModal({ show, onHide }) {
             <Form.Control
               className="formGroupControl"
               type="number"
-              placeholder="Ingrese IVA del Producto"
+              placeholder="IVA del Producto"
               value={iva}
               onChange={(e) => {
                 setIva(e.target.value);
-                recalcularImporte(precioU, e.target.value, descuento);
+                recalcularImporte(precioU, e.target.value, ganancia);
               }}
             />
           </Form.Group>
@@ -158,11 +166,11 @@ export default function ProductModal({ show, onHide }) {
             <Form.Label className="formGroupLabel">Importe Final</Form.Label>
             <Form.Control
               className="formGroupControl"
-              type="number"
+              type="text"
               placeholder="Importe del Producto"
               disabled
               value={importe}
-              // onChange={(e) => setImporte(e.target.value)}
+              onChange={(e) => setImporte(e.target.value)}
             />
           </Form.Group>
 

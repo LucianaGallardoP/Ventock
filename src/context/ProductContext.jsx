@@ -20,14 +20,13 @@ export function ProductProvider({ children }) {
   const [nombreProd, setNombreProd] = useState("");
   const [stock, setStock] = useState("");
   const [precioU, setPrecioU] = useState("");
-  const [descuento, setDescuento] = useState("");
+  const [ganancia, setGanancia] = useState("");
   const [iva, setIva] = useState("");
   const [importe, setImporte] = useState("");
   // Controla qué texto se ve en el botón del Dropdown de categorías
   const [catSeleccionada, setCatSeleccionada] = useState("Elige una categoría");
 
   // VARIABLES DE CALCULO--->
-
   // Logica de busqueda: Crea una lista filtrada comparando el nombre o el ID con lo que se escribe en 'filtro'
   const resultadosBusqueda = productos.filter(
     (p) =>
@@ -66,7 +65,7 @@ export function ProductProvider({ children }) {
     setNombreProd(producto.nombreProducto);
     setStock(producto.stock);
     setPrecioU(producto.precioUnitario);
-    setDescuento(producto.descuento);
+    setGanancia(producto.ganancia);
     setIva(producto.iva);
     setImporte(producto.importe);
     setCatSeleccionada(producto.categoria);
@@ -82,9 +81,9 @@ export function ProductProvider({ children }) {
       nombreProducto: nombreProd,
       stock,
       precioUnitario: precioU,
-      descuento,
+      ganancia,
       iva,
-      importe,
+      importe: importe,
       categoria: catSeleccionada,
     };
 
@@ -101,6 +100,15 @@ export function ProductProvider({ children }) {
       setProductos([...productos, datosProducto]);
       alert(`El producto: ${nombreProd} se creó correctamente!`);
     }
+
+    setModificandoId(null);
+    setNombreProd("");
+    setStock("");
+    setPrecioU("");
+    setGanancia("");
+    setIva("");
+    setImporte("0.00"); // No dejes esto vacío para evitar errores de cálculo
+    setCatSeleccionada("Elige una categoría");
     // Limpiamos todos los campos del formulario para el siguiente producto
     handleCloseModalCarga();
   }
@@ -129,8 +137,8 @@ export function ProductProvider({ children }) {
         setStock,
         precioU,
         setPrecioU,
-        descuento,
-        setDescuento,
+        ganancia,
+        setGanancia,
         iva,
         setIva,
         importe,

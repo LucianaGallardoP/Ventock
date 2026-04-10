@@ -31,7 +31,7 @@ export default function ContactPage() {
   return (
     <section id="contact_main">
       <Form id="contactForm_container" ref={form} onSubmit={enviarEmail}>
-        <h5 id="contact_tittle">Contáctate con el soporte de VENTOCK</h5>
+        <h5 id="contact_tittle">CONTÁCTATE CON NUESTRO SOPORTE</h5>
 
         <Form.Group
           className="contactCampos_Container"

@@ -16,7 +16,7 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
   return (
     <section id="orders_container">
       <div>
-        <h5 id="orders_tittle">Detalle del Pedido</h5>
+        <h5 id="orders_tittle">DETALLE DEL PEDIDO</h5>
       </div>
 
       <div id="orderDetail_table">
@@ -80,9 +80,14 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
         <table id="orderDetail_Importe">
           <tr>
             <th
-              style={{ width: "35%", fontWeight: "lighter", color: "#1e293b" }}
+              style={{
+                width: "35%",
+                fontFamily: "Inter",
+                fontWeight: "500",
+                color: "#1e293b",
+              }}
             >
-              Importe Total
+              IMPORTE TOTAL
             </th>
             <th style={{ fontSize: "1.5rem", color: "#1e293b" }}>
               ${importeTotalPedido.toFixed(2)}

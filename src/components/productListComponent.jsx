@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Dropdown, Form, Button } from "react-bootstrap";
 import { FaTrashCan } from "react-icons/fa6";
-import {  FaPen } from "react-icons/fa";
+import { FaPen } from "react-icons/fa";
 import { IoIosAddCircle } from "react-icons/io";
 import { ProductContext } from "../context/ProductContext";
 import { OrderContext } from "../context/OrderContext";
@@ -28,7 +28,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
         <button id="cargarProducto" onClick={() => setShowModalCarga(true)}>
           Nuevo Producto
         </button>
-        <h5 id="products_tittle">Lista de Productos</h5>
+        <h5 id="products_tittle">LISTA DE PRODUCTOS</h5>
 
         <div id="inputBuscar_container">
           <Form.Control
@@ -74,9 +74,9 @@ export default function ProductListComponent({ setShowModalCarga }) {
               <th>ID</th>
               <th>NOMBRE</th>
               <th>STOCK (Ult modif)</th>
-              <th>P.U</th>
-              <th>DESC</th>
-              <th>IVA</th>
+              <th>PRECIO.U</th>
+              <th>%GAN</th>
+              <th>%IVA</th>
               <th>IMPORTE</th>
               <th>
                 <IoIosAddCircle />
@@ -88,77 +88,73 @@ export default function ProductListComponent({ setShowModalCarga }) {
           </thead>
 
           <tbody>
-            {categorias.map((cat) => {
-              return (
-                <React.Fragment key={cat}>
-                  <tr>
-                    <td className="titleCategorias_table" colSpan={9}>
-                      {cat.toUpperCase()}
-                    </td>
-                  </tr>
+            {categorias.map((cat) => (
+              <React.Fragment key={cat}>
+                <tr>
+                  <td className="titleCategorias_table" colSpan={9}>
+                    {cat.toUpperCase()}
+                  </td>
+                </tr>
 
-                  {/* Usamos 'productosMostrados' (la lista filtrada) en vez de 'productos' */}
-                  {resultadosBusqueda
-                    .filter((producto) => producto.categoria === cat)
-                    .map((producto) => (
-                      <tr key={producto.id}>
-                        <td>{producto.id}</td>
-                        <td>{producto.nombreProducto}</td>
-                        <td>{producto.stock}</td>
-                        <td>${producto.precioUnitario}</td>
-                        <td>{producto.descuento}</td>
-                        <td>{producto.iva}</td>
-                        <td>${producto.importe}</td>
-                        <td style={{ textAlign: "center" }}>
-                          <Button onClick={() => agregarAlDetalle(producto)}>
-                            +
-                          </Button>
-                        </td>
-                        <td
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                            border: "none",
+                {/* Usamos 'productosMostrados' (la lista filtrada) en vez de 'productos' */}
+                {resultadosBusqueda
+                  .filter((producto) => producto.categoria === cat)
+                  .map((producto) => (
+                    <tr key={producto.id}>
+                      <td>{producto.id}</td>
+                      <td>{producto.nombreProducto}</td>
+                      <td>{producto.stock}</td>
+                      <td>${producto.precioUnitario}</td>
+                      <td>{producto.ganancia}</td>
+                      <td>{producto.iva}</td>
+                      <td>${producto.importe}</td>
+                      <td style={{ textAlign: "center" }}>
+                        <Button onClick={() => agregarAlDetalle(producto)}>
+                          +
+                        </Button>
+                      </td>
+                      <td
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-evenly",
+                          border: "none",
+                        }}
+                      >
+                        <Button
+                          style={{ backgroundColor: "none" }}
+                          variant="warning"
+                          onClick={() => {
+                            prepararEdicion(producto);
+                            setShowModalCarga(true);
                           }}
                         >
-                          <Button
-                            style={{ backgroundColor: "none" }}
-                            variant="warning"
-                            onClick={() => {
-                              prepararEdicion(producto);
-                              setShowModalCarga(true);
-                            }}
-                          >
-                            <FaPen style={{ color: "white" }} />
-                          </Button>
-                          <Button
-                            variant="danger"
-                            onClick={() => eliminarProducto(producto.id)}
-                          >
-                            <FaTrash />
-                          </Button>
-                        </td>
-                      </tr>
-                    ))}
-
-                  {/* Mensaje si la categoria todavia no tiene productos */}
-                  {productos.filter((producto) => producto.categoria === cat)
-                    .length === 0 && (
-                    <tr>
-                      <td colSpan={9}>No hay productos cargados en "{cat}"</td>
+                          <FaPen style={{ color: "white" }} />
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => eliminarProducto(producto.id)}
+                        >
+                          <FaTrash />
+                        </Button>
+                      </td>
                     </tr>
-                  )}
-                </React.Fragment>
-              );
-            })}
+                  ))}
+
+                {/* Mensaje si la categoria todavia no tiene productos */}
+                {productos.filter((producto) => producto.categoria === cat)
+                  .length === 0 && (
+                  <tr>
+                    <td colSpan={9}>No hay productos cargados en "{cat}"</td>
+                  </tr>
+                )}
+              </React.Fragment>
+            ))}
 
             {/* Mensaje si no hay categorias creadas */}
             {categorias.length === 0 && (
               <tr>
-                <td colSpan={9}>
-                  <h6 className="text-muted mt-2 text-center">
-                    Crea una categoría para empezar a listar productos
-                  </h6>
+                <td colSpan={9} className="text-muted mt-2 text-center">
+                  Crea una categoría para empezar a listar productos
                 </td>
               </tr>
             )}

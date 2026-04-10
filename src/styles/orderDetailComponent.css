@@ -9,9 +9,9 @@
 
 #orders_tittle {
   color: #1e293b;
-  font-family: "Cormorant Garamond";
-  font-size: x-large;
-  font-weight: bold;
+  font-family: "Inter";
+  font-size: larger;
+  font-weight: 800;
   margin-top: 10px;
   margin-bottom: 13px;
 }
@@ -27,7 +27,8 @@
 #columns_OrderTable th {
   color: #1e293b;
   background-color: #8ab3cf;
-  font-weight: bold;
+  font-family: "Inter";
+  font-weight: 500;
   padding: 2px;
   text-align: center;
   position: sticky;

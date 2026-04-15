@@ -10,6 +10,7 @@ import FooterComponent from "./components/footerComponent";
 import ErrorPage from "./pages/errorPage";
 import AboutPage from "./pages/aboutPage";
 import ContactPage from "./pages/contactPage";
+import SuperAdminPage from "./pages/superAdminPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <HeaderComponent />
           <Routes>
             <Route path="/login" element={<LogInPage />} />
+            <Route path="/superAdmin" element={<SuperAdminPage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />

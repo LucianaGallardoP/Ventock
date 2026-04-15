@@ -1,0 +1,178 @@
+#SAdmin_container {
+  width: 100%;
+  height: 82vh;
+  background-color: #f0f2f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#usuarios_header {
+  /* background-color: pink; */
+  width: 70%;
+  height: auto;
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#usuarios_tittle {
+  color: #1e293b;
+  margin-top: 5px;
+}
+
+#cargarUsuario {
+  width: 20%;
+  background-color: #1e293b;
+  color: #f0f2f5;
+  border: none;
+  border-radius: 20px;
+  padding: 6px;
+}
+
+#cargarUsuario:hover {
+  color: #1e293b;
+  background-color: #bdd1de;
+  border: 1px solid #4180ab;
+}
+
+#inputBuscar_container {
+  width: 31.5%;
+}
+
+#controlBuscar {
+  border-radius: 20px;
+  border: 1px solid #4180ab;
+}
+
+#usuarios_main {
+  /* background-color: beige; */
+  height: auto;
+  width: 70%;
+  margin-top: 5px;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#usuarios_table {
+  width: 100%;
+}
+
+#usuariosTable_thead {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.columns_TableUsuarios th {
+  color: #1e293b;
+  background-color: #8ab3cf;
+  text-align: center;
+  position: sticky;
+  font-family: "Inter";
+  font-weight: 500;
+  padding: 2px;
+}
+
+#icons_container {
+  height: 100%;
+  border: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* MODAL */
+
+#cargarUsuario_container {
+  background-color: #f0f2f5;
+  width: 100%;
+  height: 80%;
+  padding: 0%;
+  margin: 0%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#cargarUsuario_title {
+  position: absolute;
+  top: 12px;
+  color: #1e293b;
+  font-family: "Inter";
+  font-size: larger;
+  font-weight: 700;
+}
+
+#cargarUsuario_form {
+  width: 80%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  position: relative;
+}
+
+.formGroupUsuarios {
+  width: 100%;
+  height: fit-content;
+  /* margin: 4px; */
+  margin-top: 8px;
+  /* background-color: orange; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formGroupLabelUsuarios {
+  width: 40%;
+  height: 100%;
+  color: #1e293b;
+  background-color: #8ab3cf;
+  margin: 0;
+  border: 1px solid #4180ab;
+  border-radius: 20px 0px 0px 20px;
+  font-family: "Inter";
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+}
+
+#btnAddUsuario {
+  width: 60%;
+  color: #1e293b;
+  background-color: #bdd1de;
+  border: 1px solid #4180ab;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+#btn_modificar {
+  background-color: transparent;
+  border: none;
+  color: orange;
+}
+
+#btn_modificar:hover {
+  border: 1px solid orange;
+  border-radius: 20px;
+}
+
+.btn_eliminar {
+  background-color: transparent;
+  border: none;
+  color: rgb(223, 36, 36);
+}
+
+.btn_eliminar:hover {
+  color: rgb(223, 36, 36);
+  background-color: transparent;
+  border: 1px solid rgb(223, 36, 36);
+  border-radius: 20px;
+}

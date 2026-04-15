@@ -39,7 +39,7 @@ export default function HeaderComponent() {
               Notas de Crédito
             </NavLink>
 
-            <NavLink to="*" className="navLinks">
+            <NavLink to="/gestionarCategoria" className="navLinks">
               Gestión de Categorías
             </NavLink>
           </Nav>

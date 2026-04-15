@@ -11,6 +11,7 @@ import ErrorPage from "./pages/errorPage";
 import AboutPage from "./pages/aboutPage";
 import ContactPage from "./pages/contactPage";
 import SuperAdminPage from "./pages/superAdminPage";
+import GestionarCatPage from "./pages/gestionarCatPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/login" element={<LogInPage />} />
             <Route path="/superAdmin" element={<SuperAdminPage />} />
             <Route path="/" element={<HomePage />} />
+            <Route path="/gestionarCategoria" element={<GestionarCatPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="*" element={<ErrorPage />} />

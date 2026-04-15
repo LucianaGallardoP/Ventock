@@ -12,6 +12,8 @@ export default function ProductModal({ show, onHide }) {
     setNombreProd,
     stock,
     setStock,
+    stockCritico,
+    setStockCritico,
     precioU,
     setPrecioU,
     ganancia,
@@ -113,8 +115,8 @@ export default function ProductModal({ show, onHide }) {
               className="formGroupControl"
               type="number"
               placeholder="Ingrese Stock Crítico del Producto"
-              // value={stock}
-              // onChange={(e) => setStock(e.target.value)}
+              value={stockCritico}
+              onChange={(e) => setStockCritico(e.target.value)}
             />
           </Form.Group>
 

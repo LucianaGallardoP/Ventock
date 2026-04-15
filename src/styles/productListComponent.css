@@ -28,17 +28,14 @@
 #cargarProducto:hover {
   color: #1e293b;
   background-color: #bdd1de;
+  /* background-color: rgb(185, 55, 55); */
   border: 1px solid #4180ab;
 }
 
 #products_tittle {
   width: 37%;
   color: #1e293b;
-  font-family: "Inter";
-  font-size: larger;
-  font-weight: 800;
   margin-top: 5px;
-  text-align: center;
 }
 
 #inputBuscar_container {
@@ -154,9 +151,9 @@ td {
 }
 
 .btn_eliminar {
-  color: rgb(223, 36, 36);
   background-color: transparent;
   border: none;
+  color: rgb(223, 36, 36);
 }
 
 .btn_eliminar:hover {

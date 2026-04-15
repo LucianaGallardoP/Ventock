@@ -9,6 +9,8 @@ export function OrderProvider({ children }) {
 
   const [detallePedido, setDetallePedido] = useState([]); // Es el "carrito"
 
+  const [descuentoPorc, setDescuentoPorc] = useState(0)
+
   const [showModalGuardarPedido, setShowModalGuardarPedido] = useState(false); // Control para el Modal de Guardar Pedido
 
   const [showModalMetodoPago, setShowModalMetodoPago] = useState(false); // Control para el Modal de Metodo de Pago
@@ -21,6 +23,9 @@ export function OrderProvider({ children }) {
     0,
   );
 
+  const montoDescuento = importeTotalPedido * (Number(descuentoPorc || 0) / 100);
+  const totalConDescuento = importeTotalPedido -montoDescuento;
+
   // ------------------ LÓGICA DEL CARRITO (VENTA) ------------------
   // Funcion para agregar un producto de la lista al carrito o detalle del pedido
   function agregarAlDetalle(producto) {
@@ -29,7 +34,7 @@ export function OrderProvider({ children }) {
 
     if (existe) {
       // Si ya estaba en el carrito, solo subimos la cantidad y el total
-      const nuevoDetalle = detallePedido.map((item) =>
+     setDetallePedido (detallePedido.map((item) =>
         item.id === producto.id
           ? {
               ...item,
@@ -37,25 +42,25 @@ export function OrderProvider({ children }) {
               subtotal: (item.cantidad + 1) * Number(item.importe),
             }
           : item,
-      );
-      setDetallePedido(nuevoDetalle);
+      ));
+     
     } else {
       // Si es la primera vez que lo tocamos, lo agregamos con cantidad 1
-      const nuevoItem = {
+     setDetallePedido([...detallePedido, {
         id: producto.id,
         nombreProducto: producto.nombreProducto,
         cantidad: 1,
         importe: Number(producto.importe),
         subtotal: Number(producto.importe),
-      };
-      setDetallePedido([...detallePedido, nuevoItem]);
+      }]);
+      
     }
   }
 
   // Quita un producto del carrito
   function eliminarDelDetalle(id) {
-    const nuevoDetalle = detallePedido.filter((item) => item.id !== id);
-    setDetallePedido(nuevoDetalle);
+    setDetallePedido(detallePedido.filter((item) => item.id !== id));
+    
   }
 
   // Permite escribir manualmente la cantidad en el carrito
@@ -64,7 +69,7 @@ export function OrderProvider({ children }) {
     const cant = parseInt(nuevaCantidad);
     if (isNaN(cant) || cant < 1) return;
 
-    const nuevoDetalle = detallePedido.map((item) =>
+    setDetallePedido (detallePedido.map((item) =>
       item.id === id
         ? {
             ...item,
@@ -72,44 +77,44 @@ export function OrderProvider({ children }) {
             subtotal: cant * item.importe,
           }
         : item,
-    );
-    setDetallePedido(nuevoDetalle);
+    ));
   }
 
   // Cerrar la venta y restar el stock:
-  function procesarPago(metodo) {
-    if (detallePedido.length === 0) return;
+  // function procesarPago(metodo) {
+  //   if (detallePedido.length === 0) return;
 
-    // 1. Restamos el stock en la lista de productos
-    const productosActualizados = productos.map((p) => {
-      const itemVendido = detallePedido.find((item) => item.id === p.id);
-      if (itemVendido) {
-        return {
-          ...p,
-          stock: Number(p.stock) - itemVendido.cantidad,
-        };
-      }
-      return p;
-    });
+  //   // 1. Restamos el stock en la lista de productos
+  //   const productosActualizados = productos.map((p) => {
+  //     const itemVendido = detallePedido.find((item) => item.id === p.id);
+  //     if (itemVendido) {
+  //       return {
+  //         ...p,
+  //         stock: Number(p.stock) - itemVendido.cantidad,
+  //       };
+  //     }
+  //     return p;
+  //   });
 
-    setProductos(productosActualizados);
-    setDetallePedido([]); // Vaciamos el carrito
-    setShowModalMetodoPago(false); // Cerramos el modal
-    alert(
-      `Venta procesada con éxito en ${metodo}. El stock ha sido actualizado.`,
-    );
-  }
+  //   setProductos(productosActualizados);
+  //   setDetallePedido([]); // Vaciamos el carrito
+  //   setShowModalMetodoPago(false); // Cerramos el modal
+    
+  // }
 
   return (
     <OrderContext.Provider
       value={{
         detallePedido,
         setDetallePedido,
+        descuentoPorc,
+        setDescuentoPorc,
         importeTotalPedido,
+        totalConDescuento,
         agregarAlDetalle,
         eliminarDelDetalle,
         manejarCambioCantidad,
-        procesarPago,
+        // procesarPago,
         showModalGuardarPedido,
         setShowModalGuardarPedido,
         showModalMetodoPago,

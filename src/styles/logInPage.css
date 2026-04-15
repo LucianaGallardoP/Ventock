@@ -10,8 +10,8 @@
 }
 
 #form_section {
-  width: 30%;
-  height: 85%;
+  width: 25%;
+  height: fit-content;
   display: flex;
   align-items: center;
 }
@@ -19,8 +19,8 @@
 #logInForm_container {
   width: 100%;
   height: auto;
-  color: #f3f3f2;
-  padding: 15px;
+  color: #f0f2f5;
+  padding: 20px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background-color: rgba(30, 41, 59, 0.05);
@@ -28,7 +28,7 @@
   box-shadow: 0 15px 25px 0 rgb(228, 235, 240, 0.5);
 }
 
-#img_container {
+#imgs_container {
   width: 100%;
   height: fit-content;
   display: flex;
@@ -43,32 +43,28 @@
 }
 
 #imgLogotipo {
-  width: 80px;
+  width: 90px;
 }
 
 #logIn_tittle {
-  color: #f3f3f2;
-  margin: 20px 0px 10px 0px;
-  text-align: center;
-  font-size: x-large;
-  font-family: "Cormorant Garamond";
-  /* letter-spacing: 0.6px; */
+  color: #f0f2f5;
+  margin: 20px 0px 20px 0px;
+  letter-spacing: 0.6px;
 }
 
 .campos_Container {
   display: flex;
   flex-direction: column;
-}
-
-.labels_formLogIn {
-  width: 100%;
-  text-align: start;
+  margin-bottom: 12px;
 }
 
 .controls_formLogIn {
+  height: 40px;
   background-color: rgba(30, 41, 59, 0.4);
   color: #f3f3f2 !important;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  margin-bottom: 5px;
 }
 
 .controls_formLogIn::placeholder {
@@ -79,26 +75,22 @@
 /* Quitar el borde azul por defecto de Bootstrap al hacer click */
 .controls_formLogIn:focus {
   background-color: rgba(30, 41, 59, 0.6);
-  color: #f3f3f2;
+  color: #f0f2f5;
   box-shadow: none;
   border-color: rgb(243, 243, 242, 0.5);
 }
 
 #btnIngresar {
-  width: 90%;
+  width: 100%;
   border-radius: 20px;
   margin-top: 15px;
   background-color: #8ab3cf;
   color: #1e293b;
   border: none;
-  /* font-weight: bold; */
-  /* font-family: "Cormorant Garamond"; */
-  /* font-size: larger; */
 }
 
 #btnIngresar:hover {
   border: 1px solid #8ab3cf;
   color: #8ab3cf;
-  /* font-weight: ; */
   background-color: transparent;
 }

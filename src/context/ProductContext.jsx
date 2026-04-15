@@ -19,6 +19,7 @@ export function ProductProvider({ children }) {
   const [modificandoId, setModificandoId] = useState(null);
   const [nombreProd, setNombreProd] = useState("");
   const [stock, setStock] = useState("");
+  const [stockCritico, setStockCritico] = useState("");
   const [precioU, setPrecioU] = useState("");
   const [ganancia, setGanancia] = useState("");
   const [iva, setIva] = useState("");
@@ -64,6 +65,7 @@ export function ProductProvider({ children }) {
     setModificandoId(producto.id);
     setNombreProd(producto.nombreProducto);
     setStock(producto.stock);
+    setStockCritico(producto.stockCritico);
     setPrecioU(producto.precioUnitario);
     setGanancia(producto.ganancia);
     setIva(producto.iva);
@@ -80,6 +82,7 @@ export function ProductProvider({ children }) {
       id: modificandoId || productos.length + 1,
       nombreProducto: nombreProd,
       stock,
+      stockCritico,
       precioUnitario: precioU,
       ganancia,
       iva,
@@ -104,6 +107,7 @@ export function ProductProvider({ children }) {
     setModificandoId(null);
     setNombreProd("");
     setStock("");
+    setStockCritico("");
     setPrecioU("");
     setGanancia("");
     setIva("");
@@ -135,6 +139,8 @@ export function ProductProvider({ children }) {
         setNombreProd,
         stock,
         setStock,
+        stockCritico,
+        setStockCritico,
         precioU,
         setPrecioU,
         ganancia,

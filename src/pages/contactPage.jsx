@@ -37,13 +37,13 @@ export default function ContactPage() {
           className="contactCampos_Container"
           controlId="formBasicEmail"
         >
-          <Form.Label className="labels_formContacto">E-mail:</Form.Label>
+          <Form.Label className="labels_formContacto">E-mail</Form.Label>
 
           <Form.Control
             className="controls_formContact"
             type="email"
             name="email"
-            placeholder="Ingrese su correo electrónico"
+            placeholder="Ingrese Email"
             required
           />
         </Form.Group>
@@ -52,12 +52,12 @@ export default function ContactPage() {
           className="contactCampos_Container"
           controlId="formBasicUserName"
         >
-          <Form.Label className="labels_formContacto">Usuario:</Form.Label>
+          <Form.Label className="labels_formContacto">Usuario</Form.Label>
           <Form.Control
             className="controls_formContact"
             type="text"
             name="nombreUsuario"
-            placeholder="Ingrese su nombre de usuario"
+            placeholder="Ingrese nombre y apellido"
             required
           />
         </Form.Group>
@@ -66,11 +66,11 @@ export default function ContactPage() {
           className="contactCampos_Container"
           controlId="formGroupMessage"
         >
-          <Form.Label className="labels_formContacto">Mensaje:</Form.Label>
+          <Form.Label className="labels_formContacto">Mensaje</Form.Label>
           <Form.Control
             className="controls_formContact"
             as="textarea"
-            rows={2}
+            rows={1}
             name="mensaje"
             placeholder="Ingrese mensaje o motivo del contacto."
             style={{ maxHeight: "fit-content" }}

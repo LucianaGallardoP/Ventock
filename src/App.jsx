@@ -2,7 +2,13 @@ import { useContext } from "react";
 import { AuthProvider, AuthContext } from "./context/AuthContext";
 import { ProductProvider } from "./context/ProductContext";
 import { OrderProvider } from "./context/OrderContext";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 
 import HeaderComponent from "./components/headerComponent";
 import LogInPage from "./pages/logInPage";
@@ -19,10 +25,44 @@ import "./App.css";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user, token } = useContext(AuthContext);
+
   if (!token) return <Navigate to="/login" replace />;
-  if (allowedRoles && !allowedRoles.includes(user?.rol))
+
+  if (allowedRoles && !allowedRoles.includes(user?.rol)) {
     return <Navigate to="/" replace />;
+  }
   return children;
+};
+
+const RootRedirect = () => {
+  const { user, token } = useContext(AuthContext);
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user?.rol === "SuperAdmin") {
+    return <Navigate to="/superAdmin" replace />;
+  }
+
+  if (user?.rol === "Admin" || user?.rol === "Vendedor") {
+    return <HomePage />;
+  }
+
+  return <Navigate to="/login" replace />;
+};
+
+const Layout = ({ children }) => {
+  const location = useLocation();
+  const hideLayout = location.pathname === "/login";
+
+  return (
+    <>
+      {!hideLayout && <HeaderComponent />}
+      <main>{children}</main>
+      {!hideLayout && <FooterComponent />}
+    </>
+  );
 };
 
 function App() {
@@ -31,45 +71,46 @@ function App() {
       <ProductProvider>
         <OrderProvider>
           <BrowserRouter>
-            <HeaderComponent />
-            <Routes>
-              {/* RUTAS PUBLICAS */}
-              <Route path="/login" element={<LogInPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="*" element={<ErrorPage />} />
+            <Layout>
+              <Routes>
+                {/* RUTAS PÚBLICAS */}
+                <Route path="/login" element={<LogInPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="*" element={<ErrorPage />} />
 
-              {/* RUTAS PROTEGIDAS - SOLO SUPERADMIN*/}
-              <Route
-                path="/superAdmin"
-                element={
-                  <ProtectedRoute allowedRoles={["SuperAdmin"]}>
-                    <SuperAdminPage />
-                  </ProtectedRoute>
-                }
-              />
+                {/* RUTA RAÍZ INTELIGENTE */}
+                <Route
+                  path="/"
+                  element={
+                    <ProtectedRoute>
+                      <RootRedirect />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* RUTAS PROTEGIDAS - SUPERADMIN Y ADMIN*/}
-              <Route
-                path="/gestionarCategoria"
-                element={
-                  <ProtectedRoute allowedRoles={["Admin", "SuperAdmin"]}>
-                    <GestionarCatPage />
-                  </ProtectedRoute>
-                }
-              />
+                {/* RUTAS PROTEGIDAS - SUPERADMIN */}
+                <Route
+                  path="/superAdmin"
+                  element={
+                    <ProtectedRoute allowedRoles={["SuperAdmin"]}>
+                      <SuperAdminPage />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* RUTAS PROTEGIDAS - CUALQUIER USUARIO LOGUEADO*/}
-              <Route
-                path="/"
-                element={
-                  <ProtectedRoute>
-                    <HomePage />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-            <FooterComponent />
+                {/* RUTA PROTEGIDA - SUPERADMIN Y ADMIN */}
+                <Route
+                  path="/gestionarCategoria"
+                  element={
+                    <ProtectedRoute allowedRoles={["Admin", "SuperAdmin"]}>
+                      <GestionarCatPage />
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </Layout>
+            {/* <FooterComponent /> */}
           </BrowserRouter>
         </OrderProvider>
       </ProductProvider>

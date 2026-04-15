@@ -45,10 +45,10 @@
 }
 
 .controls_formContact {
-  background-color: rgba(30, 41, 59, 0.4);
+  background-color: rgba(30, 41, 59, 0.4)  !important;
   color: #f3f3f2 !important;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2)  !important;
+  border-radius: 20px  !important;
 }
 
 .controls_formContact::placeholder {

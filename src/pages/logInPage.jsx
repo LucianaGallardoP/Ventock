@@ -1,13 +1,54 @@
-import "../styles/logInPage.css";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import { Button, Form } from "react-bootstrap";
 import VentockSVGblanco from "../assets/VentockSVGblanco.png";
 import logotipoVentock from "../assets/logotipoVentock.png";
+import "../styles/logInPage.css";
 
 export default function LogInPage() {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const [datos, setDatos] = useState({
+    correo: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setDatos({
+      ...datos,
+      [e.target.type === "text" ? "correo" : "password"]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const resultado = await login(datos);
+  
+  // Función login del AuthContext
+  const { success, usuario, mensaje } = await login(datos);
+
+  if (success && usuario) {
+    // Verificamos el rol que viene del Backend
+    if (usuario.rol === "SuperAdmin") {
+      // Si es el jefe, va a su panel especial
+      navigate("/superAdmin"); 
+    } else {
+      // Administradores y Vendedores van a la página principal
+      navigate("/"); 
+    }
+  } else {
+    // Si los datos están mal, avisamos
+    alert(mensaje || "Error al iniciar sesión");
+  }
+};
+
   return (
     <section id="logIn_main">
       <div id="form_section">
-        <Form id="logInForm_container">
+        <Form id="logInForm_container" onSubmit={handleSubmit}>
           <div id="imgs_container">
             <img src={VentockSVGblanco} id="imgIsotipo" alt="" />
             <img src={logotipoVentock} id="imgLogotipo" alt="" />
@@ -21,9 +62,13 @@ export default function LogInPage() {
           >
             <Form.Control
               className="controls_formLogIn"
-              type="text"
+              type="email"
               placeholder="Email"
               required
+              value={datos.correo}
+              onChange={(e) => {
+                setDatos({ ...datos, correo: e.target.value });
+              }}
             />
           </Form.Group>
 
@@ -36,6 +81,8 @@ export default function LogInPage() {
               className="controls_formLogIn "
               placeholder="Contraseña"
               required
+              value={datos.password}
+              onChange={(e) => setDatos({ ...datos, password: e.target.value })}
             />
           </Form.Group>
 

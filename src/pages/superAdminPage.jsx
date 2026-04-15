@@ -2,35 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 import { FaTrashCan } from "react-icons/fa6";
 import { FaPen } from "react-icons/fa";
+import {
+  getUsuarios,
+  crearUsuario,
+  actualizarUsuario,
+  deleteUsuario,
+} from "../helpers/apiUsuarios";
 import("../styles/superAdminPage.css");
 
 export default function SuperAdminPage() {
   const [usuarios, setUsuarios] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [busqueda, setBusqueda] = useState("");
-
-  const URL_API = "http://localhost:3001/api/usuarios";
-
-  // --- PETICIÓN AL BACKEND ---
-  const obtenerUsuarios = async () => {
-    try {
-      const resp = await fetch(URL_API);
-      const data = await resp.json();
-      const usuariosFormateados = data.usuarios.map((u) => ({
-        ...u,
-        id: u._id,
-        estado: u.estado ? "Activo" : "Inactivo",
-      }));
-
-      setUsuarios(usuariosFormateados);
-    } catch (error) {
-      console.error("Error al obtener usuarios:", error);
-    }
-  };
-
-  useEffect(() => {
-    obtenerUsuarios();
-  }, []);
 
   const [usuarioForm, setUsuarioForm] = useState({
     id: null,
@@ -39,20 +22,37 @@ export default function SuperAdminPage() {
     correo: "",
     password: "",
     rol: "Vendedor",
-    estado: "Activo",
+    estado: true,
   });
+
+  // PETICION AL BACKEND
+  const obtenerUsuarios = async () => {
+    const data = await getUsuarios(0, 10);
+    if (data?.usuarios) {
+      setUsuarios(data.usuarios);
+    }
+  };
+
+  useEffect(() => {
+    obtenerUsuarios();
+  }, []);
 
   const handleShow = (usuario = null) => {
     if (usuario) {
-      setUsuarioForm(usuario);
+      setUsuarioForm({
+        ...usuario,
+        id: usuario._id,
+        estado: usuario.estado,
+      });
     } else {
       setUsuarioForm({
         id: null,
         nombre: "",
         apellido: "",
         correo: "",
+        password: "",
         rol: "Vendedor",
-        estado: "Activo",
+        estado: true,
       });
     }
     setShowModal(true);
@@ -60,93 +60,48 @@ export default function SuperAdminPage() {
 
   const handleClose = () => setShowModal(false);
 
-  // --- HANDLERS ---
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUsuarioForm({ ...usuarioForm, [name]: value });
+    const val = name === "estado" ? value === "true" : value;
+    setUsuarioForm({ ...usuarioForm, [name]: val });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // if (usuarioForm.id) {
-    //   // Lógica de Edición
-    //   const usuariosEditados = usuarios.map((u) =>
-    //     u.id === usuarioForm.id ? usuarioForm : u,
-    //   );
-    //   setUsuarios(usuariosEditados);
-    //   alert("Usuario actualizado con éxito");
-    // } else {
-    //   // Lógica de Creación (Simulada)
-    //   const nuevoUsuario = {
-    //     ...usuarioForm,
-    //     id: usuarios.length + 1,
-    //     fechaRegistro: new Date().toLocaleDateString(),
-    //   };
-    //   setUsuarios([...usuarios, nuevoUsuario]);
-    //   alert("Usuario creado con éxito");
-    // }
+    let data;
 
-    // handleClose();
-  
-    const body = {
-    ...usuarioForm,
-    estado: usuarioForm.estado === "Activo"
-  };
-
-  try {
-    let resp;
     if (usuarioForm.id) {
-      // Lógica de Edición (PUT)
-      resp = await fetch(`${URL_API}/${usuarioForm.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      data = await actualizarUsuario(usuarioForm.id, usuarioForm);
     } else {
-      // Lógica de Creación (POST)
-      resp = await fetch(URL_API, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      data = await crearUsuario(usuarioForm);
     }
 
-    const data = await resp.json();
-
-    if (resp.ok) {
-     alert(usuarioForm.id ? "Usuario actualizado" : "Usuario creado");
-      obtenerUsuarios(); // Refrescar la tabla
+    if (
+      data?.mensaje === "Usuario logueado con exito" ||
+      data?._id ||
+      !data?.errors
+    ) {
+      alert(usuarioForm.id ? "Usuario actualizado" : " Usuario creado");
+      obtenerUsuarios();
       handleClose();
     } else {
-     alert(`Error: ${data.mensaje || "No se pudo realizar la operación"}`);
+      alert(`Error: ${data.mensaje || "Revisar los datos."}`);
     }
-  } catch (error) {
-    console.error("Error en la peticion:", error);
-  }
   };
 
   const handleEliminar = async (id) => {
-  if (window.confirm("¿Estás seguro de eliminar este usuario permanentemente?")) {
-    try {
-      const resp = await fetch(`${URL_API}/${id}`, {
-        method: "DELETE",
-      });
-
-      if (resp.ok) {
-        alert("Usuario eliminado correctamente");
-        obtenerUsuarios(); // Refrescar la tabla
-      } else {
-        const data = await resp.json();
-        alert(`Error al eliminar: ${data.mensaje}`);
+    if (
+      window.confirm("¿Estás seguro de eliminar este usuario permanentemente?")
+    ) {
+      const data = await deleteUsuario(id);
+      if (data) {
+        alert("Usuario eliminado exitosamente.");
+        obtenerUsuarios();
       }
-    } catch (error) {
-      console.error("Error al eliminar:", error);
     }
-  }
-};
+  };
 
-  // --- FILTRO ---
   const usuariosFiltrados = usuarios.filter(
     (u) =>
       u.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -156,7 +111,7 @@ export default function SuperAdminPage() {
 
   return (
     <section id="SAdmin_container">
-      <h2>Dashboard SuperAdmin</h2>
+      <h2>Panel de control SuperAdmin</h2>
 
       <div id="usuarios_header">
         <h5 id="usuarios_tittle">LISTA DE USUARIOS</h5>
@@ -179,7 +134,7 @@ export default function SuperAdminPage() {
         <table id="usuarios_table">
           <thead id="usuariosTable_thead">
             <tr className="columns_TableUsuarios">
-              <th>ID</th>
+              {/* <th>ID</th> */}
               <th>NOMBRE</th>
               <th>APELLIDO</th>
               <th>CORREO</th>
@@ -202,21 +157,13 @@ export default function SuperAdminPage() {
             ) : (
               usuariosFiltrados.map((u) => (
                 <tr key={u._id} className="text-center">
-                  <td>{u._id}</td>
                   <td>{u.nombre}</td>
                   <td>{u.apellido}</td>
                   <td>{u.correo}</td>
                   <td>{u.rol}</td>
-                  <td>
-                    <span
-                      className={
-                        u.estado === "Activo" ? "text-success" : "text-danger"
-                      }
-                    >
-                      {u.estado}
-                    </span>
+                  <td className={u.estado ? "text-success" : "text-danger"}>
+                    {u.estado ? "Activo" : "Inactivo"}
                   </td>
-
                   <td>{new Date(u.fechaRegistro).toLocaleDateString()}</td>
 
                   <td id="icons_container">
@@ -230,7 +177,7 @@ export default function SuperAdminPage() {
                     <Button
                       variant="link"
                       className="btn_eliminar"
-                      onClick={() => handleEliminar(u.id)}
+                      onClick={() => handleEliminar(u._id)}
                     >
                       <FaTrashCan />
                     </Button>
@@ -253,7 +200,7 @@ export default function SuperAdminPage() {
           }}
         >
           <h5 id="cargarUsuario_title">
-            {usuarioForm.id ? "MODIFICAR USUARIO" : "CARGAR NUEVO USUARIO"}
+            {usuarioForm.id ? "MODIFICAR" : "NUEVO"} USUARIO
           </h5>
         </Modal.Header>
         <Modal.Body id="cargarUsuario_container">
@@ -269,9 +216,9 @@ export default function SuperAdminPage() {
                 className="formGroupControl"
                 type="text"
                 placeholder="Nombre del Usuario"
-                required
                 value={usuarioForm.nombre}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
 
@@ -286,10 +233,10 @@ export default function SuperAdminPage() {
                 name="apellido"
                 className="formGroupControl"
                 type="text"
-                required
                 placeholder="Apellido del Usuario"
                 value={usuarioForm.apellido}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
 
@@ -302,14 +249,14 @@ export default function SuperAdminPage() {
                 name="correo"
                 className="formGroupControl"
                 type="email"
-                required
                 placeholder="Email del usuario"
                 value={usuarioForm.correo}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
 
-            {!usuarioForm.id && ( // Solo mostramos password si es un usuario nuevo
+            {!usuarioForm.id && (
               <Form.Group
                 className="formGroupUsuarios"
                 controlId="formGroupPassword"
@@ -321,9 +268,8 @@ export default function SuperAdminPage() {
                   name="password"
                   type="password"
                   placeholder="Mínimo 8 caracteres"
-                  required
-                  value={usuarioForm.password}
                   onChange={handleChange}
+                  required
                 />
               </Form.Group>
             )}
@@ -349,20 +295,15 @@ export default function SuperAdminPage() {
               <Form.Select
                 className="formGroupControl"
                 name="estado"
-                value={usuarioForm.estado}
+                value={usuarioForm.estado.toString()}
                 onChange={handleChange}
               >
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
               </Form.Select>
             </Form.Group>
 
-            <Button
-              id="btnAddUsuario"
-              type="submit"
-              // El botón se bloquea si el form no esta completo
-              // disabled={!formularioValido}
-            >
+            <Button id="btnAddUsuario" type="submit">
               {usuarioForm.id ? "ACTUALIZAR USUARIO" : "GUARDAR USUARIO"}
             </Button>
           </Form>

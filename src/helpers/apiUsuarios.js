@@ -1,14 +1,19 @@
 const url = "http://localhost:3001/api/usuarios";
 
-export const getUsuarios = async (desde = 0) => {
-  const limite = 5
+// Helper para obtener el token limpio
+const getAuthHeaders = () => {
+  const token = JSON.parse(localStorage.getItem("token"));
+  return {
+    "Content-type": "application/json; charset=UTF-8",
+    "x-token": token || "",
+  };
+};
+
+export const getUsuarios = async (desde = 0, limite = 10) => {
   try {
     const resp = await fetch(url + "?limite=" + limite + "&desde=" + desde, {
       method: "GET",
-      headers: {
-        "Content-type": "application/json; charset UTF-8",
-        "x-token": token,
-      },
+      headers: getAuthHeaders(),
     });
 
     const data = await resp.json();
@@ -42,30 +47,39 @@ export const crearUsuario = async (datos) => {
     });
 
     const data = await resp.json();
-
     return data;
   } catch (error) {
     console.error(error);
     return {
-      mensaje: "No se conecto al backend!",
+      mensaje: "No se conecto al backend.",
     };
   }
 };
 
+export const actualizarUsuario = async (id, datos) => {
+  try {
+    const resp = await fetch(url + "/" + id, {
+      method: "PUT",
+      body: JSON.stringify(datos),
+      headers: getAuthHeaders(),
+    });
+    return await resp.json();
+  } catch (error) {
+    return { mensaje: "No se conectó al backend" };
+  }
+};
+
 export const deleteUsuario = async (id) => {
-    try {
-        const resp = await fetch(url + "/" + id, {
-            method: "DELETE",
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-                "x-token": localStorage.getItem('token') || "",
-            }
-        })
-        
-        const data = await resp.json();
-        return data;
-    } catch (error) {
-        console.error(error);
-        return {msg: "No se conectó con el backend!"}
-    }
-}
+  try {
+    const resp = await fetch(url + "/" + id, {
+      method: "DELETE",
+      headers: getAuthHeaders(),
+    });
+
+    const data = await resp.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return { mensaje: "No se conectó con el backend." };
+  }
+};

@@ -67,6 +67,14 @@
   z-index: 1000;
 }
 
+table,
+th,
+td {
+  border: 1px solid #4180ab;
+  border-collapse: collapse;
+  height: fit-content;
+}
+
 .columns_TableUsuarios th {
   color: #1e293b;
   background-color: #8ab3cf;

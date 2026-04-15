@@ -1,21 +1,15 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
+import{getCategorias, crearCategoria} from "../helpers/apiCategoria";
 
 export const ProductContext = createContext();
 
 export function ProductProvider({ children }) {
-  // ESTADOS--->
 
-  // Guarda el array de objetos con todos los productos registrados
   const [productos, setProductos] = useState([]);
-
-  // Lista de nombres de categorías
   const [categorias, setCategorias] = useState([]);
-
-  // Guarda el texto que el usuario escribe en la barra de búsqueda
   const [filtro, setFiltro] = useState("");
 
-  // Estados de cada campo del formulario NUEVO PRODUCTO
-  // Si tiene un ID, el formulario sabe que está EDITANDO, si es null, está CREANDO
+  // Estados de cada campo del formulario NUEVO PRODUCTO. Si tiene un ID, el formulario sabe que está EDITANDO, si es null, está CREANDO
   const [modificandoId, setModificandoId] = useState(null);
   const [nombreProd, setNombreProd] = useState("");
   const [stock, setStock] = useState("");
@@ -24,37 +18,68 @@ export function ProductProvider({ children }) {
   const [ganancia, setGanancia] = useState("");
   const [iva, setIva] = useState("");
   const [importe, setImporte] = useState("");
-  // Controla qué texto se ve en el botón del Dropdown de categorías
   const [catSeleccionada, setCatSeleccionada] = useState("Elige una categoría");
 
-  // VARIABLES DE CALCULO--->
-  // Logica de busqueda: Crea una lista filtrada comparando el nombre o el ID con lo que se escribe en 'filtro'
+  // FUNCIÓN: Obtener categorías de la DB
+  const cargarCategorias = async () => {
+    try {
+      const data = await getCategorias(0);
+      if (data?.categorias) {
+        const catsMapeadas = data.categorias.map(cat => ({
+          ...cat,
+          id: cat._id, 
+          estado: cat.estado ? "Activo" : "Inactivo",
+          usuarioNombre: cat.usuario?.correo || "Sistema"
+        }));
+        setCategorias(catsMapeadas);
+      }
+    } catch (error) {
+      console.error("Error cargando categorías:", error);
+    }
+  };
+
+  useEffect(() => {
+    cargarCategorias();
+  }, []);
+
+  // FUNCIÓN: Crear nueva categoría
+  async function crearNuevaCategoria(nombre) {
+    if (!nombre || nombre.trim() === "") return;
+
+    try {
+      const resp = await crearCategoria({ nombre });
+      if (resp?.categoria) {
+        alert(resp.mensaje);
+        await cargarCategorias();
+      } else {
+        alert(resp.mensaje || "Error al crear la categoria.");
+      }
+    } catch (error) {
+      alert("Error de conexión");
+    }
+  }
+
+    // VARIABLE DE CALCULO: Búsqueda de productos
   const resultadosBusqueda = productos.filter(
     (p) =>
       p.nombreProducto.toLowerCase().includes(filtro.toLowerCase()) ||
       p.id.toString().includes(filtro),
   );
 
-  // FUNCIONES DE PRODUCTOS
+    // const fakeMongoId =
+    //   Date.now().toString(16) + Math.random().toString(16).slice(2, 14);
 
-  // Toma el texto del input de categoría y lo mete en el array de categorías
-  function crearNuevaCategoria(nombre) {
-    if (!nombre || nombre.trim() === "") return;
+  //   // Creamos el objeto completo
+  //   const nuevaCat = {
+  //     id: fakeMongoId,
+  //     nombre: nombre.trim(),
+  //     estado: "Activo",
+  //     fechaRegistro: new Date().toLocaleDateString(),
+  //     usuario: "Admin",
+  //   };
 
-    const fakeMongoId =
-      Date.now().toString(16) + Math.random().toString(16).slice(2, 14);
-
-    // Creamos el objeto completo
-    const nuevaCat = {
-      id: fakeMongoId,
-      nombre: nombre.trim(),
-      estado: "Activo",
-      fechaRegistro: new Date().toLocaleDateString(),
-      usuario: "Admin",
-    };
-
-    setCategorias((prevCategorias) => [...prevCategorias, nuevaCat]);
-  }
+  //   setCategorias((prevCategorias) => [...prevCategorias, nuevaCat]);
+  // }
 
   // Filtra la lista de productos quitando el que coincida con el ID recibido
   function eliminarProducto(id) {
@@ -141,6 +166,7 @@ export function ProductProvider({ children }) {
 
         // Funciones
         crearNuevaCategoria,
+        cargarCategorias,
         eliminarProducto,
         prepararEdicion,
         handleSubmitProducto,

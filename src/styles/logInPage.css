@@ -61,7 +61,8 @@
 .controls_formLogIn {
   height: 40px;
   background-color: rgba(30, 41, 59, 0.4);
-  color: #f3f3f2 !important;
+  /* color: #f3f3f2 !important; */
+  color: #1e293b;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   margin-bottom: 5px;

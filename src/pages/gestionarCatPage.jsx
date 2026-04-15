@@ -3,10 +3,11 @@ import { Form, Button, Modal } from "react-bootstrap";
 import { FaTrashCan } from "react-icons/fa6";
 import { FaPen } from "react-icons/fa";
 import { ProductContext } from "../context/ProductContext";
+import {actualizarCategoria, borrarCategoria} from "../helpers/apiCategoria"
 import("../styles/gestionarCatPage.css");
 
 export default function GestionarCatPage() {
-  const {categorias, setCategorias} = useContext(ProductContext);
+  const {categorias, setCategorias, cargarCategorias} = useContext(ProductContext);
 
   const [showModal, setShowModal] = useState(false);
   const [categoriaForm, setCategoriaForm] = useState({
@@ -27,19 +28,35 @@ export default function GestionarCatPage() {
     setCategoriaForm({ ...categoriaForm, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const actualizadas = categorias.map((cat) =>
-      cat.id === categoriaForm.id ? { ...cat, ...categoriaForm } : cat,
-    );
-    setCategorias(actualizadas);
-    alert("Categoría actualizada exitosamente!");
-    handleClose();
+    try {
+      const resp = await actualizarCategoria(categoriaForm.id, {
+        nombre: categoriaForm.nombre
+      });
+      if (resp?.categoria) {
+        alert("Categoría actualizada!");
+        await cargarCategorias();
+        handleClose();
+      } else {
+        alert(resp.mensaje || "Error al actualizar");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleEliminar = (id) => {
-    if (window.confirm("Estas seguro de eliminar esta categoria?")) {
-      setCategorias(categorias.filter((cat) => cat.id !== id));
+  const handleEliminar = async (id) => {
+    if (window.confirm("Estas seguro de eliminar esta categoria permanentemente?")) {
+      try {
+        const resp = await borrarCategoria(id);
+        if (resp) {
+          alert("Categoria eliminada con exito");
+          await cargarCategorias();
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -86,7 +103,7 @@ export default function GestionarCatPage() {
                     </span>
                   </td>
                   <td>{cat.fechaRegistro}</td>
-                  <td>{cat.usuario}</td>
+                  <td>{cat.usuario?.correo || cat.usuario || "Admin"}</td>
                   <td>
                     <div id="icons_container">
                       <Button variant="link" onClick={() => handleShow(cat)}>
@@ -136,7 +153,7 @@ export default function GestionarCatPage() {
               />
             </Form.Group>
 
-            <Form.Group
+            {/* <Form.Group
               className="formGroupUsuarios"
               controlId="formGroupEstadoCat"
             >
@@ -150,7 +167,7 @@ export default function GestionarCatPage() {
                 <option value="Activo">Activo</option>
                 <option value="Inactivo">Inactivo</option>
               </Form.Select>
-            </Form.Group>
+            </Form.Group> */}
 
             <Button id="btnAddUsuario" type="submit" className="mt-4">
               ACTUALIZAR CATEGORIA

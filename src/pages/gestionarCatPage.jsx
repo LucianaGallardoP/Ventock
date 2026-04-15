@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 import { FaTrashCan } from "react-icons/fa6";
 import { FaPen } from "react-icons/fa";
+import { ProductContext } from "../context/ProductContext";
 import("../styles/gestionarCatPage.css");
 
 export default function GestionarCatPage() {
-    const [categorias, setCategorias] = useState([]);
+  const {categorias, setCategorias} = useContext(ProductContext);
+
   const [showModal, setShowModal] = useState(false);
   const [categoriaForm, setCategoriaForm] = useState({
     id: null,
@@ -13,7 +15,6 @@ export default function GestionarCatPage() {
     estado: "Activo",
   });
 
-  // --- HANDLERS ---
   const handleShow = (categoria) => {
     setCategoriaForm(categoria);
     setShowModal(true);
@@ -28,10 +29,10 @@ export default function GestionarCatPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const categoriasActualizadas = categorias.map((cat) =>
+    const actualizadas = categorias.map((cat) =>
       cat.id === categoriaForm.id ? { ...cat, ...categoriaForm } : cat,
     );
-    setCategorias(categoriasActualizadas);
+    setCategorias(actualizadas);
     alert("Categoría actualizada exitosamente!");
     handleClose();
   };
@@ -107,14 +108,23 @@ export default function GestionarCatPage() {
         </table>
       </div>
 
-    {/* MODAL EDITAR CATEGORIA */}
-      <Modal show={showModal} onHide={handleClose} size="md" backdrop="static" centered>
+      {/* MODAL EDITAR CATEGORIA */}
+      <Modal
+        show={showModal}
+        onHide={handleClose}
+        size="md"
+        backdrop="static"
+        centered
+      >
         <Modal.Header closeButton style={{ backgroundColor: "#f0f2f5" }}>
           <h5 id="cargarUsuario_title">MODIFICAR CATEGORIA</h5>
         </Modal.Header>
         <Modal.Body id="cargarUsuario_container">
           <Form id="cargarUsuario_form" onSubmit={handleSubmit}>
-            <Form.Group className="formGroupUsuarios" controlId="formGroupNombreCat">
+            <Form.Group
+              className="formGroupUsuarios"
+              controlId="formGroupNombreCat"
+            >
               <Form.Label className="formGroupLabelUsuarios">Nombre</Form.Label>
               <Form.Control
                 name="nombre"
@@ -126,7 +136,10 @@ export default function GestionarCatPage() {
               />
             </Form.Group>
 
-            <Form.Group className="formGroupUsuarios" controlId="formGroupEstadoCat">
+            <Form.Group
+              className="formGroupUsuarios"
+              controlId="formGroupEstadoCat"
+            >
               <Form.Label className="formGroupLabelUsuarios">Estado</Form.Label>
               <Form.Select
                 name="estado"
@@ -144,7 +157,9 @@ export default function GestionarCatPage() {
             </Button>
           </Form>
         </Modal.Body>
-        <Modal.Footer style={{ backgroundColor: "#f0f2f5", border: "none" }}></Modal.Footer>
+        <Modal.Footer
+          style={{ backgroundColor: "#f0f2f5", border: "none" }}
+        ></Modal.Footer>
       </Modal>
     </section>
   );

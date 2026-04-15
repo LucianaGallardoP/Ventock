@@ -38,11 +38,22 @@ export function ProductProvider({ children }) {
   // FUNCIONES DE PRODUCTOS
 
   // Toma el texto del input de categoría y lo mete en el array de categorías
-  function crearNuevaCategoria(nuevaCatInput) {
-    if (nuevaCatInput.trim()) {
-      setCategorias([...categorias, nuevaCatInput]);
-      setCatSeleccionada(nuevaCatInput); // Selecciona la que acaba de crear
-    }
+  function crearNuevaCategoria(nombre) {
+    if (!nombre || nombre.trim() === "") return;
+
+    const fakeMongoId =
+      Date.now().toString(16) + Math.random().toString(16).slice(2, 14);
+
+    // Creamos el objeto completo
+    const nuevaCat = {
+      id: fakeMongoId,
+      nombre: nombre.trim(),
+      estado: "Activo",
+      fechaRegistro: new Date().toLocaleDateString(),
+      usuario: "Admin",
+    };
+
+    setCategorias((prevCategorias) => [...prevCategorias, nuevaCat]);
   }
 
   // Filtra la lista de productos quitando el que coincida con el ID recibido

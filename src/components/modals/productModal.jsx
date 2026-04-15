@@ -65,7 +65,14 @@ export default function ProductModal({ show, onHide }) {
 
   return (
     <Modal show={show} onHide={onHide} size="lg" backdrop="static">
-      <Modal.Header closeButton style={{ backgroundColor: "#f0f2f5", display:"flex", justifyContent:"center" }}>
+      <Modal.Header
+        closeButton
+        style={{
+          backgroundColor: "#f0f2f5",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <h5 id="cargarProducto_title">
           {modificandoId ? "MODIFICAR PRODUCTO" : "CARGAR PRODUCTO"}
         </h5>
@@ -194,13 +201,13 @@ export default function ProductModal({ show, onHide }) {
                     No hay categorías creadas
                   </p>
                 ) : (
-                  categorias.map((cat, index) => (
+                  categorias.map((cat) => (
                     <Dropdown.Item
                       className="dropDownItem"
-                      key={index}
-                      eventKey={cat}
+                      key={cat?.id || Math.random()}
+                      eventKey={cat?.nombre || ""}
                     >
-                      {cat}
+                      {cat?.nombre || "Sin nombre"}
                     </Dropdown.Item>
                   ))
                 )}
@@ -208,18 +215,21 @@ export default function ProductModal({ show, onHide }) {
 
                 <div className="d-flex ">
                   <Form.Control
-                  id="formControl_newCat"
+                    id="formControl_newCat"
                     placeholder="Nueva categoría"
                     value={nuevaCatInput}
                     onChange={(e) => setNuevaCatInput(e.target.value)}
-                    onClick={(e) => e.stopPropagation()} // Evita que el dropdown se cierre al escribir
+                    // onClick={(e) => e.stopPropagation()} // Evita que el dropdown se cierre al escribir
                   />
                   <Button
                     id="btnCrearCat"
                     type="button"
-                    onClick={() => {
-                      crearNuevaCategoria(nuevaCatInput);
-                      setNuevaCatInput("");
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (nuevaCatInput.trim() !== "") {
+                        crearNuevaCategoria(nuevaCatInput);
+                        setNuevaCatInput(""); // Limpiamos el input
+                      }
                     }}
                   >
                     Crear

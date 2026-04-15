@@ -57,12 +57,12 @@ export default function ProductListComponent({ setShowModalCarga }) {
                   <Dropdown.Menu
                     style={{ width: "100%", backgroundColor: "#bdd1de" }}
                   >
-                    {categorias.map((cat, index) => (
+                    {categorias.map((cat) => (
                       <Dropdown.Item
-                        key={index}
+                        key={cat.id}
                         className="itemsCategorias_dropD"
                       >
-                        {cat}
+                        {cat.nombre}
                       </Dropdown.Item>
                     ))}
                   </Dropdown.Menu>
@@ -89,16 +89,16 @@ export default function ProductListComponent({ setShowModalCarga }) {
 
           <tbody className="text-center">
             {categorias.map((cat) => (
-              <React.Fragment key={cat}>
+              <React.Fragment key={cat.id}>
                 <tr>
                   <td className="titleCategorias_table" colSpan={9}>
-                    {cat.toUpperCase()}
+                    {cat.nombre.toUpperCase()}
                   </td>
                 </tr>
 
                 {/* Usamos 'productosMostrados' (la lista filtrada) en vez de 'productos' */}
                 {resultadosBusqueda
-                  .filter((producto) => producto.categoria === cat)
+                  .filter((producto) => producto.categoria === cat.nombre)
                   .map((producto) => {
                     const esCritico =
                       producto.stockCritico !== "" &&
@@ -161,10 +161,10 @@ export default function ProductListComponent({ setShowModalCarga }) {
                   })}
 
                 {/* Mensaje si la categoria todavia no tiene productos */}
-                {productos.filter((producto) => producto.categoria === cat)
+                {productos.filter((producto) => producto.categoria === cat.nombre)
                   .length === 0 && (
                   <tr>
-                    <td colSpan={9}>No hay productos cargados en "{cat}"</td>
+                    <td colSpan={9}>No hay productos cargados en "{cat.nombre}"</td>
                   </tr>
                 )}
               </React.Fragment>

@@ -9,11 +9,35 @@ export default function SuperAdminPage() {
   const [showModal, setShowModal] = useState(false);
   const [busqueda, setBusqueda] = useState("");
 
+  const URL_API = "http://localhost:3001/api/usuarios";
+
+  // --- PETICIÓN AL BACKEND ---
+  const obtenerUsuarios = async () => {
+    try {
+      const resp = await fetch(URL_API);
+      const data = await resp.json();
+      const usuariosFormateados = data.usuarios.map((u) => ({
+        ...u,
+        id: u._id,
+        estado: u.estado ? "Activo" : "Inactivo",
+      }));
+
+      setUsuarios(usuariosFormateados);
+    } catch (error) {
+      console.error("Error al obtener usuarios:", error);
+    }
+  };
+
+  useEffect(() => {
+    obtenerUsuarios();
+  }, []);
+
   const [usuarioForm, setUsuarioForm] = useState({
     id: null,
     nombre: "",
     apellido: "",
     correo: "",
+    password: "",
     rol: "Vendedor",
     estado: "Activo",
   });
@@ -42,36 +66,85 @@ export default function SuperAdminPage() {
     setUsuarioForm({ ...usuarioForm, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // if (usuarioForm.id) {
+    //   // Lógica de Edición
+    //   const usuariosEditados = usuarios.map((u) =>
+    //     u.id === usuarioForm.id ? usuarioForm : u,
+    //   );
+    //   setUsuarios(usuariosEditados);
+    //   alert("Usuario actualizado con éxito");
+    // } else {
+    //   // Lógica de Creación (Simulada)
+    //   const nuevoUsuario = {
+    //     ...usuarioForm,
+    //     id: usuarios.length + 1,
+    //     fechaRegistro: new Date().toLocaleDateString(),
+    //   };
+    //   setUsuarios([...usuarios, nuevoUsuario]);
+    //   alert("Usuario creado con éxito");
+    // }
+
+    // handleClose();
+  
+    const body = {
+    ...usuarioForm,
+    estado: usuarioForm.estado === "Activo"
+  };
+
+  try {
+    let resp;
     if (usuarioForm.id) {
-      // Lógica de Edición
-      const usuariosEditados = usuarios.map((u) =>
-        u.id === usuarioForm.id ? usuarioForm : u,
-      );
-      setUsuarios(usuariosEditados);
-      alert("Usuario actualizado con éxito");
+      // Lógica de Edición (PUT)
+      resp = await fetch(`${URL_API}/${usuarioForm.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
     } else {
-      // Lógica de Creación (Simulada)
-      const nuevoUsuario = {
-        ...usuarioForm,
-        id: usuarios.length + 1,
-        fechaRegistro: new Date().toLocaleDateString(),
-      };
-      setUsuarios([...usuarios, nuevoUsuario]);
-      alert("Usuario creado con éxito");
+      // Lógica de Creación (POST)
+      resp = await fetch(URL_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
     }
 
-    handleClose();
+    const data = await resp.json();
+
+    if (resp.ok) {
+     alert(usuarioForm.id ? "Usuario actualizado" : "Usuario creado");
+      obtenerUsuarios(); // Refrescar la tabla
+      handleClose();
+    } else {
+     alert(`Error: ${data.mensaje || "No se pudo realizar la operación"}`);
+    }
+  } catch (error) {
+    console.error("Error en la peticion:", error);
+  }
   };
 
-  const handleEliminar = (id) => {
-    if (window.confirm("¿Estás seguro de eliminar este usuario?")) {
-      const listaActualizada = usuarios.filter((u) => u.id !== id);
-      setUsuarios(listaActualizada);
+  const handleEliminar = async (id) => {
+  if (window.confirm("¿Estás seguro de eliminar este usuario permanentemente?")) {
+    try {
+      const resp = await fetch(`${URL_API}/${id}`, {
+        method: "DELETE",
+      });
+
+      if (resp.ok) {
+        alert("Usuario eliminado correctamente");
+        obtenerUsuarios(); // Refrescar la tabla
+      } else {
+        const data = await resp.json();
+        alert(`Error al eliminar: ${data.mensaje}`);
+      }
+    } catch (error) {
+      console.error("Error al eliminar:", error);
     }
-  };
+  }
+};
 
   // --- FILTRO ---
   const usuariosFiltrados = usuarios.filter(
@@ -105,31 +178,6 @@ export default function SuperAdminPage() {
       <div id="usuarios_main">
         <table id="usuarios_table">
           <thead id="usuariosTable_thead">
-            {/* <tr>
-              <th colSpan={9} style={{ padding: "0%" }}>
-                <Dropdown>
-                  <Dropdown.Toggle
-                    // id="dropdown-basic"
-                    className="dropd_categorias"
-                  >
-                    Filtrar Categorías
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu
-                    style={{ width: "100%", backgroundColor: "#bdd1de" }}
-                  >
-                    {categorias.map((cat, index) => (
-                      <Dropdown.Item
-                        key={index}
-                        className="itemsCategorias_dropD"
-                      >
-                        {cat}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-              </th>
-            </tr> */}
-
             <tr className="columns_TableUsuarios">
               <th>ID</th>
               <th>NOMBRE</th>
@@ -153,8 +201,8 @@ export default function SuperAdminPage() {
               </tr>
             ) : (
               usuariosFiltrados.map((u) => (
-                <tr key={u.id} className="text-center">
-                  <td>{u.id}</td>
+                <tr key={u._id} className="text-center">
+                  <td>{u._id}</td>
                   <td>{u.nombre}</td>
                   <td>{u.apellido}</td>
                   <td>{u.correo}</td>
@@ -169,7 +217,7 @@ export default function SuperAdminPage() {
                     </span>
                   </td>
 
-                  <td>{u.fechaRegistro || "---"}</td>
+                  <td>{new Date(u.fechaRegistro).toLocaleDateString()}</td>
 
                   <td id="icons_container">
                     <Button
@@ -260,6 +308,25 @@ export default function SuperAdminPage() {
                 onChange={handleChange}
               />
             </Form.Group>
+
+            {!usuarioForm.id && ( // Solo mostramos password si es un usuario nuevo
+              <Form.Group
+                className="formGroupUsuarios"
+                controlId="formGroupPassword"
+              >
+                <Form.Label className="formGroupLabelUsuarios">
+                  Contraseña
+                </Form.Label>
+                <Form.Control
+                  name="password"
+                  type="password"
+                  placeholder="Mínimo 8 caracteres"
+                  required
+                  value={usuarioForm.password}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+            )}
 
             <Form.Group className="formGroupUsuarios" controlId="formGroupRol">
               <Form.Label className="formGroupLabelUsuarios">Rol</Form.Label>

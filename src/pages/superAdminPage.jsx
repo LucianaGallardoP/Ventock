@@ -42,20 +42,6 @@ export default function SuperAdminPage() {
     setUsuarioForm({ ...usuarioForm, [name]: value });
   };
 
-  //   const handleSubmit = (e) => {
-  //     e.preventDefault();
-  //     // Aquí llamado a la API (POST o PUT)
-  //     console.log("Datos a enviar:", usuarioForm);
-  //     alert("Usuario guardado con éxito");
-  //     handleClose();
-  //   };
-
-  //   const usuariosFiltrados = usuarios.filter(
-  //     (u) =>
-  //       u.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-  //       u.correo.toLowerCase().includes(busqueda.toLowerCase()),
-  //   );
-
   const handleSubmit = (e) => {
     e.preventDefault();
 

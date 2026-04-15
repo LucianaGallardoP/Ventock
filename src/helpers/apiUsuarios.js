@@ -1,6 +1,7 @@
 const url = "http://localhost:3001/api/usuarios";
 
 export const getUsuarios = async (desde = 0) => {
+  const limite = 5
   try {
     const resp = await fetch(url + "?limite=" + limite + "&desde=" + desde, {
       method: "GET",
@@ -50,3 +51,21 @@ export const crearUsuario = async (datos) => {
     };
   }
 };
+
+export const deleteUsuario = async (id) => {
+    try {
+        const resp = await fetch(url + "/" + id, {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "x-token": localStorage.getItem('token') || "",
+            }
+        })
+        
+        const data = await resp.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        return {msg: "No se conectó con el backend!"}
+    }
+}

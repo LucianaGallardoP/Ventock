@@ -4,20 +4,14 @@ import { ProductContext } from "./ProductContext";
 export const OrderContext = createContext();
 
 export function OrderProvider({ children }) {
-  // Extraemos setProductos del contexto de productos para actualizar el stock al vender
   const { productos, setProductos } = useContext(ProductContext);
-
-  const [detallePedido, setDetallePedido] = useState([]); // Es el "carrito"
-
+  const [detallePedido, setDetallePedido] = useState([]); 
   const [descuentoPorc, setDescuentoPorc] = useState(0)
+  const [showModalGuardarPedido, setShowModalGuardarPedido] = useState(false); 
+  const [showModalMetodoPago, setShowModalMetodoPago] = useState(false);
 
-  const [showModalGuardarPedido, setShowModalGuardarPedido] = useState(false); // Control para el Modal de Guardar Pedido
-
-  const [showModalMetodoPago, setShowModalMetodoPago] = useState(false); // Control para el Modal de Metodo de Pago
-
-  // ---VARIABLES DE CÁLCULO ---
-
-  // Cálculo automático del total sumando todos los subtotal del detalle
+  // VARIABLE DE CALCULO
+  // Calculo automatico del total sumando todos los subtotal del detalle
   const importeTotalPedido = detallePedido.reduce(
     (acumulador, item) => acumulador + Number(item.subtotal),
     0,
@@ -26,14 +20,13 @@ export function OrderProvider({ children }) {
   const montoDescuento = importeTotalPedido * (Number(descuentoPorc || 0) / 100);
   const totalConDescuento = importeTotalPedido -montoDescuento;
 
-  // ------------------ LÓGICA DEL CARRITO (VENTA) ------------------
-  // Funcion para agregar un producto de la lista al carrito o detalle del pedido
+  // Funcion para agregar un producto de la lista al carrito
   function agregarAlDetalle(producto) {
-    // Verificamos si el producto ya existe en el detalle
+    // Verificamos si el producto ya existe en el carrito
     const existe = detallePedido.find((item) => item.id === producto.id);
 
     if (existe) {
-      // Si ya estaba en el carrito, solo subimos la cantidad y el total
+      // Si ya estaba en el carrito solo subimos la cantidad y el total
      setDetallePedido (detallePedido.map((item) =>
         item.id === producto.id
           ? {
@@ -45,7 +38,7 @@ export function OrderProvider({ children }) {
       ));
      
     } else {
-      // Si es la primera vez que lo tocamos, lo agregamos con cantidad 1
+      // Si es la primera vez, lo agregamos con cantidad 1
      setDetallePedido([...detallePedido, {
         id: producto.id,
         nombreProducto: producto.nombreProducto,
@@ -57,15 +50,12 @@ export function OrderProvider({ children }) {
     }
   }
 
-  // Quita un producto del carrito
   function eliminarDelDetalle(id) {
     setDetallePedido(detallePedido.filter((item) => item.id !== id));
-    
   }
 
   // Permite escribir manualmente la cantidad en el carrito
   function manejarCambioCantidad(id, nuevaCantidad) {
-    // Convertimos a numero y validamos que no sea negativo
     const cant = parseInt(nuevaCantidad);
     if (isNaN(cant) || cant < 1) return;
 
@@ -80,28 +70,6 @@ export function OrderProvider({ children }) {
     ));
   }
 
-  // Cerrar la venta y restar el stock:
-  // function procesarPago(metodo) {
-  //   if (detallePedido.length === 0) return;
-
-  //   // 1. Restamos el stock en la lista de productos
-  //   const productosActualizados = productos.map((p) => {
-  //     const itemVendido = detallePedido.find((item) => item.id === p.id);
-  //     if (itemVendido) {
-  //       return {
-  //         ...p,
-  //         stock: Number(p.stock) - itemVendido.cantidad,
-  //       };
-  //     }
-  //     return p;
-  //   });
-
-  //   setProductos(productosActualizados);
-  //   setDetallePedido([]); // Vaciamos el carrito
-  //   setShowModalMetodoPago(false); // Cerramos el modal
-    
-  // }
-
   return (
     <OrderContext.Provider
       value={{
@@ -114,7 +82,6 @@ export function OrderProvider({ children }) {
         agregarAlDetalle,
         eliminarDelDetalle,
         manejarCambioCantidad,
-        // procesarPago,
         showModalGuardarPedido,
         setShowModalGuardarPedido,
         showModalMetodoPago,

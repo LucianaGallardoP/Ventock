@@ -73,13 +73,13 @@ function App() {
           <BrowserRouter>
             <Layout>
               <Routes>
-                {/* RUTAS PÚBLICAS */}
+                {/* RUTAS PUBLICAS */}
                 <Route path="/login" element={<LogInPage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="*" element={<ErrorPage />} />
 
-                {/* RUTA RAÍZ INTELIGENTE */}
+                {/* RUTA RAIZ*/}
                 <Route
                   path="/"
                   element={
@@ -89,7 +89,7 @@ function App() {
                   }
                 />
 
-                {/* RUTAS PROTEGIDAS - SUPERADMIN */}
+                {/* RUTA PROTEGIDA - SUPERADMIN */}
                 <Route
                   path="/superAdmin"
                   element={
@@ -110,12 +110,10 @@ function App() {
                 />
               </Routes>
             </Layout>
-            {/* <FooterComponent /> */}
           </BrowserRouter>
         </OrderProvider>
       </ProductProvider>
     </AuthProvider>
   );
 }
-
 export default App;

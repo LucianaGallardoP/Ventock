@@ -23,35 +23,39 @@ export default function LogInPage() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const resultado = await login(datos);
-  
-  // Función login del AuthContext
-  const { success, usuario, mensaje } = await login(datos);
+    const resultado = await login(datos);
 
-  if (success && usuario) {
-    // Verificamos el rol que viene del Backend
-    if (usuario.rol === "SuperAdmin") {
-      // Si es el jefe, va a su panel especial
-      navigate("/superAdmin"); 
+    // Funcion login de AuthContext
+    const { success, usuario, mensaje } = await login(datos);
+
+    if (success && usuario) {
+      if (usuario.rol === "SuperAdmin") {
+        navigate("/superAdmin");
+      } else {
+        navigate("/");
+      }
     } else {
-      // Administradores y Vendedores van a la página principal
-      navigate("/"); 
+      alert(mensaje || "Error al iniciar sesión");
     }
-  } else {
-    // Si los datos están mal, avisamos
-    alert(mensaje || "Error al iniciar sesión");
-  }
-};
+  };
 
   return (
     <section id="logIn_main">
       <div id="form_section">
         <Form id="logInForm_container" onSubmit={handleSubmit}>
           <div id="imgs_container">
-            <img src={VentockSVGblanco} id="imgIsotipo" alt="" />
-            <img src={logotipoVentock} id="imgLogotipo" alt="" />
+            <img
+              src={VentockSVGblanco}
+              id="imgIsotipo"
+              alt="isotipo de Ventock"
+            />
+            <img
+              src={logotipoVentock}
+              id="imgLogotipo"
+              alt="logotipo de Ventock"
+            />
           </div>
           <hr />
           <h5 id="logIn_tittle">Iniciar Sesión</h5>

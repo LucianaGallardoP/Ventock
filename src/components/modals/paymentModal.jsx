@@ -13,19 +13,6 @@ export default function PaymentModal({ show, onHide }) {
   } = useContext(OrderContext);
   const { productos, setProductos } = useContext(ProductContext);
 
-  // const procesarVenta = (metodo) => {
-  //   // Lógica para restar stock
-  //   const nuevosProductos = productos.map((prodExistente) => {
-  //     const itemEnCarrito = detallePedido.find(
-  //       (item) => item.id === prodExistente.id,
-  //     );
-  //     return
-  //     itemEnCarrito ? {
-  //         ...prodExistente,
-  //         stock: prodExistente.stock - itemEnCarrito.cantidad,
-  //       }: prodExistente;
-  //   });
-
   const procesarVenta = (metodo) => {
     // Lógica para restar stock
     const nuevosProductos = productos.map((prodExistente) => {
@@ -43,7 +30,6 @@ export default function PaymentModal({ show, onHide }) {
 
     setProductos(nuevosProductos);
 
-    // Aquí guardar la venta en una DB.
    alert(
       `Venta procesada con éxito en ${metodo}.\n` +
       `Total cobrado: $${totalConDescuento.toFixed(2)}\n` +

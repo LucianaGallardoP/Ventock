@@ -9,9 +9,9 @@ export default function ContactPage() {
   const enviarEmail = (e) => {
     e.preventDefault();
 
-    const serviceID = "service_fkn07ht";
-    const templateID = "template_ly0ffc9";
-    const publicKey = "YQxzDnV-OZL6zSUlt";
+    const serviceID = VITE_EMAILJS_SERVICE_ID;
+    const templateID = VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = VITE_EMAILJS_PUBLIC_KEY;
 
     emailjs.sendForm(serviceID, templateID, form.current, publicKey).then(
       (result) => {

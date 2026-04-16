@@ -7,7 +7,6 @@ import PaymentModal from "../components/modals/paymentModal.jsx";
 import "../styles/homePage.css";
 
 export default function HomePage() {
-  // Controlan la visibilidad de cada uno de los modales (productos, confirmacion de pedido, metodo pago)
   const [showProductModal, setShowProductModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -20,12 +19,10 @@ export default function HomePage() {
       </div>
 
       <ProductModal
-        // MODAL 1
         show={showProductModal}
         onHide={() => setShowProductModal(false)}
       />
 
-      {/* MODAL 2: Vendido o Presupuesto? */}
       <ConfirmOrderModal
         show={showConfirmModal}
         onHide={() => setShowConfirmModal(false)}
@@ -35,7 +32,6 @@ export default function HomePage() {
         }}
       />
 
-      {/* MODAL 3: Seleccion del pago y cierre de stock */}
       <PaymentModal
         show={showPaymentModal}
         onHide={() => setShowPaymentModal(false)}

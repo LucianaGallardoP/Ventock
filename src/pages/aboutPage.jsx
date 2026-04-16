@@ -31,7 +31,6 @@ export default function AboutPage() {
             <img
               src={avatar}
               alt="Avatar Luciana"
-              // height={"20%"}
               width={"35%"}
               style={{ borderRadius: "50%" }}
             />

@@ -29,14 +29,12 @@ export default function ProductModal({ show, onHide }) {
 
   const [nuevaCatInput, setNuevaCatInput] = useState("");
 
-  // Lógica de cálculo interna del modal
   const recalcularImporte = (p, g, i) => {
     const costo = Number(p) || 0;
     const porcGanancia = Number(g) || 0;
     const porcIva = Number(i) || 0;
     // const precioConGanancia = costo + (costo * porcGanancia) / 100;
     // const resultadoFinal = precioConGanancia + (precioConGanancia * porcIva) / 100;
-
     const precioConGanancia = costo * (1 + porcGanancia / 100);
     const resultadoFinal = precioConGanancia * (1 + porcIva / 100);
     setImporte(resultadoFinal.toFixed(2));
@@ -210,7 +208,6 @@ export default function ProductModal({ show, onHide }) {
                     placeholder="Nueva categoría"
                     value={nuevaCatInput}
                     onChange={(e) => setNuevaCatInput(e.target.value)}
-                    // onClick={(e) => e.stopPropagation()} // Evita que el dropdown se cierre al escribir
                   />
                   <Button
                     id="btnCrearCat"
@@ -219,7 +216,7 @@ export default function ProductModal({ show, onHide }) {
                       e.preventDefault();
                       if (nuevaCatInput.trim() !== "") {
                         crearNuevaCategoria(nuevaCatInput);
-                        setNuevaCatInput(""); // Limpiamos el input
+                        setNuevaCatInput("");
                       }
                     }}
                   >

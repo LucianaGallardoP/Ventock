@@ -8,7 +8,6 @@ import { OrderContext } from "../context/OrderContext";
 import "../styles/productListComponent.css";
 
 export default function ProductListComponent({ setShowModalCarga }) {
-  // Traemos lo referente al inventario
   const {
     categorias,
     filtro,
@@ -19,7 +18,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
     productos,
   } = useContext(ProductContext);
 
-  // Traemos lo referente a la venta
   const { agregarAlDetalle } = useContext(OrderContext);
 
   return (
@@ -36,7 +34,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
             type="search"
             placeholder="Buscar producto..."
             value={filtro}
-            // Filtra mientras se escribe
             onChange={(e) => setFiltro(e.target.value)}
           />
         </div>

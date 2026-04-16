@@ -25,7 +25,6 @@ export function ProductProvider({ children }) {
   const [importe, setImporte] = useState("");
   const [catSeleccionada, setCatSeleccionada] = useState("Elige una categoría");
 
-  // Obtener categorías de la DB
   const cargarCatsProds = async () => {
     try {
       const [dataCategorias, dataProductos] = await Promise.all([
@@ -70,7 +69,6 @@ export function ProductProvider({ children }) {
     }
   }, []);
 
-  // FUNCIÓN: Crear nueva categoría
    const crearNuevaCategoria = async (nombre) => {
     if (!nombre || nombre.trim() === "") return;
 
@@ -87,7 +85,6 @@ export function ProductProvider({ children }) {
     }
   };
 
-  // VARIABLE DE CALCULO: Búsqueda de productos
   const resultadosBusqueda = productos.filter(
     (p) =>
       p.nombreProducto.toLowerCase().includes(filtro.toLowerCase()) ||
@@ -165,7 +162,7 @@ export function ProductProvider({ children }) {
     setPrecioU("");
     setGanancia("");
     setIva("");
-    setImporte("0.00"); // No dejes esto vacío para evitar errores de cálculo
+    setImporte("0.00");
     setCatSeleccionada("Elige una categoría");
     // Limpiamos todos los campos del formulario para el siguiente producto
     handleCloseModalCarga();

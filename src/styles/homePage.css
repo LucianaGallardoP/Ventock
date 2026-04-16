@@ -1,0 +1,10 @@
+#main_container {
+  display: flex;
+  background-color: #f0f2f5;
+}
+
+#productos_pedido_container {
+  width: 100vw;
+  height: 82vh;
+  display: flex;
+}

@@ -1,0 +1,60 @@
+/* DETALLE DEL PEDIDO */
+#orders_container {
+  width: 45%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#orders_tittle {
+  color: #1e293b;
+  font-family: "Inter";
+  font-size: larger;
+  font-weight: 800;
+  margin-top: 10px;
+  margin-bottom: 13px;
+}
+
+#orderDetail_table {
+  width: 95%;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+}
+
+#columns_OrderTable th {
+  color: #1e293b;
+  background-color: #8ab3cf;
+  font-family: "Inter";
+  font-weight: 500;
+  padding: 2px;
+  text-align: center;
+  position: sticky;
+  top: 0px;
+}
+
+#orderDetail_Importe {
+  background-color: #bdd1de;
+  width: 100%;
+  height: 8vh;
+  text-align: center;
+}
+
+#guardarPedido_btn {
+  width: 100%;
+  height: auto;
+  color: #1e293b;
+  background-color: #8ab3cf;
+  font-weight: 500;
+  border-radius: 0px 0px 10px 10px;
+  margin-bottom: 5px;
+  border: none;
+}
+
+#guardarPedido_btn:hover {
+  color: #f0f2f5;
+  background-color: #1e293b;
+}
+

@@ -1,0 +1,26 @@
+#errorMain{
+background-color: #B5CADA;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 82vh;
+position: relative;
+}
+
+#p{
+    color: white;
+    /* font-family: "Lora"; */
+    font-weight: 500;
+    font-size:larger;
+    position: absolute;
+    top: 35%;
+    text-align: center;
+}
+
+video{
+    width: 50%;
+    height: fit-content;
+    position: absolute;
+    bottom: 0;
+}

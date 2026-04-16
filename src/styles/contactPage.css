@@ -1,0 +1,101 @@
+#contact_main {
+  width: 100vw;
+  height: 82vh;
+  /* background-color: #e4ebf0; */
+  background-image: url(../assets/fondoLogIn.jpg);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#contact_tittle {
+  /* background-color: red; */
+  font-family: "Inter";
+  font-size: larger;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin: 0px 0px 30px 0px;
+  color: #f3f3f2;
+  text-align: center;
+}
+
+#contactForm_container {
+  /* background-color: green; */
+  height: auto;
+  width: 38%;
+  /* border: 1.5px solid #8ab3cf; */
+  border-radius: 20px;
+  padding: 20px;
+  color: #f3f3f2;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(30, 41, 59, 0.05);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 15px 20px 0 rgb(228, 235, 240, 0.5);
+}
+
+.contactCampos_Container {
+  /* background-color: pink; */
+  display: flex;
+  /* align-items: start; */
+  justify-content: space-between;
+  margin: 15px 15px 5px 15px;
+}
+
+.controls_formContact {
+  background-color: rgba(30, 41, 59, 0.4)  !important;
+  color: #f3f3f2 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2)  !important;
+  border-radius: 20px  !important;
+}
+
+.controls_formContact::placeholder {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 0.9rem;
+}
+
+/* Quitar el borde azul por defecto de Bootstrap al hacer click */
+.controls_formContact:focus {
+  background-color: #1e293b;
+  color: #f3f3f2;
+  box-shadow: none;
+  border-color: rgb(243, 243, 242, 0.5);
+}
+
+.labels_formContacto {
+  /* background-color: beige; */
+  width: 20%;
+  text-align: start;
+  margin-right: 5px;
+}
+
+.text {
+  margin-left: 15px;
+}
+
+#btnEnviar_container {
+  /* background-color: antiquewhite; */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#btnEnviarMensaje {
+  border: 1px solid #4180ab;
+  color: #1e293b;
+  text-align: center;
+  margin: 20px 0px 5px 0px;
+  width: 95%;
+  border-radius: 25px;
+  background-color: #8ab3cf;
+  border: none;
+}
+
+#btnEnviarMensaje:hover {
+  border: 1px solid #8ab3cf;
+  color: #8ab3cf;
+  background-color: transparent;
+}

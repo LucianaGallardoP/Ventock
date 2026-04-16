@@ -1,0 +1,164 @@
+/* PRODUCTOS EN SISTEMA */
+#products_container {
+  width: 55%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#products_header {
+  width: 95%;
+  height: auto;
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#cargarProducto {
+  width: 31.5%;
+  background-color: #1e293b;
+  color: #f0f2f5;
+  border: none;
+  border-radius: 20px;
+  padding: 6px;
+}
+
+#cargarProducto:hover {
+  color: #1e293b;
+  background-color: #bdd1de;
+  /* background-color: rgb(185, 55, 55); */
+  border: 1px solid #4180ab;
+}
+
+#products_tittle {
+  width: 37%;
+  color: #1e293b;
+  margin-top: 5px;
+}
+
+#inputBuscar_container {
+  width: 31.5%;
+}
+
+#controlBuscar {
+  border-radius: 20px;
+  border: 1px solid #4180ab;
+}
+
+#products_main {
+  height: auto;
+  width: 95%;
+  margin-top: 5px;
+  overflow-y: auto;
+}
+
+#products_table {
+  width: 100%;
+}
+
+#productsTable_thead {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.dropd_categorias {
+  width: 100%;
+  color: #1e293b;
+  border: none;
+  border-radius: 0px;
+  background-color: #8ab3cf;
+  /* background-color: #bdd1de; */
+}
+
+.dropd_categorias:hover,
+.dropd_categorias:active,
+.dropd_categorias[aria-expanded="true"] {
+  background-color: #1e293b;
+  color: #f0f2f5;
+}
+
+.itemsCategorias_dropD {
+  color: #1e293b;
+  display: flex;
+  justify-content: center;
+}
+
+.itemsCategorias_dropD:hover {
+  color: #1e293b;
+  background-color: #8ab3cf;
+  border: 1px solid #4180ab;
+  border-radius: 20px;
+}
+
+table,
+th,
+td {
+  border: 1px solid #4180ab;
+  border-collapse: collapse;
+  height: fit-content;
+}
+
+.columns_TableProducts th {
+  color: #1e293b;
+  background-color: #8ab3cf;
+  text-align: center;
+  position: sticky;
+  font-family: "Inter";
+  font-weight: 500;
+  padding: 2px;
+}
+
+#icons_container {
+  height: 100%;
+  border: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.titleCategorias_table {
+  background-color: #bdd1de;
+  height: 6vh;
+  font-weight: 500;
+  text-align: center;
+  position: sticky;
+  top: 11vh;
+}
+
+#btn_agg {
+  background-color: transparent;
+  border: none;
+  color: #4180ab;
+}
+
+#btn_agg:hover {
+  border: 1px solid #4180ab;
+  border-radius: 20px;
+}
+
+#btn_modificar {
+  background-color: transparent;
+  border: none;
+  color: orange;
+}
+
+#btn_modificar:hover {
+  border: 1px solid orange;
+  border-radius: 20px;
+}
+
+.btn_eliminar {
+  background-color: transparent;
+  border: none;
+  color: rgb(223, 36, 36);
+}
+
+.btn_eliminar:hover {
+  color: rgb(223, 36, 36);
+  background-color: transparent;
+  border: 1px solid rgb(223, 36, 36);
+  border-radius: 20px;
+}

@@ -1,0 +1,40 @@
+#header_Container {
+  background-color: #1e293b;
+  width: 100vw;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imgLogotipo {
+  width: 150px;
+}
+
+#navbar_Container {
+  /* background-color: pink; */
+  width: 85%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#navLinks_Container {
+  width: fit-content;
+  height: fit-content;
+}
+
+.navLinks {
+  color: #e4ebf0;
+  padding: 8px;
+  margin: 0px 20px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.navLinks:hover {
+  background-color: #bdd1de;
+  color: #1e293b;
+  border-radius: 20px;
+}

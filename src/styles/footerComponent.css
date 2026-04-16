@@ -1,0 +1,22 @@
+footer {
+  background-color: #1e293b;
+  width: 100vw;
+  height: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navLinksFooter {
+  color: #e4ebf0;
+  padding: 6px;
+  margin: 0px 25px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.navLinksFooter:hover {
+  background-color: #bdd1de;
+  color: #1e293b;
+  border-radius: 20px;
+}

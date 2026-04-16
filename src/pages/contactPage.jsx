@@ -1,0 +1,93 @@
+import React, { useRef } from "react";
+import { Button, Form } from "react-bootstrap";
+import emailjs from "@emailjs/browser";
+import "../styles/contactPage.css";
+
+export default function ContactPage() {
+  const form = useRef();
+
+  const enviarEmail = (e) => {
+    e.preventDefault();
+
+    const serviceID = VITE_EMAILJS_SERVICE_ID;
+    const templateID = VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = VITE_EMAILJS_PUBLIC_KEY;
+
+    emailjs.sendForm(serviceID, templateID, form.current, publicKey).then(
+      (result) => {
+        console.log(result.text);
+        alert("¡Consulta enviada con éxito! Nos contactaremos pronto.");
+        e.target.reset();
+      },
+      (error) => {
+        console.log("DETALLE TÉCNICO:", error);
+        alert(
+          "Lo sentimos, hubo un problema técnico al enviar tu consulta. Por favor, intentá más tarde.",
+        );
+      },
+    );
+  };
+
+  return (
+    <section id="contact_main">
+      <Form id="contactForm_container" ref={form} onSubmit={enviarEmail}>
+        <h5 id="contact_tittle">CONTÁCTATE CON NUESTRO SOPORTE</h5>
+
+        <Form.Group
+          className="contactCampos_Container"
+          controlId="formBasicEmail"
+        >
+          <Form.Label className="labels_formContacto">E-mail</Form.Label>
+
+          <Form.Control
+            className="controls_formContact"
+            type="email"
+            name="email"
+            placeholder="Ingrese Email"
+            required
+          />
+        </Form.Group>
+
+        <Form.Group
+          className="contactCampos_Container"
+          controlId="formBasicUserName"
+        >
+          <Form.Label className="labels_formContacto">Usuario</Form.Label>
+          <Form.Control
+            className="controls_formContact"
+            type="text"
+            name="nombreUsuario"
+            placeholder="Ingrese nombre y apellido"
+            required
+          />
+        </Form.Group>
+
+        <Form.Group
+          className="contactCampos_Container"
+          controlId="formGroupMessage"
+        >
+          <Form.Label className="labels_formContacto">Mensaje</Form.Label>
+          <Form.Control
+            className="controls_formContact"
+            as="textarea"
+            rows={1}
+            name="mensaje"
+            placeholder="Ingrese mensaje o motivo del contacto."
+            style={{ maxHeight: "fit-content" }}
+            required
+          />
+        </Form.Group>
+
+        <Form.Text className="text-light text">
+          Nunca compartiremos tu información con nadie.
+        </Form.Text>
+
+        <div id="btnEnviar_container">
+          <Button type="submit" id="btnEnviarMensaje">
+            Enviar
+          </Button>
+        </div>
+      </Form>
+    </section>
+  );
+}

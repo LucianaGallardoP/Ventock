@@ -1,0 +1,66 @@
+#aboutMain {
+  width: 100vw;
+  height: 82vh;
+  background-image: url(../assets/fondoLogIn.jpg);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#about_container {
+  width: 65%;
+  height: 85%;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(30, 41, 59, 0.05);
+  backdrop-filter: blur(1px);
+  box-shadow: 0 15px 25px 0 rgb(228, 235, 240, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#about_contenido {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: blue; */
+}
+
+#about_tittle {
+  color: #f0f2f5;
+  font-family: "Inter";
+  font-size: larger;
+  font-weight: 800;
+}
+
+#aboutUs_parrafo {
+  width: 100%;
+  /* color: #1e293b; */
+  color: #f0f2f5;
+  font-size: medium;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px;
+  text-align: center;
+  /* background-color: #bdd1de; */
+}
+
+#infoIntegrantes {
+  color: #1e293b;
+  width: 35%;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #8ab3cf; */
+  background-color: #bdd1de;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}

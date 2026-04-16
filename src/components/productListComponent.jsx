@@ -71,7 +71,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
             </tr>
 
             <tr className="columns_TableProducts">
-              <th>ID</th>
+              {/* <th>ID</th> */}
               <th>NOMBRE</th>
               <th>STOCK (Ult modif)</th>
               <th>PRECIO.U</th>
@@ -109,7 +109,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
                         key={producto.id}
                         className={esCritico ? "fila_stock_critico" : ""}
                       >
-                        <td>{producto.id}</td>
+                        {/* <td>{producto.id}</td> */}
                         <td>{producto.nombreProducto}</td>
                         <td
                           style={{

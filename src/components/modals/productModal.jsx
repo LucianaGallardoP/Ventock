@@ -29,25 +29,16 @@ export default function ProductModal({ show, onHide }) {
 
   const [nuevaCatInput, setNuevaCatInput] = useState("");
 
-  // // Lógica de cálculo interna del modal
-  // const recalcularImporte = (p, i, d) => {
-  //   const precioBase = Number(p) || 0;
-  //   const impuesto = Number(i) || 0;
-  //   const desc = Number(d) || 0;
-  //   const precioConDescuento = precioBase - (precioBase * desc) / 100;
-  //   const resultadoFinal =
-  //     precioConDescuento + (precioConDescuento * impuesto) / 100;
-  //   setImporte(resultadoFinal.toFixed(2));
-  // };
-
   // Lógica de cálculo interna del modal
   const recalcularImporte = (p, g, i) => {
     const costo = Number(p) || 0;
     const porcGanancia = Number(g) || 0;
     const porcIva = Number(i) || 0;
-    const precioConGanancia = costo + (costo * porcGanancia) / 100;
-    const resultadoFinal =
-      precioConGanancia + (precioConGanancia * porcIva) / 100;
+    // const precioConGanancia = costo + (costo * porcGanancia) / 100;
+    // const resultadoFinal = precioConGanancia + (precioConGanancia * porcIva) / 100;
+
+    const precioConGanancia = costo * (1 + porcGanancia / 100);
+    const resultadoFinal = precioConGanancia * (1 + porcIva / 100);
     setImporte(resultadoFinal.toFixed(2));
   };
 
@@ -204,7 +195,7 @@ export default function ProductModal({ show, onHide }) {
                   categorias.map((cat) => (
                     <Dropdown.Item
                       className="dropDownItem"
-                      key={cat?.id || Math.random()}
+                      key={cat?.id}
                       eventKey={cat?.nombre || ""}
                     >
                       {cat?.nombre || "Sin nombre"}

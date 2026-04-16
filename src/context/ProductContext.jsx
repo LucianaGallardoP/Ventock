@@ -1,10 +1,15 @@
 import React, { createContext, useState, useEffect } from "react";
-import{getCategorias, crearCategoria} from "../helpers/apiCategoria";
+import { getCategorias, crearCategoria } from "../helpers/apiCategoria";
+import {
+  getProductos,
+  crearProducto,
+  actualizarProducto,
+  borrarProducto,
+} from "../helpers/apiProducto";
 
 export const ProductContext = createContext();
 
 export function ProductProvider({ children }) {
-
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [filtro, setFiltro] = useState("");
@@ -20,81 +25,90 @@ export function ProductProvider({ children }) {
   const [importe, setImporte] = useState("");
   const [catSeleccionada, setCatSeleccionada] = useState("Elige una categoría");
 
-  // FUNCIÓN: Obtener categorías de la DB
-  const cargarCategorias = async () => {
+  // Obtener categorías de la DB
+  const cargarCatsProds = async () => {
     try {
-      const data = await getCategorias(0);
-      if (data?.categorias) {
-        const catsMapeadas = data.categorias.map(cat => ({
-          ...cat,
-          id: cat._id, 
-          estado: cat.estado ? "Activo" : "Inactivo",
-          usuarioNombre: cat.usuario?.correo || "Sistema"
+      const [dataCategorias, dataProductos] = await Promise.all([
+        getCategorias(0),
+        getProductos(0),
+      ]);
+
+      if (dataCategorias?.categorias) {
+        setCategorias(
+          dataCategorias.categorias.map((cat) => ({
+            ...cat,
+            id: cat._id,
+            nombre: cat.nombre,
+          })),
+        );
+      }
+
+      if (dataProductos?.productos) {
+        const prodsMapeados = dataProductos.productos.map((p) => ({
+          id: p._id,
+          nombreProducto: p.nombre,
+          stock: p.stock,
+          stockCritico: p.stockCritico,
+          precioUnitario: p.precio,
+          ganancia: p.ganancia,
+          iva: p.iva,
+          importe: p.importe,
+          categoria: p.categoria?.nombre || "Sin Categoría",
+          categoriaId: p.categoria?._id,
         }));
-        setCategorias(catsMapeadas);
+        setProductos(prodsMapeados);
       }
     } catch (error) {
-      console.error("Error cargando categorías:", error);
+      console.error("Error cargando datos:", error);
     }
   };
 
   useEffect(() => {
-    cargarCategorias();
+    const token = localStorage.getItem("token");
+    if (token) {
+      cargarCatsProds();
+    }
   }, []);
 
   // FUNCIÓN: Crear nueva categoría
-  async function crearNuevaCategoria(nombre) {
+   const crearNuevaCategoria = async (nombre) => {
     if (!nombre || nombre.trim() === "") return;
 
     try {
       const resp = await crearCategoria({ nombre });
       if (resp?.categoria) {
-        alert(resp.mensaje);
-        await cargarCategorias();
+        alert("Categoria creada con exito");
+        await cargarCatsProds();
       } else {
         alert(resp.mensaje || "Error al crear la categoria.");
       }
     } catch (error) {
       alert("Error de conexión");
     }
-  }
+  };
 
-    // VARIABLE DE CALCULO: Búsqueda de productos
+  // VARIABLE DE CALCULO: Búsqueda de productos
   const resultadosBusqueda = productos.filter(
     (p) =>
       p.nombreProducto.toLowerCase().includes(filtro.toLowerCase()) ||
       p.id.toString().includes(filtro),
   );
 
-    // const fakeMongoId =
-    //   Date.now().toString(16) + Math.random().toString(16).slice(2, 14);
-
-  //   // Creamos el objeto completo
-  //   const nuevaCat = {
-  //     id: fakeMongoId,
-  //     nombre: nombre.trim(),
-  //     estado: "Activo",
-  //     fechaRegistro: new Date().toLocaleDateString(),
-  //     usuario: "Admin",
-  //   };
-
-  //   setCategorias((prevCategorias) => [...prevCategorias, nuevaCat]);
-  // }
-
   // Filtra la lista de productos quitando el que coincida con el ID recibido
-  function eliminarProducto(id) {
-    const productoAEliminar = productos.find((p) => p.id === id);
+  const eliminarProducto = async (id) => {
+    const producto = productos.find((p) => p.id === id);
     if (
-      window.confirm(
-        `¿Está seguro de ELIMINAR el producto ${productoAEliminar.nombreProducto} (ID: ${id})?`,
-      )
+      window.confirm(`¿Eliminar definitivamente ${producto.nombreProducto}?`)
     ) {
-      setProductos(productos.filter((p) => p.id !== id));
-      alert(
-        `Producto: ${productoAEliminar.nombreProducto} (ID: ${id}) eliminado correctamente.`,
-      );
+      try {
+        const res = await borrarProducto(id);
+        alert(res.mensaje || "Producto eliminado");
+        await cargarCatsProds();
+      } catch (error) {
+        alert("Error al intentar eliminar el producto.");
+      }
     }
-  }
+  };
 
   // Pasa los datos de un producto de la tabla a los inputs del formulario para modificarlos
   function prepararEdicion(producto, showModalCargar) {
@@ -111,33 +125,37 @@ export function ProductProvider({ children }) {
   }
 
   // Se activa al darle "Cargar Producto"
-  function handleSubmitProducto(e, handleCloseModalCarga) {
+  const handleSubmitProducto = async (e, handleCloseModalCarga) => {
     e.preventDefault();
 
-    const datosProducto = {
-      id: modificandoId || productos.length + 1,
-      nombreProducto: nombreProd,
-      stock,
-      stockCritico,
-      precioUnitario: precioU,
-      ganancia,
-      iva,
-      importe: importe,
-      categoria: catSeleccionada,
+    const catEncontrada = categorias.find((c) => c.nombre === catSeleccionada);
+
+    const datosBackend = {
+      nombre: nombreProd,
+      stock: Number(stock),
+      stockCritico: Number(stockCritico),
+      precio: Number(precioU),
+      ganancia: Number(ganancia),
+      iva: Number(iva),
+      categoria: catEncontrada?.id,
     };
 
-    if (modificandoId !== null) {
-      // Si estamos editando, buscamos el producto por ID y reemplazamos sus datos
-      setProductos(
-        productos.map((p) => (p.id === modificandoId ? datosProducto : p)),
-      );
-      alert(
-        `El producto ${nombreProd} (ID: ${modificandoId}) se modificó correctamente!`,
-      );
-    } else {
-      // Actualizamos la lista de productos agregando el nuevo
-      setProductos([...productos, datosProducto]);
-      alert(`El producto: ${nombreProd} se creó correctamente!`);
+    try {
+      let res;
+      if (modificandoId) {
+        res = await actualizarProducto(modificandoId, datosBackend);
+      } else {
+        res = await crearProducto(datosBackend);
+      }
+
+      if (res) {
+        alert(res.mensaje || "Operación exitosa");
+        await cargarCatsProds();
+        // limpiarFormulario();
+        // handleCloseModalCarga();
+      }
+    } catch (error) {
+      alert("Error al procesar la solicitud en el servidor.");
     }
 
     setModificandoId(null);
@@ -151,7 +169,7 @@ export function ProductProvider({ children }) {
     setCatSeleccionada("Elige una categoría");
     // Limpiamos todos los campos del formulario para el siguiente producto
     handleCloseModalCarga();
-  }
+  };
 
   return (
     <ProductContext.Provider
@@ -166,7 +184,7 @@ export function ProductProvider({ children }) {
 
         // Funciones
         crearNuevaCategoria,
-        cargarCategorias,
+        cargarCatsProds,
         eliminarProducto,
         prepararEdicion,
         handleSubmitProducto,

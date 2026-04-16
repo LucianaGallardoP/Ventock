@@ -1,6 +1,6 @@
-// const url = "http://localhost:3001/api/usuarios";
+const url = "http://localhost:3001/api/usuarios";
 
-const url = "http://ventockbackend.vercel.app/api/usuarios";
+// const url = "http://ventockbackend.vercel.app/api/usuarios";
 
 // Helper para obtener el token limpio
 const getAuthHeaders = () => {

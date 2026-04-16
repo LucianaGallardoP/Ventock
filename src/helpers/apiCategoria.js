@@ -1,6 +1,6 @@
-// const url = "http://localhost:3001/api/categorias";
+const url = "http://localhost:3001/api/categorias";
 
-const url = "http://ventockbackend.vercel.app/api/categorias";
+// const url = "http://ventockbackend.vercel.app/api/categorias";
 
 const token = JSON.parse(localStorage.getItem("token"));
 

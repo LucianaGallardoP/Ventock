@@ -1,4 +1,6 @@
-const url = "http://localhost:3001/api/productos";
+// const url = "http://localhost:3001/api/productos";
+
+const url = "http://ventockbackend.vercel.app/api/productos";
 
 const getAuthHeaders = () => {
   const token = JSON.parse(localStorage.getItem("token"));

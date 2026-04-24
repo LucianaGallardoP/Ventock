@@ -10,12 +10,12 @@ import {
   useLocation,
 } from "react-router-dom";
 
-import HeaderComponent from "./components/headerComponent";
+import SideBarComponent from "./components/sideBarComponent";
 import LogInPage from "./pages/logInPage";
 import SuperAdminPage from "./pages/superAdminPage";
 import HomePage from "./pages/homePage";
 import GestionarCatPage from "./pages/gestionarCatPage";
-import FooterComponent from "./components/footerComponent";
+// import FooterComponent from "./components/footerComponent";
 import ErrorPage from "./pages/errorPage";
 import AboutPage from "./pages/aboutPage";
 import ContactPage from "./pages/contactPage";
@@ -56,12 +56,17 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const hideLayout = location.pathname === "/login";
 
+  if (hideLayout) {
+    return <main>{children}</main>;
+  }
+
   return (
-    <>
-      {!hideLayout && <HeaderComponent />}
-      <main>{children}</main>
-      {!hideLayout && <FooterComponent />}
-    </>
+    <div className="app-container">
+      <SideBarComponent/>
+      <div className="content-container">
+        <main>{children}</main>
+      </div>
+    </div>
   );
 };
 

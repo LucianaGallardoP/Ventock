@@ -84,13 +84,16 @@
   width: 100%;
   border-radius: 20px;
   margin-top: 15px;
-  background-color: #8ab3cf;
+  /* background-color: #8ab3cf; */
+  background-color: #92A7C8;
   color: #1e293b;
   border: none;
 }
 
 #btnIngresar:hover {
-  border: 1px solid #8ab3cf;
-  color: #8ab3cf;
+  /* border: 1px solid #8ab3cf; */
+  border: 1px solid #92A7C8;
+  /* color: #8ab3cf; */
+  color: #92A7C8;
   background-color: transparent;
 }

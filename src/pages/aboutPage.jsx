@@ -1,6 +1,6 @@
 import "../styles/aboutPage.css";
 import avatar from "../assets/avatar.png";
-import SVGwhite from "../assets/VentockSVGblanco.png";
+import SVGwhite from "../assets/isotipoVentock.png";
 import logotipo from "../assets/logotipoVentock.png";
 
 export default function AboutPage() {

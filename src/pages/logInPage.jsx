@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { Button, Form } from "react-bootstrap";
-import VentockSVGblanco from "../assets/VentockSVGblanco.png";
+import VentockSVGblanco from "../assets/isotipoVentock.png";
 import logotipoVentock from "../assets/logotipoVentock.png";
 import "../styles/logInPage.css";
 
@@ -24,9 +24,6 @@ export default function LogInPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const resultado = await login(datos);
-
     // Funcion login de AuthContext
     const { success, usuario, mensaje } = await login(datos);
 
@@ -96,6 +93,13 @@ export default function LogInPage() {
           >
             Nunca compartiremos tu información.
           </Form.Text>
+
+          <Button
+            className="text-light"
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            Olvidaste tu contraseña?
+          </Button>
 
           <div id="btnEnviar_container">
             <Button type="" id="btnIngresar">

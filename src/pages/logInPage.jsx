@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { Button, Form } from "react-bootstrap";
-import VentockSVGblanco from "../assets/isotipoVentock.png";
+import isotipoVentock from "../assets/isotipoVentock.png";
 import logotipoVentock from "../assets/logotipoVentock.png";
 import "../styles/logInPage.css";
 
@@ -44,7 +44,7 @@ export default function LogInPage() {
         <Form id="logInForm_container" onSubmit={handleSubmit}>
           <div id="imgs_container">
             <img
-              src={VentockSVGblanco}
+              src={isotipoVentock}
               id="imgIsotipo"
               alt="isotipo de Ventock"
             />
@@ -95,14 +95,16 @@ export default function LogInPage() {
           </Form.Text>
 
           <Button
+            variant="link"
             className="text-light"
-            style={{ display: "flex", justifyContent: "center" }}
+            id="recupPassword"
+            onClick={() => navigate("/404")}
           >
             Olvidaste tu contraseña?
           </Button>
 
           <div id="btnEnviar_container">
-            <Button type="" id="btnIngresar">
+            <Button type="submit" id="btnIngresar">
               Ingresar
             </Button>
           </div>

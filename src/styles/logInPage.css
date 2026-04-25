@@ -1,7 +1,7 @@
 #logIn_main {
   height: 100vh;
   width: 100%;
-  background-image: url(../assets/fondoLogIn.jpg);
+  background-image: url(../assets/fondoLogIn.png);
   background-size: cover;
   background-position: center;
   display: flex;
@@ -61,7 +61,7 @@
 .controls_formLogIn {
   height: 40px;
   background-color: rgba(30, 41, 59, 0.4) !important;
-  color: #f3f3f2 !important;
+  color: #f0f2f5 !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   border-radius: 20px !important;
   margin-bottom: 5px !important;
@@ -80,20 +80,30 @@
   border-color: rgb(243, 243, 242, 0.5);
 }
 
+#recupPassword {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  font-size: small;
+  margin-top: 5px;
+  padding: 0%;
+}
+
+#recupPassword:hover {
+  color: #92a7c8 !important;
+}
+
 #btnIngresar {
   width: 100%;
   border-radius: 20px;
   margin-top: 15px;
-  /* background-color: #8ab3cf; */
-  background-color: #92A7C8;
+  background-color: #92a7c8;
   color: #1e293b;
   border: none;
 }
 
 #btnIngresar:hover {
-  /* border: 1px solid #8ab3cf; */
-  border: 1px solid #92A7C8;
-  /* color: #8ab3cf; */
-  color: #92A7C8;
+  color: #92a7c8;
+  border: 1px solid #92a7c8;
   background-color: transparent;
 }

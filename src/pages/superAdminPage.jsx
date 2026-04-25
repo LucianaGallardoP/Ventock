@@ -111,15 +111,13 @@ export default function SuperAdminPage() {
 
   return (
     <section id="SAdmin_container">
-      <h2>Panel de control SuperAdmin</h2>
-
       <div id="usuarios_header">
         <h5 id="usuarios_tittle">LISTA DE USUARIOS</h5>
-        <button id="cargarUsuario" onClick={() => handleShow()}>
-          Nuevo Usuario
-        </button>
 
-        <div id="inputBuscar_container">
+        <div id="agregar_buscar_container">
+          <button id="cargarUsuario" onClick={() => handleShow()}>
+            + Agregar Usuario
+          </button>
           <Form.Control
             id="controlBuscar"
             type="search"
@@ -132,11 +130,9 @@ export default function SuperAdminPage() {
 
       <div id="usuarios_main">
         <table id="usuarios_table">
-          <thead id="usuariosTable_thead">
+          <thead>
             <tr className="columns_TableUsuarios">
-              {/* <th>ID</th> */}
-              <th>NOMBRE</th>
-              <th>APELLIDO</th>
+              <th>NOMBRE Y APELLIDO</th>
               <th>CORREO</th>
               <th>ROL</th>
               <th>ESTADO</th>
@@ -157,10 +153,21 @@ export default function SuperAdminPage() {
             ) : (
               usuariosFiltrados.map((u) => (
                 <tr key={u._id} className="text-center">
-                  <td>{u.nombre}</td>
-                  <td>{u.apellido}</td>
+                  <td>
+                    {u.nombre} {u.apellido}
+                  </td>
                   <td>{u.correo}</td>
-                  <td>{u.rol}</td>
+                  <td
+                    className={
+                      u.rol === "Admin"
+                        ? "rol-admin"
+                        : u.rol === "Vendedor"
+                          ? "rol-vendedor"
+                          : ""
+                    }
+                  >
+                    {u.rol}
+                  </td>
                   <td className={u.estado ? "text-success" : "text-danger"}>
                     {u.estado ? "Activo" : "Inactivo"}
                   </td>
@@ -189,12 +196,12 @@ export default function SuperAdminPage() {
         </table>
       </div>
 
-      {/* MODAL CARGAR USUARIO */}
+      {/* ----- MODAL CARGAR USUARIO ----- */}
       <Modal show={showModal} onHide={handleClose} size="md" backdrop="static">
         <Modal.Header
-          closeButton
+          closeButton 
           style={{
-            backgroundColor: "#f0f2f5",
+            backgroundColor: "#1e293b",
             display: "flex",
             justifyContent: "center",
           }}
@@ -266,6 +273,7 @@ export default function SuperAdminPage() {
                 </Form.Label>
                 <Form.Control
                   name="password"
+                  className="formGroupControl"
                   type="password"
                   placeholder="Mínimo 8 caracteres"
                   onChange={handleChange}
@@ -308,7 +316,7 @@ export default function SuperAdminPage() {
             </Button>
           </Form>
         </Modal.Body>
-        <Modal.Footer style={{ backgroundColor: "#f0f2f5" }}></Modal.Footer>
+        <Modal.Footer style={{ backgroundColor: "#1e293b", height:"40px"}}></Modal.Footer>
       </Modal>
     </section>
   );

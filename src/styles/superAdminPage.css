@@ -1,17 +1,16 @@
 #SAdmin_container {
-  width: 100%;
-  height: 82vh;
-  background-color: #f0f2f5;
+  width: 89vw;
+  height: 100vh;
+  background-color: #eef1f6;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 #usuarios_header {
-  /* background-color: pink; */
-  width: 70%;
+  width: 90%;
   height: auto;
-  margin-top: 5px;
+  margin-top: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,11 +18,17 @@
 
 #usuarios_tittle {
   color: #1e293b;
-  margin-top: 5px;
+  margin-top: 7px;
+}
+
+#agregar_buscar_container {
+  width: 36%;
+  display: flex;
+  justify-content: space-between;
 }
 
 #cargarUsuario {
-  width: 20%;
+  width: fit-content;
   background-color: #1e293b;
   color: #f0f2f5;
   border: none;
@@ -33,56 +38,83 @@
 
 #cargarUsuario:hover {
   color: #1e293b;
-  background-color: #bdd1de;
-  border: 1px solid #4180ab;
-}
-
-#inputBuscar_container {
-  width: 31.5%;
+  background-color: #d0d9e7;
+  border: 1px solid #5576aa;
 }
 
 #controlBuscar {
+  width: fit-content;
   border-radius: 20px;
-  border: 1px solid #4180ab;
+  border: 1px solid #5576aa;
 }
 
 #usuarios_main {
-  /* background-color: beige; */
   height: auto;
-  width: 70%;
-  margin-top: 5px;
+  width: 90%;
+  margin-top: 10px;
   overflow-y: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 #usuarios_table {
   width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  border: none;
 }
 
-#usuariosTable_thead {
+/* THEAD */
+#usuarios_table thead {
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-table,
-th,
-td {
-  border: 1px solid #4180ab;
-  border-collapse: collapse;
-  height: fit-content;
-}
-
-.columns_TableUsuarios th {
+#usuarios_table thead tr th {
   color: #1e293b;
-  background-color: #8ab3cf;
+  background-color: #92a7c8;
   text-align: center;
   position: sticky;
   font-family: "Inter";
-  font-weight: 500;
-  padding: 2px;
+  font-weight: 600;
+  padding: 4px;
+}
+
+#usuarios_table thead tr th:first-child{
+  border-radius: 20px 0 0 20px;
+}
+
+#usuarios_table thead tr th:last-child {
+  border-radius: 0 15px 15px 0;
+}
+
+/* TBODY */
+#usuarios_table tbody tr {
+  background-color: #f0f2f5;
+}
+#usuarios_table tbody tr:hover td {
+  background-color: #d0d9e7;
+}
+
+#usuarios_table tbody tr td {
+  border: 1px solid #5576aa;
+}
+
+#usuarios_table tbody tr td:first-child {
+  border-radius: 20px 0 0 20px;
+  border-left: 1px solid #5576aa;
+}
+
+#usuarios_table tbody tr td:last-child {
+  border-radius: 0 20px 20px 0;
+  border-right: 1px solid #5576aa;
+}
+
+.rol-admin {
+  color: orange; 
+}
+
+.rol-vendedor {
+  color: #5576aa; 
 }
 
 #icons_container {
@@ -96,11 +128,10 @@ td {
 /* MODAL */
 
 #cargarUsuario_container {
-  background-color: #f0f2f5;
+  background-color: #EEF1F6;
   width: 100%;
-  height: 80%;
+  height: fit-content;
   padding: 0%;
-  margin: 0%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -109,10 +140,7 @@ td {
 #cargarUsuario_title {
   position: absolute;
   top: 12px;
-  color: #1e293b;
-  font-family: "Inter";
-  font-size: larger;
-  font-weight: 700;
+  color: #f0f2f5;
 }
 
 #cargarUsuario_form {
@@ -121,18 +149,15 @@ td {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
   position: relative;
 }
 
 .formGroupUsuarios {
   width: 100%;
-  height: fit-content;
-  /* margin: 4px; */
+  height: 35px;
   margin-top: 8px;
   /* background-color: orange; */
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
@@ -140,25 +165,41 @@ td {
   width: 40%;
   height: 100%;
   color: #1e293b;
-  background-color: #8ab3cf;
+  background-color: #92a7c8;
   margin: 0;
-  border: 1px solid #4180ab;
+  border: 1px solid #5576aa;
   border-radius: 20px 0px 0px 20px;
   font-family: "Inter";
   font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 4px;
+}
+
+.formGroupControl {
+  width: 60%;
+  height: 100%;
+  background-color: #D0D9E7;
+  border: 1px solid #5576aa;
+  border-left: none;
+  border-radius: 0px 20px 20px 0px;
 }
 
 #btnAddUsuario {
-  width: 60%;
-  color: #1e293b;
-  background-color: #bdd1de;
-  border: 1px solid #4180ab;
+  width: 100%;
+  color: #f0f2f5;
+  margin: 8px 0px 8px 0px;
+  background-color: #1e293b;
+  /* border: 1px solid #4180ab; */
+  border: none;
   border-radius: 20px;
   font-weight: 500;
+}
+
+#btnAddUsuario:hover{
+background-color: #92a7c8;
+border: 1px solid #5576aa;
+color: #1e293b;
 }
 
 #btn_modificar {
@@ -175,12 +216,14 @@ td {
 .btn_eliminar {
   background-color: transparent;
   border: none;
-  color: rgb(223, 36, 36);
+  /* color: rgb(223, 36, 36); */
+  color: #a12e2e;
 }
 
 .btn_eliminar:hover {
-  color: rgb(223, 36, 36);
+  /* color: rgb(223, 36, 36); */
+  color: #a12e2e;
   background-color: transparent;
-  border: 1px solid rgb(223, 36, 36);
+  border: 1px solid #a12e2e;
   border-radius: 20px;
 }

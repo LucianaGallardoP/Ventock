@@ -179,14 +179,14 @@ export default function SuperAdminPage() {
                       id="btn_modificar"
                       onClick={() => handleShow(u)}
                     >
-                      <FaPen />
+                      <FaPen id="FaPen" />
                     </Button>
                     <Button
                       variant="link"
                       className="btn_eliminar"
                       onClick={() => handleEliminar(u._id)}
                     >
-                      <FaTrashCan />
+                      <FaTrashCan id="FaTrashCan" />
                     </Button>
                   </td>
                 </tr>

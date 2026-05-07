@@ -4,9 +4,9 @@ import OrderDetailComponent from "../components/orderDetailComponent.jsx";
 import ProductModal from "../components/modals/productModal.jsx";
 import ConfirmOrderModal from "../components/modals/confirmOrderModal.jsx";
 import PaymentModal from "../components/modals/paymentModal.jsx";
-import "../styles/homePage.css";
+import "../styles/adminPage.css";
 
-export default function HomePage() {
+export default function AdminPage() {
   const [showProductModal, setShowProductModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);

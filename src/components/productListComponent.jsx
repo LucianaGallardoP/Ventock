@@ -23,10 +23,11 @@ export default function ProductListComponent({ setShowModalCarga }) {
   return (
     <section id="products_container">
       <div id="products_header">
+        <h5 id="products_tittle">INVENTARIO</h5>
+
         <button id="cargarProducto" onClick={() => setShowModalCarga(true)}>
-          Nuevo Producto
+          + Agregar Producto
         </button>
-        <h5 id="products_tittle">LISTA DE PRODUCTOS</h5>
 
         <div id="inputBuscar_container">
           <Form.Control
@@ -158,10 +159,13 @@ export default function ProductListComponent({ setShowModalCarga }) {
                   })}
 
                 {/* Mensaje si la categoria todavia no tiene productos */}
-                {productos.filter((producto) => producto.categoria === cat.nombre)
-                  .length === 0 && (
+                {productos.filter(
+                  (producto) => producto.categoria === cat.nombre,
+                ).length === 0 && (
                   <tr>
-                    <td colSpan={9}>No hay productos cargados en "{cat.nombre}"</td>
+                    <td colSpan={9}>
+                      No hay productos cargados en "{cat.nombre}"
+                    </td>
                   </tr>
                 )}
               </React.Fragment>

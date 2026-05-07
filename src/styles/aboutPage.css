@@ -1,7 +1,7 @@
 #aboutMain {
-  width: 100vw;
-  height: 82vh;
-  background-image: url(../assets/fondoLogIn.jpg);
+  width: 89vw;
+  height: 100vh;
+  background-image: url(../assets/fondoLogIn.png);
   background-size: cover;
   background-position: center;
   display: flex;

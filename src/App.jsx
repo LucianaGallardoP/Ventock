@@ -10,15 +10,14 @@ import {
   useLocation,
 } from "react-router-dom";
 
-import SideBarComponent from "./components/sideBarComponent";
 import LogInPage from "./pages/logInPage";
+import SideBarComponent from "./components/sideBarComponent";
 import SuperAdminPage from "./pages/superAdminPage";
-import HomePage from "./pages/homePage";
+import AdminPage from "./pages/adminPage";
 import GestionarCatPage from "./pages/gestionarCatPage";
-// import FooterComponent from "./components/footerComponent";
-import ErrorPage from "./pages/errorPage";
 import AboutPage from "./pages/aboutPage";
 import ContactPage from "./pages/contactPage";
+import ErrorPage from "./pages/errorPage";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -61,7 +60,7 @@ const Layout = ({ children }) => {
   }
 
   return (
-    <div className="app-container">
+    <div className="gral-container">
       <SideBarComponent/>
       <div className="content-container">
         <main>{children}</main>

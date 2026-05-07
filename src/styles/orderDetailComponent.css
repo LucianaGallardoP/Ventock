@@ -1,6 +1,6 @@
 /* DETALLE DEL PEDIDO */
 #orders_container {
-  width: 45%;
+  width: 35vw;
   height: 100%;
   display: flex;
   flex-direction: column;

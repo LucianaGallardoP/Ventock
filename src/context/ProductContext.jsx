@@ -14,7 +14,6 @@ export function ProductProvider({ children }) {
   const [categorias, setCategorias] = useState([]);
   const [filtro, setFiltro] = useState("");
 
-  // Estados de cada campo del formulario NUEVO PRODUCTO. Si tiene un ID, el formulario sabe que está EDITANDO, si es null, está CREANDO
   const [modificandoId, setModificandoId] = useState(null);
   const [nombreProd, setNombreProd] = useState("");
   const [stock, setStock] = useState("");
@@ -91,7 +90,6 @@ export function ProductProvider({ children }) {
       p.id.toString().includes(filtro),
   );
 
-  // Filtra la lista de productos quitando el que coincida con el ID recibido
   const eliminarProducto = async (id) => {
     const producto = productos.find((p) => p.id === id);
     if (
@@ -107,7 +105,6 @@ export function ProductProvider({ children }) {
     }
   };
 
-  // Pasa los datos de un producto de la tabla a los inputs del formulario para modificarlos
   function prepararEdicion(producto, showModalCargar) {
     setModificandoId(producto.id);
     setNombreProd(producto.nombreProducto);
@@ -121,7 +118,6 @@ export function ProductProvider({ children }) {
     showModalCargar(true);
   }
 
-  // Se activa al darle "Cargar Producto"
   const handleSubmitProducto = async (e, handleCloseModalCarga) => {
     e.preventDefault();
 
@@ -148,8 +144,6 @@ export function ProductProvider({ children }) {
       if (res) {
         alert(res.mensaje || "Operación exitosa");
         await cargarCatsProds();
-        // limpiarFormulario();
-        // handleCloseModalCarga();
       }
     } catch (error) {
       alert("Error al procesar la solicitud en el servidor.");
@@ -164,7 +158,6 @@ export function ProductProvider({ children }) {
     setIva("");
     setImporte("0.00");
     setCatSeleccionada("Elige una categoría");
-    // Limpiamos todos los campos del formulario para el siguiente producto
     handleCloseModalCarga();
   };
 

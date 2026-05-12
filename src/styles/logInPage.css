@@ -72,7 +72,6 @@
   font-size: 0.9rem;
 }
 
-/* Quitar el borde azul por defecto de Bootstrap al hacer click */
 .controls_formLogIn:focus {
   background-color: rgba(30, 41, 59, 0.6);
   color: #f0f2f5;

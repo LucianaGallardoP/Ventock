@@ -1,5 +1,5 @@
 #errorMain{
-background-color: #B5CADA;
+background-color: #859DC0;
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -11,7 +11,6 @@ position: relative;
 
 #p{
     color: white;
-    /* font-family: "Lora"; */
     font-weight: 500;
     font-size:larger;
     position: absolute;

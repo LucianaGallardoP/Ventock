@@ -24,7 +24,6 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
         <table style={{ width: "100%" }}>
           <thead>
             <tr id="columns_OrderTable">
-              {/* <th>ID</th> */}
               <th>PRODUCTO</th>
               <th>CANTIDAD</th>
               <th>IMPORTE</th>
@@ -35,7 +34,6 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
             </tr>
           </thead>
 
-          {/*  mapeamos 'detallePedido' para mostrar el carrito */}
           <tbody className="text-center">
             {detallePedido.length === 0 ? (
               <tr>
@@ -46,7 +44,6 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
             ) : (
               detallePedido.map((item) => (
                 <tr key={item.id}>
-                  {/* <td>{item.id}</td> */}
                   <td>{item.nombreProducto}</td>
                   <td>
                     <Form.Control

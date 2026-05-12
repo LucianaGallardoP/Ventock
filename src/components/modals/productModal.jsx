@@ -33,8 +33,6 @@ export default function ProductModal({ show, onHide }) {
     const costo = Number(p) || 0;
     const porcGanancia = Number(g) || 0;
     const porcIva = Number(i) || 0;
-    // const precioConGanancia = costo + (costo * porcGanancia) / 100;
-    // const resultadoFinal = precioConGanancia + (precioConGanancia * porcIva) / 100;
     const precioConGanancia = costo * (1 + porcGanancia / 100);
     const resultadoFinal = precioConGanancia * (1 + porcIva / 100);
     setImporte(resultadoFinal.toFixed(2));
@@ -51,7 +49,6 @@ export default function ProductModal({ show, onHide }) {
     catSeleccionada !== "Crea una categoría";
 
   /* Modal CARGAR PRODUCTO */
-
   return (
     <Modal show={show} onHide={onHide} size="lg" backdrop="static">
       <Modal.Header
@@ -67,7 +64,6 @@ export default function ProductModal({ show, onHide }) {
         </h5>
       </Modal.Header>
       <Modal.Body id="cargarProducto_container">
-        {/* Cada input tiene su 'value' conectado a un estado y su 'onChange' para actualizarlo */}
         <Form
           onSubmit={(e) => handleSubmitProducto(e, onHide)}
           id="cargarProducto_form"
@@ -173,7 +169,6 @@ export default function ProductModal({ show, onHide }) {
           </Form.Group>
 
           <div id="selectCat_guardar_container">
-            {/* DropDowm Categorias */}
             <Dropdown
               style={{ width: "40%" }}
               onSelect={(val) => {
@@ -229,7 +224,6 @@ export default function ProductModal({ show, onHide }) {
             <Button
               id="btnAddProduct"
               type="submit"
-              // El botón se bloquea si el form no esta completo
               disabled={!formularioValido}
             >
               {modificandoId ? "ACTUALIZAR PRODUCTO" : "GUARDAR"}

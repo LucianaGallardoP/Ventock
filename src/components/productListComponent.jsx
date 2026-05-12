@@ -25,11 +25,10 @@ export default function ProductListComponent({ setShowModalCarga }) {
       <div id="products_header">
         <h5 id="products_tittle">INVENTARIO</h5>
 
-        <button id="cargarProducto" onClick={() => setShowModalCarga(true)}>
-          + Agregar Producto
-        </button>
-
-        <div id="inputBuscar_container">
+        <div id="agregarBuscar_container">
+          <button id="cargarProducto" onClick={() => setShowModalCarga(true)}>
+            + Agregar Producto
+          </button>
           <Form.Control
             id="controlBuscar"
             type="search"
@@ -46,14 +45,15 @@ export default function ProductListComponent({ setShowModalCarga }) {
             <tr>
               <th colSpan={9} style={{ padding: "0%" }}>
                 <Dropdown>
-                  <Dropdown.Toggle
-                    // id="dropdown-basic"
-                    className="dropd_categorias"
-                  >
+                  <Dropdown.Toggle className="dropd_categorias">
                     Filtrar Categorías
                   </Dropdown.Toggle>
                   <Dropdown.Menu
-                    style={{ width: "100%", backgroundColor: "#bdd1de" }}
+                    style={{
+                      width: "100%",
+                      backgroundColor: "#D0D9E7",
+                      textAlign: "center",
+                    }}
                   >
                     {categorias.map((cat) => (
                       <Dropdown.Item
@@ -69,7 +69,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
             </tr>
 
             <tr className="columns_TableProducts">
-              {/* <th>ID</th> */}
               <th>NOMBRE</th>
               <th>STOCK (Ult modif)</th>
               <th>PRECIO.U</th>
@@ -94,7 +93,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
                   </td>
                 </tr>
 
-                {/* Usamos 'productosMostrados' (la lista filtrada) en vez de 'productos' */}
                 {resultadosBusqueda
                   .filter((producto) => producto.categoria === cat.nombre)
                   .map((producto) => {
@@ -107,7 +105,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
                         key={producto.id}
                         className={esCritico ? "fila_stock_critico" : ""}
                       >
-                        {/* <td>{producto.id}</td> */}
                         <td>{producto.nombreProducto}</td>
                         <td
                           style={{
@@ -119,7 +116,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
                         >
                           {producto.stock} {esCritico}
                         </td>
-                        {/* <td>{producto.stock}</td> */}
                         <td>${producto.precioUnitario}</td>
                         <td>%{producto.ganancia}</td>
                         <td>%{producto.iva}</td>
@@ -158,7 +154,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
                     );
                   })}
 
-                {/* Mensaje si la categoria todavia no tiene productos */}
                 {productos.filter(
                   (producto) => producto.categoria === cat.nombre,
                 ).length === 0 && (
@@ -171,7 +166,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
               </React.Fragment>
             ))}
 
-            {/* Mensaje si no hay categorias creadas */}
             {categorias.length === 0 && (
               <tr>
                 <td colSpan={9} className="text-muted mt-2 text-center">

@@ -34,14 +34,10 @@
 
 #about_tittle {
   color: #f0f2f5;
-  font-family: "Inter";
-  font-size: larger;
-  font-weight: 800;
 }
 
 #aboutUs_parrafo {
   width: 100%;
-  /* color: #1e293b; */
   color: #f0f2f5;
   font-size: medium;
   font-weight: 500;
@@ -49,18 +45,16 @@
   padding: 15px;
   margin: 10px;
   text-align: center;
-  /* background-color: #bdd1de; */
 }
 
 #infoIntegrantes {
-  color: #1e293b;
-  width: 35%;
+  color: #f0f2f5;
+  width: 50%;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background-color: #8ab3cf; */
-  background-color: #bdd1de;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #1E293B;
+  border: 2px solid rgba(255, 255, 255, 0.1);
 }

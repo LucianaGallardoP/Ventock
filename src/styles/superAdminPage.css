@@ -76,7 +76,7 @@
   position: sticky;
   font-family: "Inter";
   font-weight: 600;
-  padding: 4px;
+  padding: 6px;
 }
 
 #usuarios_table thead tr th:first-child {
@@ -91,6 +91,7 @@
 #usuarios_table tbody tr {
   background-color: #f0f2f5;
 }
+
 #usuarios_table tbody tr:hover td {
   background-color: #d0d9e7;
 }
@@ -125,6 +126,10 @@
   align-items: center;
 }
 
+.u-Inactivo td {
+  color: gray;
+}
+
 #btn_modificar:hover {
   border: none;
 }
@@ -148,7 +153,6 @@
 }
 
 /* MODAL */
-
 #cargarUsuario_container {
   background-color: #eef1f6;
   width: 100%;
@@ -178,7 +182,6 @@
   width: 100%;
   height: 35px;
   margin-top: 8px;
-  /* background-color: orange; */
   display: flex;
   align-items: center;
 }
@@ -212,7 +215,6 @@
   color: #f0f2f5;
   margin: 8px 0px 8px 0px;
   background-color: #1e293b;
-  /* border: 1px solid #4180ab; */
   border: none;
   border-radius: 20px;
   font-weight: 500;

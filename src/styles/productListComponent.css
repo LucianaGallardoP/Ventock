@@ -1,5 +1,6 @@
 /* PRODUCTOS EN SISTEMA */
 #products_container {
+  /* background-color: burlywood; */
   width: 54vw;
   height: 100%;
   display: flex;
@@ -8,8 +9,8 @@
 }
 
 #products_header {
-  background-color: blue;
-  width: 100%;
+  /* background-color: blue; */
+  width: 98%;
   height: auto;
   margin-top: 5px;
   display: flex;
@@ -17,8 +18,20 @@
   align-items: center;
 }
 
+#products_tittle {
+  width: auto;
+  height: fit-content;
+  color: #1e293b;
+  margin-top: 5px;
+}
+
+#agregarBuscar_container {
+  width: 56%;
+  display: flex;
+  justify-content: space-between;
+}
+
 #cargarProducto {
-  /* width: 31.5%; */
   background-color: #1e293b;
   color: #f0f2f5;
   border: none;
@@ -28,35 +41,26 @@
 
 #cargarProducto:hover {
   color: #1e293b;
-  background-color: #bdd1de;
-  /* background-color: rgb(185, 55, 55); */
-  border: 1px solid #4180ab;
-}
-
-#products_tittle {
-  width: 37%;
-  color: #1e293b;
-  margin-top: 5px;
-}
-
-#inputBuscar_container {
-  width: 31.5%;
+  background-color: #92a7c8;
+  border: 1px solid #5576aa;
 }
 
 #controlBuscar {
   border-radius: 20px;
-  border: 1px solid #4180ab;
+  border: 1px solid #5576aa;
 }
 
 #products_main {
-  height: auto;
-  width: 95%;
-  margin-top: 5px;
+  height: 90vh;
+  width: 100%;
   overflow-y: auto;
 }
 
 #products_table {
   width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 6px;
+  border: none;
 }
 
 #productsTable_thead {
@@ -65,13 +69,51 @@
   z-index: 1000;
 }
 
+.columns_TableProducts th {
+  color: #1e293b;
+  background-color: #92a7c8;
+  text-align: center;
+  position: sticky;
+  font-family: "Inter";
+  font-weight: 500;
+  padding: 3px;
+}
+
+.columns_TableProducts th:first-child {
+  border-left: 1px solid #5576aa;
+  border-radius: 20px 0 0 20px;
+}
+
+.columns_TableProducts th:last-child {
+  border-right: 1px solid #5576aa;
+  border-radius: 0 20px 20px 0;
+}
+
+#products_table tbody tr td {
+  border-top: 1px solid #5576aa;
+  border-bottom: 1px solid #5576aa;
+}
+
+#products_table tbody tr td:first-child {
+  border-left: 1px solid #5576aa;
+  border-radius: 20px 0 0 20px !important;
+}
+
+#products_table tbody tr td:last-child {
+  border-right: 1px solid #5576aa;
+  border-radius: 20px !important;
+}
+
+#products_table tbody tr:hover td {
+  background-color: #d0d9e7 !important;
+}
+
 .dropd_categorias {
   width: 100%;
   color: #1e293b;
-  border: none;
-  border-radius: 0px;
-  background-color: #8ab3cf;
-  /* background-color: #bdd1de; */
+  border: none !important;
+  border-radius: 20px !important;
+  background-color: #5576aa !important;
 }
 
 .dropd_categorias:hover,
@@ -88,28 +130,16 @@
 }
 
 .itemsCategorias_dropD:hover {
-  color: #1e293b;
-  background-color: #8ab3cf;
-  border: 1px solid #4180ab;
+  color: #f0f2f5 !important;
+  background-color: #5576aa !important;
+  border: 1px solid #5576aa;
   border-radius: 20px;
 }
 
 table,
 th,
 td {
-  border: 1px solid #4180ab;
-  border-collapse: collapse;
   height: fit-content;
-}
-
-.columns_TableProducts th {
-  color: #1e293b;
-  background-color: #8ab3cf;
-  text-align: center;
-  position: sticky;
-  font-family: "Inter";
-  font-weight: 500;
-  padding: 2px;
 }
 
 #icons_container {
@@ -121,7 +151,7 @@ td {
 }
 
 .titleCategorias_table {
-  background-color: #bdd1de;
+  background-color: #d0d9e7;
   height: 6vh;
   font-weight: 500;
   text-align: center;
@@ -131,13 +161,13 @@ td {
 
 #btn_agg {
   background-color: transparent;
-  border: none;
-  color: #4180ab;
+  border: none !important;
+  color: #5576aa;
 }
 
 #btn_agg:hover {
-  border: 1px solid #4180ab;
-  border-radius: 20px;
+  transform: scale(1.2);
+  color: #1e293b;
 }
 
 #btn_modificar {
@@ -147,19 +177,17 @@ td {
 }
 
 #btn_modificar:hover {
-  border: 1px solid #ffa500;
-  border-radius: 20px;
+  transform: scale(1.2);
+  filter: drop-shadow(0px 0px 8px rgba(255, 165, 0, 2));
 }
 
 .btn_eliminar {
-  background-color: transparent;
-  border: none;
-  color: rgb(223, 36, 36);
+  background-color: transparent !important;
+  border: none !important;
+  color: #a12e2e !important;
 }
 
 .btn_eliminar:hover {
-  color: rgb(223, 36, 36);
-  background-color: transparent;
-  border: 1px solid rgb(223, 36, 36);
-  border-radius: 20px;
+  transform: scale(1.2);
+  filter: drop-shadow(0px 0px 5px rgba(161, 46, 46, 2));
 }

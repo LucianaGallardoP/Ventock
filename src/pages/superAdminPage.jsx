@@ -4,8 +4,8 @@ import { FaTrashCan } from "react-icons/fa6";
 import { FaPen } from "react-icons/fa";
 import {
   getUsuarios,
-  crearUsuario,
-  actualizarUsuario,
+  postUsuario,
+  putUsuario,
   deleteUsuario,
 } from "../helpers/apiUsuarios";
 import("../styles/superAdminPage.css");
@@ -72,9 +72,9 @@ export default function SuperAdminPage() {
     let data;
 
     if (usuarioForm.id) {
-      data = await actualizarUsuario(usuarioForm.id, usuarioForm);
+      data = await putUsuario(usuarioForm.id, usuarioForm);
     } else {
-      data = await crearUsuario(usuarioForm);
+      data = await postUsuario(usuarioForm);
     }
 
     if (
@@ -152,7 +152,7 @@ export default function SuperAdminPage() {
               </tr>
             ) : (
               usuariosFiltrados.map((u) => (
-                <tr key={u._id} className="text-center">
+                <tr key={u._id} className={`text-center ${!u.estado ? "u-Inactivo" : ""}`}>
                   <td>
                     {u.nombre} {u.apellido}
                   </td>
@@ -200,6 +200,7 @@ export default function SuperAdminPage() {
       <Modal show={showModal} onHide={handleClose} size="md" backdrop="static">
         <Modal.Header
           closeButton 
+          closeVariant="white"
           style={{
             backgroundColor: "#1e293b",
             display: "flex",
@@ -211,7 +212,6 @@ export default function SuperAdminPage() {
           </h5>
         </Modal.Header>
         <Modal.Body id="cargarUsuario_container">
-          {/* Cada input tiene su 'value' conectado a un estado y su 'onChange' para actualizarlo */}
           <Form id="cargarUsuario_form" onSubmit={handleSubmit}>
             <Form.Group
               className="formGroupUsuarios"

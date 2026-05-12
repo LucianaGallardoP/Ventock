@@ -45,7 +45,7 @@ const RootRedirect = () => {
   }
 
   if (user?.rol === "Admin" || user?.rol === "Vendedor") {
-    return <HomePage />;
+    return <AdminPage />;
   }
 
   return <Navigate to="/login" replace />;

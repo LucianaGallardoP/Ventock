@@ -7,7 +7,7 @@ import isotipoVentock from "../assets/isotipoVentock.png";
 import "../styles/sideBarComponent.css";
 
 export default function SideBarComponent() {
-  const { user } = useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -20,6 +20,8 @@ export default function SideBarComponent() {
   };
 
   const isSuperAdmin = user?.rol === "SuperAdmin";
+  const isAdminOrVendedor = user?.rol === "Admin" || user?.rol === "Vendedor";
+  const isInvitado = !token;
 
   return (
     <Navbar id="sideBar_Container" expand="md">
@@ -45,11 +47,11 @@ export default function SideBarComponent() {
 
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto" id="navLinks_Container">
-            <NavLink to="/" className="navLinks">
+            <NavLink to={isInvitado ? "/login" : "/"} className="navLinks">
               Inicio
             </NavLink>
 
-            {!isSuperAdmin && (
+            {isAdminOrVendedor && (
               <>
                 <NavLink to="*" className="navLinks">
                   Presupuestos
@@ -76,7 +78,7 @@ export default function SideBarComponent() {
                 </NavLink>
               </>
             )}
-
+            
             <div className="sidebar-footer-links">
               <hr style={{ color: "white", margin: "0", width: "80%" }} />
 
@@ -88,9 +90,11 @@ export default function SideBarComponent() {
                 Contacto
               </NavLink>
 
-              <Button variant="link" onClick={handleLogout} id="logOut">
-                Cerrar Sesión
-              </Button>
+              {token && (
+                <Button variant="link" onClick={handleLogout} id="logOut">
+                  Cerrar Sesión
+                </Button>
+              )}
             </div>
           </Nav>
         </Navbar.Collapse>

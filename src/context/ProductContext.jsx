@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
+import { AuthContext } from "./AuthContext";
 import { getCategorias, crearCategoria } from "../helpers/apiCategoria";
 import {
   getProductos,
@@ -10,6 +11,8 @@ import {
 export const ProductContext = createContext();
 
 export function ProductProvider({ children }) {
+  const { token } = useContext(AuthContext);
+
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [filtro, setFiltro] = useState("");
@@ -62,13 +65,12 @@ export function ProductProvider({ children }) {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (token) {
       cargarCatsProds();
     }
-  }, []);
+  }, [token]);
 
-   const crearNuevaCategoria = async (nombre) => {
+  const crearNuevaCategoria = async (nombre) => {
     if (!nombre || nombre.trim() === "") return;
 
     try {

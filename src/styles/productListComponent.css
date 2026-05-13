@@ -101,11 +101,11 @@
 
 #products_table tbody tr td:last-child {
   border-right: 1px solid #5576aa;
-  border-radius: 20px !important;
+  border-radius: 0px 20px 20px 0px !important;
 }
 
 #products_table tbody tr:hover td {
-  background-color: #d0d9e7 !important;
+  background-color: rgb(239, 238, 238) !important;
 }
 
 .dropd_categorias {

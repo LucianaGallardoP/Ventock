@@ -4,15 +4,12 @@ import { authLogin } from "../helpers/apiLogin";
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("token") || null);
-
-  useEffect(() => {
+  const [user, setUser] = useState(()=>{
     const savedUser = localStorage.getItem("usuario");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-  }, []);
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
 
   const login = async (datos) => {
     const data = await authLogin(datos);
@@ -21,7 +18,7 @@ export function AuthProvider({ children }) {
       setToken(data.token);
       setUser(data.usuario);
 
-      localStorage.setItem("token", JSON.stringify(data.token));
+      localStorage.setItem("token", data.token);
       localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
       return { success: true, usuario: data.usuario };

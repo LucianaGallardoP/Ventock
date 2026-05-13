@@ -128,13 +128,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
                             <IoIosAddCircle />
                           </Button>
                         </td>
-                        <td
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                            border: "none",
-                          }}
-                        >
+                        <td>
                           <Button
                             id="btn_modificar"
                             onClick={() => {

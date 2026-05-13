@@ -61,7 +61,7 @@ const Layout = ({ children }) => {
 
   return (
     <div className="gral-container">
-      <SideBarComponent/>
+      <SideBarComponent />
       <div className="content-container">
         <main>{children}</main>
       </div>
@@ -69,55 +69,111 @@ const Layout = ({ children }) => {
   );
 };
 
+const DataProviders = ({ children }) => {
+  const { token } = useContext(AuthContext);
+  return (
+    <ProductProvider>
+      <OrderProvider>{children}</OrderProvider>
+    </ProductProvider>
+  );
+};
+
 function App() {
   return (
+    // <AuthProvider>
+    //   <ProductProvider>
+    //     <OrderProvider>
+    //       <BrowserRouter>
+    //         <Layout>
+    //           <Routes>
+    //             {/* RUTAS PUBLICAS */}
+    //             <Route path="/login" element={<LogInPage />} />
+    //             <Route path="/about" element={<AboutPage />} />
+    //             <Route path="/contact" element={<ContactPage />} />
+    //             <Route path="*" element={<ErrorPage />} />
+
+    //             {/* RUTA RAIZ*/}
+    //             <Route
+    //               path="/"
+    //               element={
+    //                 <ProtectedRoute>
+    //                   <RootRedirect />
+    //                 </ProtectedRoute>
+    //               }
+    //             />
+
+    //             {/* RUTA PROTEGIDA - SUPERADMIN */}
+    //             <Route
+    //               path="/superAdmin"
+    //               element={
+    //                 <ProtectedRoute allowedRoles={["SuperAdmin"]}>
+    //                   <SuperAdminPage />
+    //                 </ProtectedRoute>
+    //               }
+    //             />
+
+    //             {/* RUTA PROTEGIDA - SUPERADMIN Y ADMIN */}
+    //             <Route
+    //               path="/gestionarCategoria"
+    //               element={
+    //                 <ProtectedRoute allowedRoles={["Admin", "SuperAdmin"]}>
+    //                   <GestionarCatPage />
+    //                 </ProtectedRoute>
+    //               }
+    //             />
+    //           </Routes>
+    //         </Layout>
+    //       </BrowserRouter>
+    //     </OrderProvider>
+    //   </ProductProvider>
+    // </AuthProvider>
+
     <AuthProvider>
-      <ProductProvider>
-        <OrderProvider>
-          <BrowserRouter>
-            <Layout>
-              <Routes>
-                {/* RUTAS PUBLICAS */}
-                <Route path="/login" element={<LogInPage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="*" element={<ErrorPage />} />
+      <DataProviders>
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              {/* RUTAS PUBLICAS */}
+              <Route path="/login" element={<LogInPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="*" element={<ErrorPage />} />
 
-                {/* RUTA RAIZ*/}
-                <Route
-                  path="/"
-                  element={
-                    <ProtectedRoute>
-                      <RootRedirect />
-                    </ProtectedRoute>
-                  }
-                />
+              {/* RUTA RAIZ*/}
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <RootRedirect />
+                  </ProtectedRoute>
+                }
+              />
 
-                {/* RUTA PROTEGIDA - SUPERADMIN */}
-                <Route
-                  path="/superAdmin"
-                  element={
-                    <ProtectedRoute allowedRoles={["SuperAdmin"]}>
-                      <SuperAdminPage />
-                    </ProtectedRoute>
-                  }
-                />
+              {/* RUTA PROTEGIDA - SUPERADMIN */}
+              <Route
+                path="/superAdmin"
+                element={
+                  <ProtectedRoute allowedRoles={["SuperAdmin"]}>
+                    <SuperAdminPage />
+                  </ProtectedRoute>
+                }
+              />
 
-                {/* RUTA PROTEGIDA - SUPERADMIN Y ADMIN */}
-                <Route
-                  path="/gestionarCategoria"
-                  element={
-                    <ProtectedRoute allowedRoles={["Admin", "SuperAdmin"]}>
-                      <GestionarCatPage />
-                    </ProtectedRoute>
-                  }
-                />
-              </Routes>
-            </Layout>
-          </BrowserRouter>
-        </OrderProvider>
-      </ProductProvider>
+              {/* RUTA PROTEGIDA - SUPERADMIN Y ADMIN */}
+              <Route
+                path="/gestionarCategoria"
+                element={
+                  <ProtectedRoute allowedRoles={["Admin", "SuperAdmin"]}>
+                    <GestionarCatPage />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </DataProviders>
     </AuthProvider>
   );
 }
+
 export default App;

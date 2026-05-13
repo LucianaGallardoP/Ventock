@@ -1,16 +1,15 @@
 const url = "http://localhost:3001/api/productos";
+const limite = 50;
 
 // const url = "http://ventockbackend.vercel.app/api/productos";
 
 const getAuthHeaders = () => {
-  const token = JSON.parse(localStorage.getItem("token"));
+  const token = localStorage.getItem("token");
   return {
     "Content-type": "application/json; charset=UTF-8",
     "x-token": token || "",
   };
 };
-
-const limite = 50;
 
 export const getProductos = async (desde = 0) => {
   try {

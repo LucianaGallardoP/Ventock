@@ -20,6 +20,10 @@ export default function ProductListComponent({ setShowModalCarga }) {
 
   const { agregarAlDetalle } = useContext(OrderContext);
 
+  const manejarFiltroCategoria = (nombreCategoria) => {
+    setFiltro(nombreCategoria);
+  };
+
   return (
     <section id="products_container">
       <div id="products_header">
@@ -46,8 +50,11 @@ export default function ProductListComponent({ setShowModalCarga }) {
               <th colSpan={9} style={{ padding: "0%" }}>
                 <Dropdown>
                   <Dropdown.Toggle className="dropd_categorias">
-                    Filtrar Categorías
+                    {categorias.some((c) => c.nombre === filtro)
+                      ? filtro
+                      : "Todas las Categorías"}
                   </Dropdown.Toggle>
+
                   <Dropdown.Menu
                     style={{
                       width: "100%",
@@ -55,10 +62,15 @@ export default function ProductListComponent({ setShowModalCarga }) {
                       textAlign: "center",
                     }}
                   >
+                    <Dropdown.Item onClick={() => manejarFiltroCategoria("")}>
+                      --- Mostrar Todo ---
+                    </Dropdown.Item>
+
                     {categorias.map((cat) => (
                       <Dropdown.Item
                         key={cat.id}
                         className="itemsCategorias_dropD"
+                        onClick={() => manejarFiltroCategoria(cat.nombre)}
                       >
                         {cat.nombre}
                       </Dropdown.Item>
@@ -85,80 +97,94 @@ export default function ProductListComponent({ setShowModalCarga }) {
           </thead>
 
           <tbody className="text-center">
-            {categorias.map((cat) => (
-              <React.Fragment key={cat.id}>
-                <tr>
-                  <td className="titleCategorias_table" colSpan={9}>
-                    {cat.nombre.toUpperCase()}
-                  </td>
-                </tr>
+            {categorias
+              .filter((cat) => {
+                return (
+                  filtro === "" ||
+                  cat.nombre === filtro ||
+                  cat.nombre.toLowerCase().includes(filtro.toLowerCase())
+                );
+              })
 
-                {resultadosBusqueda
-                  .filter((producto) => producto.categoria === cat.nombre)
-                  .map((producto) => {
-                    const esCritico =
-                      producto.stockCritico !== "" &&
-                      Number(producto.stock) <= Number(producto.stockCritico);
+              .map((cat) => {
+                const productosAMostrar =
+                  filtro === cat.nombre
+                    ? productos.filter((p) => p.categoria === cat.nombre)
+                    : resultadosBusqueda.filter(
+                        (p) => p.categoria === cat.nombre,
+                      );
 
-                    return (
-                      <tr
-                        key={producto.id}
-                        className={esCritico ? "fila_stock_critico" : ""}
-                      >
-                        <td>{producto.nombreProducto}</td>
-                        <td
-                          style={{
-                            fontWeight: esCritico ? "bold" : "normal",
-                            backgroundColor: esCritico
-                              ? "rgb(223, 36, 36)"
-                              : "#f0f2f5",
-                          }}
+                return (
+                  <React.Fragment key={cat.id}>
+                    <tr>
+                      <td className="titleCategorias_table" colSpan={9}>
+                        {cat.nombre.toUpperCase()}
+                      </td>
+                    </tr>
+
+                    {productosAMostrar.map((producto) => {
+                      const esCritico =
+                        producto.stockCritico !== "" &&
+                        Number(producto.stock) <= Number(producto.stockCritico);
+
+                      return (
+                        <tr
+                          key={producto.id}
+                          className={esCritico ? "fila_stock_critico" : ""}
                         >
-                          {producto.stock} {esCritico}
-                        </td>
-                        <td>${producto.precioUnitario}</td>
-                        <td>%{producto.ganancia}</td>
-                        <td>%{producto.iva}</td>
-                        <td>${producto.importe}</td>
-                        <td style={{ textAlign: "center" }}>
-                          <Button
-                            id="btn_agg"
-                            onClick={() => agregarAlDetalle(producto)}
-                          >
-                            <IoIosAddCircle />
-                          </Button>
-                        </td>
-                        <td>
-                          <Button
-                            id="btn_modificar"
-                            onClick={() => {
-                              prepararEdicion(producto, setShowModalCarga);
+                          <td>{producto.nombreProducto}</td>
+                          <td
+                            style={{
+                              fontWeight: esCritico ? "bold" : "normal",
+                              backgroundColor: esCritico
+                                ? "rgb(223, 36, 36)"
+                                : "#f0f2f5",
                             }}
                           >
-                            <FaPen />
-                          </Button>
-                          <Button
-                            className="btn_eliminar"
-                            onClick={() => eliminarProducto(producto.id)}
-                          >
-                            <FaTrashCan />
-                          </Button>
+                            {producto.stock} {esCritico}
+                          </td>
+                          <td>${producto.precioUnitario}</td>
+                          <td>%{producto.ganancia}</td>
+                          <td>%{producto.iva}</td>
+                          <td>${producto.importe}</td>
+                          <td style={{ textAlign: "center" }}>
+                            <Button
+                              id="btn_agg"
+                              onClick={() => agregarAlDetalle(producto)}
+                            >
+                              <IoIosAddCircle />
+                            </Button>
+                          </td>
+                          <td>
+                            <Button
+                              id="btn_modificar"
+                              onClick={() => {
+                                prepararEdicion(producto, setShowModalCarga);
+                              }}
+                            >
+                              <FaPen />
+                            </Button>
+                            <Button
+                              className="btn_eliminar"
+                              onClick={() => eliminarProducto(producto.id)}
+                            >
+                              <FaTrashCan />
+                            </Button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+
+                    {productosAMostrar.length === 0 && (
+                      <tr>
+                        <td colSpan={9}>
+                          No hay productos cargados en "{cat.nombre}"
                         </td>
                       </tr>
-                    );
-                  })}
-
-                {productos.filter(
-                  (producto) => producto.categoria === cat.nombre,
-                ).length === 0 && (
-                  <tr>
-                    <td colSpan={9}>
-                      No hay productos cargados en "{cat.nombre}"
-                    </td>
-                  </tr>
-                )}
-              </React.Fragment>
-            ))}
+                    )}
+                  </React.Fragment>
+                );
+              })}
 
             {categorias.length === 0 && (
               <tr>

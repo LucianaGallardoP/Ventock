@@ -24,6 +24,19 @@ export default function ProductListComponent({ setShowModalCarga }) {
     setFiltro(nombreCategoria);
   };
 
+  const formatearFecha = (fecha) => {
+    if (!fecha) return "Sin datos";
+    const date = new Date(fecha);
+    return (
+      date.toLocaleDateString("es-AR", {
+        day: "2-digit",
+        month: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      }) + " hs"
+    );
+  };
+
   return (
     <section id="products_container">
       <div id="products_header">
@@ -62,7 +75,10 @@ export default function ProductListComponent({ setShowModalCarga }) {
                       textAlign: "center",
                     }}
                   >
-                    <Dropdown.Item onClick={() => manejarFiltroCategoria("")}>
+                    <Dropdown.Item
+                      className="itemsCategorias_dropD"
+                      onClick={() => manejarFiltroCategoria("")}
+                    >
                       --- Mostrar Todo ---
                     </Dropdown.Item>
 
@@ -82,8 +98,8 @@ export default function ProductListComponent({ setShowModalCarga }) {
 
             <tr className="columns_TableProducts">
               <th>NOMBRE</th>
-              <th>STOCK (Ult modif)</th>
-              <th>PRECIO.U</th>
+              <th>STOCK</th>
+              <th>P.U</th>
               <th>%GAN</th>
               <th>%IVA</th>
               <th>IMPORTE</th>
@@ -97,94 +113,133 @@ export default function ProductListComponent({ setShowModalCarga }) {
           </thead>
 
           <tbody className="text-center">
-            {categorias
-              .filter((cat) => {
-                return (
-                  filtro === "" ||
-                  cat.nombre === filtro ||
-                  cat.nombre.toLowerCase().includes(filtro.toLowerCase())
-                );
-              })
+            {categorias.map((cat) => {
+              // 1. Obtenemos los productos de ESTA categoría
+              const productosDeEstaCat = productos.filter(
+                (p) => p.categoria === cat.nombre,
+              );
 
-              .map((cat) => {
-                const productosAMostrar =
-                  filtro === cat.nombre
-                    ? productos.filter((p) => p.categoria === cat.nombre)
-                    : resultadosBusqueda.filter(
-                        (p) => p.categoria === cat.nombre,
-                      );
+              // 2. Filtramos esos productos según el buscador (filtro)
+              // Si no hay filtro, mostramos todos. Si hay, buscamos por nombre.
+              const productosFiltrados = productosDeEstaCat.filter((p) => {
+                if (filtro === "" || cat.nombre === filtro) return true; // Si es filtro por dropdown o vacío
+                return p.nombreProducto
+                  .toLowerCase()
+                  .includes(filtro.toLowerCase());
+              });
 
-                return (
-                  <React.Fragment key={cat.id}>
-                    <tr>
-                      <td className="titleCategorias_table" colSpan={9}>
-                        {cat.nombre.toUpperCase()}
-                      </td>
-                    </tr>
+              // 3. Solo renderizamos la categoría si tiene productos que mostrar
+              // Esto evita que aparezcan títulos de categorías vacías al buscar
+              if (
+                productosFiltrados.length === 0 &&
+                filtro !== "" &&
+                cat.nombre !== filtro
+              ) {
+                return null;
+              }
 
-                    {productosAMostrar.map((producto) => {
-                      const esCritico =
-                        producto.stockCritico !== "" &&
-                        Number(producto.stock) <= Number(producto.stockCritico);
+              // {categorias
+              //   .filter((cat) => {
+              //     return (
+              //       filtro === "" ||
+              //       cat.nombre === filtro ||
+              //       cat.nombre.toLowerCase().includes(filtro.toLowerCase())
+              //     );
+              //   })
 
-                      return (
-                        <tr
-                          key={producto.id}
-                          className={esCritico ? "fila_stock_critico" : ""}
+              //   .map((cat) => {
+              //     const productosAMostrar =
+              //       filtro === cat.nombre
+              //         ? productos.filter((p) => p.categoria === cat.nombre)
+              //         : resultadosBusqueda.filter(
+              //             (p) => p.categoria === cat.nombre,
+              //           );
+
+              return (
+                <React.Fragment key={cat.id}>
+                  <tr>
+                    <td className="titleCategorias_table" colSpan={9}>
+                      {cat.nombre.toUpperCase()}
+                    </td>
+                  </tr>
+
+                  {productosFiltrados.map((producto) => {
+                    const esCritico =
+                      producto.stockCritico !== "" &&
+                      Number(producto.stock) <= Number(producto.stockCritico);
+
+                    return (
+                      <tr
+                        key={producto.id}
+                        className={esCritico ? "fila_stock_critico" : ""}
+                      >
+                        <td>{producto.nombreProducto}</td>
+
+                        <td
+                          style={{
+                            fontWeight: esCritico ? "bold" : "normal",
+                            backgroundColor: esCritico
+                              ? "rgb(223, 36, 36)"
+                              : "#f0f2f5",
+                          }}
                         >
-                          <td>{producto.nombreProducto}</td>
-                          <td
+                          <span>{producto.stock}</span>
+                          {/* {esCritico} */}
+                          <small
                             style={{
-                              fontWeight: esCritico ? "bold" : "normal",
-                              backgroundColor: esCritico
-                                ? "rgb(223, 36, 36)"
-                                : "#f0f2f5",
+                              fontSize: "0.65rem",
+                              opacity: 0.8,
+                              display: "block",
+                              marginTop: "2px",
+                              fontWeight: "normal",
                             }}
                           >
-                            {producto.stock} {esCritico}
-                          </td>
-                          <td>${producto.precioUnitario}</td>
-                          <td>%{producto.ganancia}</td>
-                          <td>%{producto.iva}</td>
-                          <td>${producto.importe}</td>
-                          <td style={{ textAlign: "center" }}>
-                            <Button
-                              id="btn_agg"
-                              onClick={() => agregarAlDetalle(producto)}
-                            >
-                              <IoIosAddCircle />
-                            </Button>
-                          </td>
-                          <td>
-                            <Button
-                              id="btn_modificar"
-                              onClick={() => {
-                                prepararEdicion(producto, setShowModalCarga);
-                              }}
-                            >
-                              <FaPen />
-                            </Button>
-                            <Button
-                              className="btn_eliminar"
-                              onClick={() => eliminarProducto(producto.id)}
-                            >
-                              <FaTrashCan />
-                            </Button>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                            {formatearFecha(producto.fechaStock)}
+                          </small>
+                        </td>
 
-                    {productosAMostrar.length === 0 && (
-                      <tr>
-                        <td colSpan={9}>
-                          No hay productos cargados en "{cat.nombre}"
+                        <td>${producto.precioUnitario}</td>
+                        <td>%{producto.ganancia}</td>
+                        <td>%{producto.iva}</td>
+                        <td>${producto.importe}</td>
+                        <td style={{ textAlign: "center" }}>
+                          <Button
+                            id="btn_agg"
+                            onClick={() => agregarAlDetalle(producto)}
+                          >
+                            <IoIosAddCircle />
+                          </Button>
+                        </td>
+                        <td>
+                          <Button
+                            id="btn_modificar"
+                            onClick={() => {
+                              prepararEdicion(producto, setShowModalCarga);
+                            }}
+                          >
+                            <FaPen />
+                          </Button>
+                          <Button
+                            className="btn_eliminar"
+                            onClick={() => eliminarProducto(producto.id)}
+                          >
+                            <FaTrashCan />
+                          </Button>
                         </td>
                       </tr>
-                    )}
-                  </React.Fragment>
-                );
-              })}
+                    );
+                  })}
+
+                  {productosFiltrados.length === 0 && (
+                    <tr>
+                      <td colSpan={9}>
+                        No hay productos cargados en "{cat.nombre}"
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              );
+            })}
 
             {categorias.length === 0 && (
               <tr>

@@ -56,6 +56,7 @@ export function ProductProvider({ children }) {
           importe: p.importe,
           categoria: p.categoria?.nombre || "Sin Categoría",
           categoriaId: p.categoria?._id,
+          fechaStock: p.fechaUltimoStock || p.fechaRegistro || p.updatedAt
         }));
         setProductos(prodsMapeados);
       }

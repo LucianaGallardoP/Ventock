@@ -48,16 +48,24 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
                   <td>
                     <Form.Control
                       type="number"
-                      value={item.cantidad}
-                      min="1"
+                      className="no-spinners"
+                      value={item.cantidad === 0 ? "" : item.cantidad}
+                      min="0"
                       style={{
                         width: "90px",
                         margin: "auto",
                         backgroundColor: "transparent",
+                        textAlign: "center",
                       }}
-                      onChange={(e) =>
-                        manejarCambioCantidad(item.id, e.target.value)
-                      }
+                      onChange={(e) => {
+                        const valor = e.target.value;
+                        manejarCambioCantidad(item.id, valor);
+                      }}
+                      onBlur={(e) => {
+                        if (item.cantidad === 0) {
+                          manejarCambioCantidad(item.id, 1);
+                        }
+                      }}
                     />
                   </td>
                   <td>${item.importe}</td>

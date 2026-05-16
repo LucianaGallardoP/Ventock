@@ -179,7 +179,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
                           style={{
                             fontWeight: esCritico ? "bold" : "normal",
                             backgroundColor: esCritico
-                              ? "rgb(223, 36, 36)"
+                              ? "orange"
                               : "#f0f2f5",
                           }}
                         >

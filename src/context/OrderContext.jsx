@@ -5,9 +5,9 @@ export const OrderContext = createContext();
 
 export function OrderProvider({ children }) {
   const { productos, setProductos } = useContext(ProductContext);
-  const [detallePedido, setDetallePedido] = useState([]); 
-  const [descuentoPorc, setDescuentoPorc] = useState(0)
-  const [showModalGuardarPedido, setShowModalGuardarPedido] = useState(false); 
+  const [detallePedido, setDetallePedido] = useState([]);
+  const [descuentoPorc, setDescuentoPorc] = useState(0);
+  const [showModalGuardarPedido, setShowModalGuardarPedido] = useState(false);
   const [showModalMetodoPago, setShowModalMetodoPago] = useState(false);
 
   const importeTotalPedido = detallePedido.reduce(
@@ -15,32 +15,35 @@ export function OrderProvider({ children }) {
     0,
   );
 
-  const montoDescuento = importeTotalPedido * (Number(descuentoPorc || 0) / 100);
-  const totalConDescuento = importeTotalPedido -montoDescuento;
+  const montoDescuento =
+    importeTotalPedido * (Number(descuentoPorc || 0) / 100);
+  const totalConDescuento = importeTotalPedido - montoDescuento;
 
   function agregarAlDetalle(producto) {
     const existe = detallePedido.find((item) => item.id === producto.id);
     if (existe) {
-      
-     setDetallePedido (detallePedido.map((item) =>
-        item.id === producto.id
-          ? {
-              ...item,
-              cantidad: item.cantidad + 1,
-              subtotal: (item.cantidad + 1) * Number(item.importe),
-            }
-          : item,
-      ));
-     
+      setDetallePedido(
+        detallePedido.map((item) =>
+          item.id === producto.id
+            ? {
+                ...item,
+                cantidad: item.cantidad + 1,
+                subtotal: (item.cantidad + 1) * Number(item.importe),
+              }
+            : item,
+        ),
+      );
     } else {
-     setDetallePedido([...detallePedido, {
-        id: producto.id,
-        nombreProducto: producto.nombreProducto,
-        cantidad: 1,
-        importe: Number(producto.importe),
-        subtotal: Number(producto.importe),
-      }]);
-      
+      setDetallePedido([
+        ...detallePedido,
+        {
+          id: producto.id,
+          nombreProducto: producto.nombreProducto,
+          cantidad: 1,
+          importe: Number(producto.importe),
+          subtotal: Number(producto.importe),
+        },
+      ]);
     }
   }
 
@@ -49,18 +52,35 @@ export function OrderProvider({ children }) {
   }
 
   function manejarCambioCantidad(id, nuevaCantidad) {
-    const cant = parseInt(nuevaCantidad);
-    if (isNaN(cant) || cant < 1) return;
+    if (nuevaCantidad === "") {
+      setDetallePedido(
+        detallePedido.map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                cantidad: 0,
+                subtotal: 0,
+              }
+            : item,
+        ),
+      );
+      return;
+    }
 
-    setDetallePedido (detallePedido.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            cantidad: cant,
-            subtotal: cant * item.importe,
-          }
-        : item,
-    ));
+    const cant = parseInt(nuevaCantidad, 10);
+    if (isNaN(cant) || cant < 0) return;
+
+    setDetallePedido(
+      detallePedido.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              cantidad: cant,
+              subtotal: cant * item.importe,
+            }
+          : item,
+      ),
+    );
   }
 
   return (

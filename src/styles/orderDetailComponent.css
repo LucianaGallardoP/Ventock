@@ -8,9 +8,6 @@
 
 #orders_tittle {
   color: #1e293b;
-  font-family: "Inter";
-  font-size: larger;
-  font-weight: 800;
   margin-top: 10px;
   margin-bottom: 13px;
 }
@@ -19,13 +16,17 @@
   width: 95%;
   height: 100%;
   overflow-y: auto;
-  display: flex;
-  justify-content: center;
+}
+
+#orderDetail_table table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 6px;
 }
 
 #columns_OrderTable th {
   color: #1e293b;
-  background-color: #8ab3cf;
+  background-color: #92a7c8;
   font-family: "Inter";
   font-weight: 500;
   padding: 2px;
@@ -34,20 +35,41 @@
   top: 0px;
 }
 
+#columns_OrderTable th:first-child {
+  border-radius: 20px 0px 0px 20px;
+}
+
+#columns_OrderTable th:last-child {
+  border-radius: 0px 20px 20px 0px;
+}
+
+#orderDetail_table tbody td {
+  border: 1px solid #5576aa;
+}
+
+#orderDetail_table tbody td:first-child {
+  border-radius: 20px 0px 0px 20px;
+}
+
+#orderDetail_table tbody td:last-child {
+  border-radius: 0px 20px 20px 0px;
+}
+
 #orderDetail_Importe {
-  background-color: #bdd1de;
+  background-color: #d0d9e7;
   width: 100%;
   height: 8vh;
   text-align: center;
+  border-radius: 20px 20px 0px 0px;
 }
 
 #guardarPedido_btn {
   width: 100%;
   height: auto;
-  color: #1e293b;
-  background-color: #8ab3cf;
+  color: #f0f2f5;
+  background-color: #1e293b;
   font-weight: 500;
-  border-radius: 0px 0px 10px 10px;
+  border-radius: 0px 0px 20px 20px;
   margin-bottom: 5px;
   border: none;
 }

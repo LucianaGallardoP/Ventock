@@ -54,7 +54,7 @@ export default function ProductModal({ show, onHide }) {
       <Modal.Header
         closeButton
         style={{
-          backgroundColor: "#f0f2f5",
+          backgroundColor: "#1e293b",
           display: "flex",
           justifyContent: "center",
         }}
@@ -231,7 +231,9 @@ export default function ProductModal({ show, onHide }) {
           </div>
         </Form>
       </Modal.Body>
-      <Modal.Footer style={{ backgroundColor: "#f0f2f5" }}></Modal.Footer>
+      {/* <Modal.Footer style={{ backgroundColor: "#f0f2f5" }}></Modal.Footer> */}
+        <Modal.Footer style={{ backgroundColor: "#1e293b", height:"40px"}}></Modal.Footer>
+
     </Modal>
   );
 }

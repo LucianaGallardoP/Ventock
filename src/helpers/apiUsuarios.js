@@ -4,7 +4,7 @@ const url = "http://localhost:3001/api/usuarios";
 
 // Helper para obtener el token limpio
 const getAuthHeaders = () => {
-  const token = JSON.parse(localStorage.getItem("token"));
+  const token = localStorage.getItem("token");
   return {
     "Content-type": "application/json; charset=UTF-8",
     "x-token": token || "",

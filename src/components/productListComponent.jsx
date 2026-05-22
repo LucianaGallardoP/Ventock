@@ -16,6 +16,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
     eliminarProducto,
     prepararEdicion,
     productos,
+    resetearFormularioProducto,
   } = useContext(ProductContext);
 
   const { agregarAlDetalle } = useContext(OrderContext);
@@ -42,8 +43,14 @@ export default function ProductListComponent({ setShowModalCarga }) {
       <div id="products_header">
         <h5 id="products_tittle">INVENTARIO</h5>
 
-        <div id="agregarBuscar_container">
-          <button id="cargarProducto" onClick={() => setShowModalCarga(true)}>
+        <div id="addSearch_container">
+          <button
+            id="addProduct"
+            onClick={() => {
+              resetearFormularioProducto();
+              setShowModalCarga(true);
+            }}
+          >
             + Agregar Producto
           </button>
           <Form.Control
@@ -114,13 +121,10 @@ export default function ProductListComponent({ setShowModalCarga }) {
 
           <tbody className="text-center">
             {categorias.map((cat) => {
-              // 1. Obtenemos los productos de ESTA categoría
               const productosDeEstaCat = productos.filter(
                 (p) => p.categoria === cat.nombre,
               );
 
-              // 2. Filtramos esos productos según el buscador (filtro)
-              // Si no hay filtro, mostramos todos. Si hay, buscamos por nombre.
               const productosFiltrados = productosDeEstaCat.filter((p) => {
                 if (filtro === "" || cat.nombre === filtro) return true; // Si es filtro por dropdown o vacío
                 return p.nombreProducto
@@ -128,8 +132,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
                   .includes(filtro.toLowerCase());
               });
 
-              // 3. Solo renderizamos la categoría si tiene productos que mostrar
-              // Esto evita que aparezcan títulos de categorías vacías al buscar
               if (
                 productosFiltrados.length === 0 &&
                 filtro !== "" &&
@@ -138,26 +140,9 @@ export default function ProductListComponent({ setShowModalCarga }) {
                 return null;
               }
 
-              // {categorias
-              //   .filter((cat) => {
-              //     return (
-              //       filtro === "" ||
-              //       cat.nombre === filtro ||
-              //       cat.nombre.toLowerCase().includes(filtro.toLowerCase())
-              //     );
-              //   })
-
-              //   .map((cat) => {
-              //     const productosAMostrar =
-              //       filtro === cat.nombre
-              //         ? productos.filter((p) => p.categoria === cat.nombre)
-              //         : resultadosBusqueda.filter(
-              //             (p) => p.categoria === cat.nombre,
-              //           );
-
               return (
                 <React.Fragment key={cat.id}>
-                  <tr>
+                  <tr className="titleCategorie_row">
                     <td className="titleCategorias_table" colSpan={9}>
                       {cat.nombre.toUpperCase()}
                     </td>
@@ -171,20 +156,22 @@ export default function ProductListComponent({ setShowModalCarga }) {
                     return (
                       <tr
                         key={producto.id}
-                        className={esCritico ? "fila_stock_critico" : ""}
+                        className={`productItem_row ${esCritico ? "fila_stock_critico" : ""}`}
                       >
-                        <td>{producto.nombreProducto}</td>
+                        <td className="productName_cell">
+                          <div className="productName_scroll">
+                            {producto.nombreProducto}
+                          </div>
+                        </td>
 
                         <td
+                          className="stock_Cell"
                           style={{
                             fontWeight: esCritico ? "bold" : "normal",
-                            backgroundColor: esCritico
-                              ? "orange"
-                              : "#f0f2f5",
                           }}
                         >
                           <span>{producto.stock}</span>
-                          {/* {esCritico} */}
+
                           <small
                             style={{
                               fontSize: "0.65rem",

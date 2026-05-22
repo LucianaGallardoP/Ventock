@@ -1,6 +1,4 @@
-/* PRODUCTOS EN SISTEMA */
 #products_container {
-  /* background-color: burlywood; */
   width: 54vw;
   height: 100%;
   display: flex;
@@ -9,7 +7,6 @@
 }
 
 #products_header {
-  /* background-color: blue; */
   width: 98%;
   height: auto;
   margin-top: 5px;
@@ -25,13 +22,13 @@
   margin-top: 5px;
 }
 
-#agregarBuscar_container {
+#addSearch_container {
   width: 56%;
   display: flex;
   justify-content: space-between;
 }
 
-#cargarProducto {
+#addProduct {
   background-color: #1e293b;
   color: #f0f2f5;
   border: none;
@@ -39,7 +36,7 @@
   padding: 6px;
 }
 
-#cargarProducto:hover {
+#addProduct:hover {
   color: #1e293b;
   background-color: #92a7c8;
   border: 1px solid #5576aa;
@@ -59,7 +56,7 @@
 #products_table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 6px;
+  border-spacing: 0 3px;
   border: none;
 }
 
@@ -67,45 +64,6 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-}
-
-.columns_TableProducts th {
-  color: #1e293b;
-  background-color: #92a7c8;
-  text-align: center;
-  position: sticky;
-  font-family: "Inter";
-  font-weight: 500;
-  padding: 3px;
-}
-
-.columns_TableProducts th:first-child {
-  border-left: 1px solid #5576aa;
-  border-radius: 20px 0 0 20px;
-}
-
-.columns_TableProducts th:last-child {
-  border-right: 1px solid #5576aa;
-  border-radius: 0 20px 20px 0;
-}
-
-#products_table tbody tr td {
-  border-top: 1px solid #5576aa;
-  border-bottom: 1px solid #5576aa;
-}
-
-#products_table tbody tr td:first-child {
-  border-left: 1px solid #5576aa;
-  border-radius: 20px 0 0 20px !important;
-}
-
-#products_table tbody tr td:last-child {
-  border-right: 1px solid #5576aa;
-  border-radius: 0px 20px 20px 0px !important;
-}
-
-#products_table tbody tr:hover {
-  background-color: #d0d9e7 !important;
 }
 
 .dropd_categorias {
@@ -142,12 +100,68 @@ td {
   height: fit-content;
 }
 
+.columns_TableProducts th {
+  color: #1e293b;
+  background-color: #92a7c8;
+  text-align: center;
+  position: sticky;
+  font-family: "Inter";
+  font-weight: 500;
+  padding: 3px;
+}
+
+.columns_TableProducts th:first-child {
+  border-left: 1px solid #5576aa;
+  border-radius: 20px 0 0 20px;
+}
+
+.columns_TableProducts th:last-child {
+  border-right: 1px solid #5576aa;
+  border-radius: 0 20px 20px 0;
+}
+
 #icons_container {
   height: 100%;
   border: none;
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+#products_table tbody tr:not(.titleCategorie_row) td {
+  border-top: 1px solid #5576aa;
+  border-bottom: 1px solid #5576aa;
+  border-right: 1px solid #5576aa;
+}
+
+#products_table tbody tr:not(.titleCategorie_row) td:first-child {
+  border-left: 1px solid #5576aa;
+  border-radius: 20px 0 0 20px !important;
+}
+
+#products_table tbody tr:not(.titleCategorie_row) td:last-child {
+  border-right: 1px solid #5576aa;
+  border-radius: 0px 20px 20px 0px !important;
+}
+
+#products_table tbody tr.productItem_row:not(.fila_stock_critico):hover td {
+  background-color: #d0d9e7 !important;
+}
+
+.productItem_row.fila_stock_critico .stock_Cell {
+  background-color: orange !important;
+}
+
+.productItem_row.fila_stock_critico td:not(.stock_Cell) {
+  background-color: transparent;
+}
+
+#products_table tbody tr.fila_stock_critico:hover td:not(.stock_Cell) {
+  background-color: #d0d9e7 !important;
+}
+
+#products_table tbody tr.fila_stock_critico:hover .stock_Cell {
+  background-color: orange !important;
 }
 
 .titleCategorias_table {
@@ -157,9 +171,31 @@ td {
   text-align: center;
   position: sticky;
   top: 11vh;
-  border-radius: 20px !important; 
+  border-radius: 20px !important;
   border: 1px solid #5576aa !important;
 }
+
+.productItem_row td {
+  font-size: 0.85rem;
+}
+
+.productName_cell{
+  max-width: 12vw; 
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.productName_scroll{
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 2px 4px;
+}
+
+/* .productName_scroll::-webkit-scrollbar-thumb{
+  background: #92a7c8;
+  border-radius: 4px;
+} */
 
 #btn_agg {
   background-color: transparent;

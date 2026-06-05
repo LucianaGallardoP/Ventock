@@ -1,6 +1,6 @@
 #gestCat_container {
-  width: 100%;
-  height: 82vh;
+  width: 89vw;
+  height: 100vh;
   background-color: #f0f2f5;
   display: flex;
   flex-direction: column;

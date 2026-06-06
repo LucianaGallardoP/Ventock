@@ -1,0 +1,74 @@
+#addUser_title {
+  position: absolute;
+  top: 12px;
+  color: #f0f2f5;
+  font-weight: 600;
+}
+
+#addUser_container {
+  background-color: #eef1f6;
+  width: 100%;
+  height: fit-content;
+  padding: 15px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+}
+
+#addUser_form {
+  width: 80%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.formGroup_users {
+  width: 100%;
+  height: 35px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.formGroupLabel_users {
+  width: 40%;
+  height: 100%;
+  color: #1e293b;
+  background-color: #92a7c8;
+  margin: 0;
+  border: 1px solid #5576aa;
+  border-radius: 20px 0px 0px 20px;
+  font-family: "Inter";
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formGroupControl {
+  width: 60%;
+  height: 100%;
+  background-color: #d0d9e7;
+  border: 1px solid #5576aa;
+  border-left: none;
+  border-radius: 0px 20px 20px 0px;
+}
+
+#btnAddUser {
+  width: 100%;
+  color: #f0f2f5;
+  margin: 8px 0px 8px 0px;
+  background-color: #1e293b;
+  border: none;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+#btnAddUser:hover {
+  background-color: #92a7c8;
+  border: 1px solid #5576aa;
+  color: #1e293b;
+}

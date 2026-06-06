@@ -43,7 +43,7 @@
 }
 
 .navLinks {
-  width: 75%;
+  width: 100%;
   height: fit-content;
   color: #f0f2f5;
   padding: 5px;
@@ -55,10 +55,12 @@
   /* background-color: green; */
 }
 
-.navLinks:hover {
+.navLinks:hover, .navLinks.active {
   background-color: #eef1f6;
   color: #1e293b;
-  border-radius: 20px;
+  border-radius: 20px 0px 0px 20px;
+  width: 100%;
+  
 }
 
 .sidebar-footer-links {

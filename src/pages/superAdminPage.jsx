@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Modal } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { FaTrashCan } from "react-icons/fa6";
 import { FaPen } from "react-icons/fa";
-import {
-  getUsuarios,
-  postUsuario,
-  putUsuario,
-  deleteUsuario,
-} from "../helpers/apiUsuarios";
+import { getUsuarios, deleteUsuario, putUsuario } from "../helpers/apiUsuarios";
+
+import UsersModal from "../components/modals/usersModal";
+import DeleteModal from "../components/modals/deleteModal";
+
 import("../styles/superAdminPage.css");
 
 export default function SuperAdminPage() {
   const [usuarios, setUsuarios] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [busqueda, setBusqueda] = useState("");
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [idParaEliminar, setIdParaEliminar] = useState(null);
 
   const [usuarioForm, setUsuarioForm] = useState({
     id: null,
@@ -25,7 +27,6 @@ export default function SuperAdminPage() {
     estado: true,
   });
 
-  // PETICION AL BACKEND
   const obtenerUsuarios = async () => {
     const data = await getUsuarios(0, 10);
     if (data?.usuarios) {
@@ -60,45 +61,33 @@ export default function SuperAdminPage() {
 
   const handleClose = () => setShowModal(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    const val = name === "estado" ? value === "true" : value;
-    setUsuarioForm({ ...usuarioForm, [name]: val });
+  const clickDeleteIcon = (id) => {
+    setIdParaEliminar(id);
+    setShowDeleteModal(true);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleEliminar = async (id) => {
+  //   if (
+  //     window.confirm("¿Estás seguro de eliminar este usuario permanentemente?")
+  //   ) {
+  //     const data = await deleteUsuario(id);
+  //     if (data) {
+  //       alert("Usuario eliminado exitosamente.");
+  //       obtenerUsuarios();
+  //     }
+  //   }
+  // };
 
-    let data;
-
-    if (usuarioForm.id) {
-      data = await putUsuario(usuarioForm.id, usuarioForm);
-    } else {
-      data = await postUsuario(usuarioForm);
-    }
-
-    if (
-      data?.mensaje === "Usuario logueado con exito" ||
-      data?._id ||
-      !data?.errors
-    ) {
-      alert(usuarioForm.id ? "Usuario actualizado" : " Usuario creado");
-      obtenerUsuarios();
-      handleClose();
-    } else {
-      alert(`Error: ${data.mensaje || "Revisar los datos."}`);
-    }
-  };
-
-  const handleEliminar = async (id) => {
-    if (
-      window.confirm("¿Estás seguro de eliminar este usuario permanentemente?")
-    ) {
-      const data = await deleteUsuario(id);
+  const confirmarEliminacion = async () => {
+    if (idParaEliminar) {
+      const data = await deleteUsuario(idParaEliminar);
       if (data) {
         alert("Usuario eliminado exitosamente.");
         obtenerUsuarios();
       }
+
+      setShowDeleteModal(false);
+      setIdParaEliminar(null);
     }
   };
 
@@ -110,16 +99,16 @@ export default function SuperAdminPage() {
   );
 
   return (
-    <section id="SAdmin_container">
-      <div id="usuarios_header">
-        <h5 id="usuarios_tittle">LISTA DE USUARIOS</h5>
+    <section id="superAdmin_container">
+      <div id="users_header">
+        <h5 id="users_title">USUARIOS REGISTRADOS</h5>
 
-        <div id="agregar_buscar_container">
-          <button id="cargarUsuario" onClick={() => handleShow()}>
+        <div id="add_search_container">
+          <button id="addUser" onClick={() => handleShow()}>
             + Agregar Usuario
           </button>
           <Form.Control
-            id="controlBuscar"
+            id="controlSearch"
             type="search"
             placeholder="Buscar usuario..."
             value={busqueda}
@@ -128,17 +117,18 @@ export default function SuperAdminPage() {
         </div>
       </div>
 
-      <div id="usuarios_main">
-        <table id="usuarios_table">
+      <div id="users_main">
+        <table id="users_table">
           <thead>
             <tr className="columns_TableUsuarios">
-              <th>NOMBRE Y APELLIDO</th>
-              <th>CORREO</th>
-              <th>ROL</th>
-              <th>ESTADO</th>
-              <th>FECHA REGISTRO</th>
+              <th>Nombre y Apellido</th>
+              <th>Correo Electrónico</th>
+              <th>Rol</th>
+              <th>Estado</th>
+              <th>Fecha de Registro</th>
               <th id="icons_container">
-                <FaPen /> <FaTrashCan />
+                <FaPen className="FaPen" />{" "}
+                <FaTrashCan className="FaTrashCan" />
               </th>
             </tr>
           </thead>
@@ -152,7 +142,10 @@ export default function SuperAdminPage() {
               </tr>
             ) : (
               usuariosFiltrados.map((u) => (
-                <tr key={u._id} className={`text-center ${!u.estado ? "u-Inactivo" : ""}`}>
+                <tr
+                  key={u._id}
+                  className={`text-center ${!u.estado ? "u-Inactivo" : ""}`}
+                >
                   <td>
                     {u.nombre} {u.apellido}
                   </td>
@@ -171,22 +164,34 @@ export default function SuperAdminPage() {
                   <td className={u.estado ? "text-success" : "text-danger"}>
                     {u.estado ? "Activo" : "Inactivo"}
                   </td>
+
                   <td>{new Date(u.fechaRegistro).toLocaleDateString()}</td>
 
                   <td id="icons_container">
-                    <Button
-                      variant="link"
-                      id="btn_modificar"
-                      onClick={() => handleShow(u)}
-                    >
-                      <FaPen id="FaPen" />
+                    <Button variant="link" onClick={() => handleShow(u)}>
+                      <FaPen className="FaPen Fapen_body" />
                     </Button>
+
                     <Button
                       variant="link"
-                      className="btn_eliminar"
-                      onClick={() => handleEliminar(u._id)}
+                      disabled={u.rol === "SuperAdmin"}
+                      onClick={() => {
+                        if (u.rol !== "SuperAdmin") {
+                          clickDeleteIcon(u._id);
+                        }
+                      }}
+                      style={{
+                        opacity: u.rol === "SuperAdmin" ? 0.4 : 1,
+                        cursor:
+                          u.rol === "SuperAdmin" ? "not-allowed" : "pointer",
+                      }}
+                      title={
+                        u.rol === "SuperAdmin"
+                          ? "No se puede eliminar al Administrador Principal"
+                          : "Eliminar usuario"
+                      }
                     >
-                      <FaTrashCan id="FaTrashCan" />
+                      <FaTrashCan className="FaTrashCan FaTrashCan_body" />
                     </Button>
                   </td>
                 </tr>
@@ -196,128 +201,21 @@ export default function SuperAdminPage() {
         </table>
       </div>
 
-      {/* ----- MODAL CARGAR USUARIO ----- */}
-      <Modal show={showModal} onHide={handleClose} size="md" backdrop="static">
-        <Modal.Header
-          closeButton 
-          closeVariant="white"
-          style={{
-            backgroundColor: "#1e293b",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <h5 id="cargarUsuario_title">
-            {usuarioForm.id ? "MODIFICAR" : "NUEVO"} USUARIO
-          </h5>
-        </Modal.Header>
-        <Modal.Body id="cargarUsuario_container">
-          <Form id="cargarUsuario_form" onSubmit={handleSubmit}>
-            <Form.Group
-              className="formGroupUsuarios"
-              controlId="formGroupNombreUsuario"
-            >
-              <Form.Label className="formGroupLabelUsuarios">Nombre</Form.Label>
-              <Form.Control
-                name="nombre"
-                className="formGroupControl"
-                type="text"
-                placeholder="Nombre del Usuario"
-                value={usuarioForm.nombre}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
+      <UsersModal
+        show={showModal}
+        handleClose={handleClose}
+        usuarioForm={usuarioForm}
+        setUsuarioForm={setUsuarioForm}
+        obtenerUsuarios={obtenerUsuarios}
+      />
 
-            <Form.Group
-              className="formGroupUsuarios"
-              controlId="formGroupApellidoUsuario"
-            >
-              <Form.Label className="formGroupLabelUsuarios">
-                Apellido
-              </Form.Label>
-              <Form.Control
-                name="apellido"
-                className="formGroupControl"
-                type="text"
-                placeholder="Apellido del Usuario"
-                value={usuarioForm.apellido}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group
-              className="formGroupUsuarios"
-              controlId="formGroupCorreo"
-            >
-              <Form.Label className="formGroupLabelUsuarios">Correo</Form.Label>
-              <Form.Control
-                name="correo"
-                className="formGroupControl"
-                type="email"
-                placeholder="Email del usuario"
-                value={usuarioForm.correo}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-
-            {!usuarioForm.id && (
-              <Form.Group
-                className="formGroupUsuarios"
-                controlId="formGroupPassword"
-              >
-                <Form.Label className="formGroupLabelUsuarios">
-                  Contraseña
-                </Form.Label>
-                <Form.Control
-                  name="password"
-                  className="formGroupControl"
-                  type="password"
-                  placeholder="Mínimo 8 caracteres"
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-            )}
-
-            <Form.Group className="formGroupUsuarios" controlId="formGroupRol">
-              <Form.Label className="formGroupLabelUsuarios">Rol</Form.Label>
-              <Form.Select
-                className="formGroupControl"
-                name="rol"
-                value={usuarioForm.rol}
-                onChange={handleChange}
-              >
-                <option value="Vendedor">Vendedor</option>
-                <option value="Admin">Admin</option>
-              </Form.Select>
-            </Form.Group>
-
-            <Form.Group
-              className="formGroupUsuarios"
-              controlId="formGroupEstado"
-            >
-              <Form.Label className="formGroupLabelUsuarios">Estado</Form.Label>
-              <Form.Select
-                className="formGroupControl"
-                name="estado"
-                value={usuarioForm.estado.toString()}
-                onChange={handleChange}
-              >
-                <option value="true">Activo</option>
-                <option value="false">Inactivo</option>
-              </Form.Select>
-            </Form.Group>
-
-            <Button id="btnAddUsuario" type="submit">
-              {usuarioForm.id ? "ACTUALIZAR USUARIO" : "GUARDAR USUARIO"}
-            </Button>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer style={{ backgroundColor: "#1e293b", height:"40px"}}></Modal.Footer>
-      </Modal>
+      <DeleteModal
+        show={showDeleteModal}
+        handleClose={() => setShowDeleteModal(false)}
+        onConfirm={confirmarEliminacion}
+        title="Eliminar Usuario"
+        message="¿Estás seguro de que deseas eliminar este usuario del sistema permanentemente?"
+      />
     </section>
   );
 }

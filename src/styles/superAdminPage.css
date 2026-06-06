@@ -1,4 +1,4 @@
-#SAdmin_container {
+#superAdmin_container {
   width: 89vw;
   height: 100vh;
   background-color: #eef1f6;
@@ -7,7 +7,7 @@
   align-items: center;
 }
 
-#usuarios_header {
+#users_header {
   width: 90%;
   height: auto;
   margin-top: 20px;
@@ -16,18 +16,17 @@
   align-items: center;
 }
 
-#usuarios_tittle {
+#users_title {
   color: #1e293b;
-  margin-top: 7px;
 }
 
-#agregar_buscar_container {
+#add_search_container {
   width: 36%;
   display: flex;
   justify-content: space-between;
 }
 
-#cargarUsuario {
+#addUser {
   width: fit-content;
   background-color: #1e293b;
   color: #f0f2f5;
@@ -36,76 +35,76 @@
   padding: 6px;
 }
 
-#cargarUsuario:hover {
+#addUser:hover {
   color: #1e293b;
   background-color: #d0d9e7;
   border: 1px solid #5576aa;
 }
 
-#controlBuscar {
+#controlSearch {
   width: fit-content;
   border-radius: 20px;
   border: 1px solid #5576aa;
 }
 
-#usuarios_main {
+#users_main {
   height: auto;
   width: 90%;
   margin-top: 10px;
   overflow-y: auto;
 }
 
-#usuarios_table {
+#users_table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 10px;
+  border-spacing: 0 5px;
   border: none;
 }
 
 /* THEAD */
-#usuarios_table thead {
+#users_table thead {
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-#usuarios_table thead tr th {
+#users_table thead tr th {
   color: #1e293b;
   background-color: #92a7c8;
   text-align: center;
   position: sticky;
   font-family: "Inter";
   font-weight: 600;
-  padding: 6px;
+    padding: 6px;
 }
 
-#usuarios_table thead tr th:first-child {
+#users_table thead tr th:first-child {
   border-radius: 20px 0 0 20px;
 }
 
-#usuarios_table thead tr th:last-child {
+#users_table thead tr th:last-child {
   border-radius: 0 20px 20px 0;
 }
 
 /* TBODY */
-#usuarios_table tbody tr {
+#users_table tbody tr {
   background-color: #f0f2f5;
 }
 
-#usuarios_table tbody tr:hover td {
+#users_table tbody tr:hover td {
   background-color: #d0d9e7;
 }
 
-#usuarios_table tbody tr td {
+#users_table tbody tr td {
   border: 1px solid #5576aa;
 }
 
-#usuarios_table tbody tr td:first-child {
+#users_table tbody tr td:first-child {
   border-radius: 20px 0 0 20px;
   border-left: 1px solid #5576aa;
 }
 
-#usuarios_table tbody tr td:last-child {
+#users_table tbody tr td:last-child {
   border-radius: 0 20px 20px 0;
   border-right: 1px solid #5576aa;
 }
@@ -130,98 +129,20 @@
   color: gray;
 }
 
-#btn_modificar:hover {
-  border: none;
-}
-
-#FaPen {
+.FaPen {
   color: orange;
 }
 
-#FaPen:hover {
-  transform: scale(1.2);
+.Fapen_body:hover {
+  transform: scale(1.1);
   filter: drop-shadow(0px 0px 8px rgba(255, 165, 0, 2));
 }
 
-#FaTrashCan {
+.FaTrashCan {
   color: #a12e2e;
 }
 
-#FaTrashCan:hover {
-  transform: scale(1.2);
+.FaTrashCan_body:hover{
+    transform: scale(1.1);
   filter: drop-shadow(0px 0px 5px rgba(161, 46, 46, 2));
-}
-
-/* MODAL */
-#cargarUsuario_container {
-  background-color: #eef1f6;
-  width: 100%;
-  height: fit-content;
-  padding: 0%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#cargarUsuario_title {
-  position: absolute;
-  top: 12px;
-  color: #f0f2f5;
-}
-
-#cargarUsuario_form {
-  width: 80%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-
-.formGroupUsuarios {
-  width: 100%;
-  height: 35px;
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-}
-
-.formGroupLabelUsuarios {
-  width: 40%;
-  height: 100%;
-  color: #1e293b;
-  background-color: #92a7c8;
-  margin: 0;
-  border: 1px solid #5576aa;
-  border-radius: 20px 0px 0px 20px;
-  font-family: "Inter";
-  font-weight: 500;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.formGroupControl {
-  width: 60%;
-  height: 100%;
-  background-color: #d0d9e7;
-  border: 1px solid #5576aa;
-  border-left: none;
-  border-radius: 0px 20px 20px 0px;
-}
-
-#btnAddUsuario {
-  width: 100%;
-  color: #f0f2f5;
-  margin: 8px 0px 8px 0px;
-  background-color: #1e293b;
-  border: none;
-  border-radius: 20px;
-  font-weight: 500;
-}
-
-#btnAddUsuario:hover {
-  background-color: #92a7c8;
-  border: 1px solid #5576aa;
-  color: #1e293b;
 }

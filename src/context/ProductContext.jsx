@@ -93,20 +93,32 @@ export function ProductProvider({ children }) {
       p.id.toString().includes(filtro),
   );
 
+  // const eliminarProducto = async (id) => {
+  //   const producto = productos.find((p) => p.id === id);
+  //   if (
+  //     window.confirm(`¿Eliminar definitivamente ${producto.nombreProducto}?`)
+  //   ) {
+  //     try {
+  //       const res = await borrarProducto(id);
+  //       alert(res.mensaje || "Producto eliminado");
+  //       await cargarCatsProds();
+  //     } catch (error) {
+  //       alert("Error al intentar eliminar el producto.");
+  //     }
+  //   }
+  // };
+
   const eliminarProducto = async (id) => {
-    const producto = productos.find((p) => p.id === id);
-    if (
-      window.confirm(`¿Eliminar definitivamente ${producto.nombreProducto}?`)
-    ) {
-      try {
-        const res = await borrarProducto(id);
-        alert(res.mensaje || "Producto eliminado");
-        await cargarCatsProds();
-      } catch (error) {
-        alert("Error al intentar eliminar el producto.");
-      }
-    }
-  };
+  try {
+    const res = await borrarProducto(id);
+    alert(res.mensaje || "Producto eliminado");
+    await cargarCatsProds(); // Refresca el inventario en tiempo real
+    return true; // Éxito
+  } catch (error) {
+    alert("Error al intentar eliminar el producto.");
+    return false; // Falló
+  }
+};
 
   const resetearFormularioProducto = () => {
     setModificandoId(null);

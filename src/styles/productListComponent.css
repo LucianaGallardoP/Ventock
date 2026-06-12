@@ -34,6 +34,7 @@
   border: none;
   border-radius: 20px;
   padding: 6px;
+  width: 50%;
 }
 
 #addProduct:hover {
@@ -45,6 +46,7 @@
 #controlBuscar {
   border-radius: 20px;
   border: 1px solid #5576aa;
+  width: 50%;
 }
 
 #products_main {
@@ -128,6 +130,12 @@ td {
   align-items: center;
 }
 
+#products_table tbody td.celda_vacia {
+  padding: 5px 0;
+  border-top-right-radius: 20px !important;
+  border-bottom-left-radius:20px !important ;
+}
+
 #products_table tbody tr:not(.titleCategorie_row) td {
   border-top: 1px solid #5576aa;
   border-bottom: 1px solid #5576aa;
@@ -179,23 +187,39 @@ td {
   font-size: 0.85rem;
 }
 
-.productName_cell{
-  max-width: 12vw; 
+.productName_cell {
+  max-width: 12vw;
   white-space: nowrap;
   vertical-align: middle;
+  padding: 0px 14px !important;
 }
 
-.productName_scroll{
-  width: 100%;
-  overflow-x: auto;
+.productName_scroll {
+  width: 80%;
+  overflow-x: hidden;
   white-space: nowrap;
-  padding: 2px 4px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  display: flex;
+  align-items: center;
 }
 
-/* .productName_scroll::-webkit-scrollbar-thumb{
-  background: #92a7c8;
+.productName_cell:hover .productName_scroll {
+  overflow-x: auto;
+}
+
+.productName_scroll::-webkit-scrollbar {
+  height: 5px;
+}
+
+.productName_scroll::-webkit-scrollbar-thumb {
+  background: #5576aa;
   border-radius: 4px;
-} */
+}
+
+.productName_scroll::-webkit-scrollbar-thumb:hover {
+  background: #1e293b;
+}
 
 #btn_agg {
   background-color: transparent;
@@ -208,15 +232,10 @@ td {
   color: #1e293b;
 }
 
-#btn_modificar {
-  background-color: transparent;
-  border: none;
-  color: orange;
-}
-
-#btn_modificar:hover {
-  transform: scale(1.2);
-  filter: drop-shadow(0px 0px 8px rgba(255, 165, 0, 2));
+.btn_modificar {
+  background-color: transparent !important;
+  border: none !important;
+  color: orange !important;
 }
 
 .btn_eliminar {
@@ -225,7 +244,20 @@ td {
   color: #a12e2e !important;
 }
 
-.btn_eliminar:hover {
-  transform: scale(1.2);
+.FaPen {
+  color: orange;
+}
+
+.Fapen_body:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0px 0px 8px rgba(255, 165, 0, 2));
+}
+
+.FaTrashCan {
+  color: #a12e2e;
+}
+
+.FaTrashCan_body:hover {
+  transform: scale(1.1);
   filter: drop-shadow(0px 0px 5px rgba(161, 46, 46, 2));
 }

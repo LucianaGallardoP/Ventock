@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Dropdown, Form, Button } from "react-bootstrap";
 import { FaTrashCan } from "react-icons/fa6";
 import { FaPen } from "react-icons/fa";
 import { IoIosAddCircle } from "react-icons/io";
 import { ProductContext } from "../context/ProductContext";
 import { OrderContext } from "../context/OrderContext";
+
+import DeleteModal from "./modals/deleteModal";
 import "../styles/productListComponent.css";
 
 export default function ProductListComponent({ setShowModalCarga }) {
@@ -21,8 +23,30 @@ export default function ProductListComponent({ setShowModalCarga }) {
 
   const { agregarAlDetalle } = useContext(OrderContext);
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [prodParaEliminar, setProdParaEliminar] = useState({
+    id: null,
+    nombre: "",
+  });
+
   const manejarFiltroCategoria = (nombreCategoria) => {
     setFiltro(nombreCategoria);
+  };
+
+  const clickDeleteIcon = (id, nombre) => {
+    setProdParaEliminar({ id, nombre });
+    setShowDeleteModal(true);
+  };
+
+  const confirmarEliminacion = async () => {
+    if (prodParaEliminar.id) {
+      const exito = await eliminarProducto(prodParaEliminar.id);
+      if (exito) {
+        // Si se borró de la base de datos, cerramos y limpiamos el estado local
+        setShowDeleteModal(false);
+        setProdParaEliminar({ id: null, nombre: "" });
+      }
+    }
   };
 
   const formatearFecha = (fecha) => {
@@ -104,17 +128,18 @@ export default function ProductListComponent({ setShowModalCarga }) {
             </tr>
 
             <tr className="columns_TableProducts">
-              <th>NOMBRE</th>
-              <th>STOCK</th>
+              <th>Nombre</th>
+              <th>Stock</th>
               <th>P.U</th>
-              <th>%GAN</th>
               <th>%IVA</th>
-              <th>IMPORTE</th>
+              <th>%Ganancia</th>
+              <th>Importe</th>
               <th>
                 <IoIosAddCircle />
               </th>
               <th id="icons_container">
-                <FaPen /> <FaTrashCan />
+                <FaPen className="FaPen" />
+                <FaTrashCan className="FaTrashCan" />
               </th>
             </tr>
           </thead>
@@ -126,7 +151,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
               );
 
               const productosFiltrados = productosDeEstaCat.filter((p) => {
-                if (filtro === "" || cat.nombre === filtro) return true; // Si es filtro por dropdown o vacío
+                if (filtro === "" || cat.nombre === filtro) return true;
                 return p.nombreProducto
                   .toLowerCase()
                   .includes(filtro.toLowerCase());
@@ -186,8 +211,9 @@ export default function ProductListComponent({ setShowModalCarga }) {
                         </td>
 
                         <td>${producto.precioUnitario}</td>
-                        <td>%{producto.ganancia}</td>
                         <td>%{producto.iva}</td>
+
+                        <td>%{producto.ganancia}</td>
                         <td>${producto.importe}</td>
                         <td style={{ textAlign: "center" }}>
                           <Button
@@ -199,18 +225,23 @@ export default function ProductListComponent({ setShowModalCarga }) {
                         </td>
                         <td>
                           <Button
-                            id="btn_modificar"
+                            className="btn_modificar"
                             onClick={() => {
                               prepararEdicion(producto, setShowModalCarga);
                             }}
                           >
-                            <FaPen />
+                            <FaPen className="FaPen Fapen_body" />
                           </Button>
                           <Button
                             className="btn_eliminar"
-                            onClick={() => eliminarProducto(producto.id)}
+                            onClick={() =>
+                              clickDeleteIcon(
+                                producto.id,
+                                producto.nombreProducto,
+                              )
+                            }
                           >
-                            <FaTrashCan />
+                            <FaTrashCan className="FaTrashCan FaTrashCan_body" />
                           </Button>
                         </td>
                       </tr>
@@ -230,7 +261,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
 
             {categorias.length === 0 && (
               <tr>
-                <td colSpan={9} className="text-muted mt-2 text-center">
+                <td colSpan={9} className="text-muted mt-2 text-center celda_vacia">
                   Crea una categoría para empezar a listar productos
                 </td>
               </tr>
@@ -238,6 +269,14 @@ export default function ProductListComponent({ setShowModalCarga }) {
           </tbody>
         </table>
       </div>
+
+      <DeleteModal
+        show={showDeleteModal}
+        handleClose={() => setShowDeleteModal(false)}
+        onConfirm={confirmarEliminacion}
+        title="ELIMINAR PRODUCTO PERMANENTEMENTE"
+        message={`¿Estás seguro de que deseas eliminar "${prodParaEliminar.nombre}" del inventario de stock? Esta acción no se puede deshacer.`}
+      />
     </section>
   );
 }

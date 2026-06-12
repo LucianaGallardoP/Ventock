@@ -60,7 +60,7 @@ export default function ProductModal({ show, onHide }) {
         }}
       >
         <h5 id="cargarProducto_title">
-          {modificandoId ? "MODIFICAR PRODUCTO" : "CARGAR PRODUCTO"}
+          {modificandoId ? "Modificar Producto" : "Cargar Producto"}
         </h5>
       </Modal.Header>
       <Modal.Body id="cargarProducto_container">
@@ -128,20 +128,6 @@ export default function ProductModal({ show, onHide }) {
             />
           </Form.Group>
 
-          <Form.Group className="formGroup" controlId="formGroupGanancia">
-            <Form.Label className="formGroupLabel">% Ganancia</Form.Label>
-            <Form.Control
-              className="formGroupControl"
-              type="number"
-              placeholder="Ganancia del Producto"
-              value={ganancia}
-              onChange={(e) => {
-                setGanancia(e.target.value);
-                recalcularImporte(precioU, iva, e.target.value);
-              }}
-            />
-          </Form.Group>
-
           <Form.Group className="formGroup" controlId="formGroupIva">
             <Form.Label className="formGroupLabel">% IVA</Form.Label>
             <Form.Control
@@ -152,6 +138,20 @@ export default function ProductModal({ show, onHide }) {
               onChange={(e) => {
                 setIva(e.target.value);
                 recalcularImporte(precioU, e.target.value, ganancia);
+              }}
+            />
+          </Form.Group>
+
+          <Form.Group className="formGroup" controlId="formGroupGanancia">
+            <Form.Label className="formGroupLabel">% Ganancia</Form.Label>
+            <Form.Control
+              className="formGroupControl"
+              type="number"
+              placeholder="Ganancia del Producto"
+              value={ganancia}
+              onChange={(e) => {
+                setGanancia(e.target.value);
+                recalcularImporte(precioU, iva, e.target.value);
               }}
             />
           </Form.Group>
@@ -226,14 +226,11 @@ export default function ProductModal({ show, onHide }) {
               type="submit"
               disabled={!formularioValido}
             >
-              {modificandoId ? "ACTUALIZAR PRODUCTO" : "GUARDAR"}
+              {modificandoId ? "Actualizar Producto" : "Guardar"}
             </Button>
           </div>
         </Form>
-      </Modal.Body>
-      {/* <Modal.Footer style={{ backgroundColor: "#f0f2f5" }}></Modal.Footer> */}
-        <Modal.Footer style={{ backgroundColor: "#1e293b", height:"40px"}}></Modal.Footer>
-
+      </Modal.Body>    
     </Modal>
   );
 }

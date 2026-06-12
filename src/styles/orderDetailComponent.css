@@ -29,7 +29,7 @@
   background-color: #92a7c8;
   font-family: "Inter";
   font-weight: 500;
-  padding: 2px;
+  padding: 3px;
   text-align: center;
   position: sticky;
   top: 0px;
@@ -48,11 +48,16 @@
 }
 
 #orderDetail_table tbody td:first-child {
-  border-radius: 20px 0px 0px 20px;
+  border-radius: 20px 0px 0px 20px !important;
 }
 
 #orderDetail_table tbody td:last-child {
   border-radius: 0px 20px 20px 0px;
+}
+
+#orderDetail_table tbody tr td.celda_vacia {
+  border-radius: 20px !important;
+  padding: 5px 0;
 }
 
 #orderDetail_Importe {

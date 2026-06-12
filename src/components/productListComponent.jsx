@@ -6,10 +6,14 @@ import { IoIosAddCircle } from "react-icons/io";
 import { ProductContext } from "../context/ProductContext";
 import { OrderContext } from "../context/OrderContext";
 
+import { AuthContext } from "../context/AuthContext";
+
 import DeleteModal from "./modals/deleteModal";
 import "../styles/productListComponent.css";
 
 export default function ProductListComponent({ setShowModalCarga }) {
+  const { user } = useContext(AuthContext);
+
   const {
     categorias,
     filtro,
@@ -28,6 +32,9 @@ export default function ProductListComponent({ setShowModalCarga }) {
     id: null,
     nombre: "",
   });
+
+  const esAdmin = user?.rol === "Admin" || user?.rol === "SuperAdmin";
+  const columnasVisibles = esAdmin ? 8 : 7;
 
   const manejarFiltroCategoria = (nombreCategoria) => {
     setFiltro(nombreCategoria);
@@ -68,15 +75,18 @@ export default function ProductListComponent({ setShowModalCarga }) {
         <h5 id="products_tittle">INVENTARIO</h5>
 
         <div id="addSearch_container">
-          <button
-            id="addProduct"
-            onClick={() => {
-              resetearFormularioProducto();
-              setShowModalCarga(true);
-            }}
-          >
-            + Agregar Producto
-          </button>
+          {esAdmin && (
+            <button
+              id="addProduct"
+              onClick={() => {
+                resetearFormularioProducto();
+                setShowModalCarga(true);
+              }}
+            >
+              + Agregar Producto
+            </button>
+          )}
+
           <Form.Control
             id="controlBuscar"
             type="search"
@@ -91,7 +101,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
         <table id="products_table">
           <thead id="productsTable_thead">
             <tr>
-              <th colSpan={9} style={{ padding: "0%" }}>
+              <th colSpan={columnasVisibles} style={{ padding: "0%" }}>
                 <Dropdown>
                   <Dropdown.Toggle className="dropd_categorias">
                     {categorias.some((c) => c.nombre === filtro)
@@ -137,10 +147,12 @@ export default function ProductListComponent({ setShowModalCarga }) {
               <th>
                 <IoIosAddCircle />
               </th>
-              <th id="icons_container">
-                <FaPen className="FaPen" />
-                <FaTrashCan className="FaTrashCan" />
-              </th>
+              {esAdmin && (
+                <th id="icons_container">
+                  <FaPen className="FaPen" />
+                  <FaTrashCan className="FaTrashCan" />
+                </th>
+              )}
             </tr>
           </thead>
 
@@ -223,27 +235,30 @@ export default function ProductListComponent({ setShowModalCarga }) {
                             <IoIosAddCircle />
                           </Button>
                         </td>
-                        <td>
-                          <Button
-                            className="btn_modificar"
-                            onClick={() => {
-                              prepararEdicion(producto, setShowModalCarga);
-                            }}
-                          >
-                            <FaPen className="FaPen Fapen_body" />
-                          </Button>
-                          <Button
-                            className="btn_eliminar"
-                            onClick={() =>
-                              clickDeleteIcon(
-                                producto.id,
-                                producto.nombreProducto,
-                              )
-                            }
-                          >
-                            <FaTrashCan className="FaTrashCan FaTrashCan_body" />
-                          </Button>
-                        </td>
+
+                        {esAdmin && (
+                          <td>
+                            <Button
+                              className="btn_modificar"
+                              onClick={() => {
+                                prepararEdicion(producto, setShowModalCarga);
+                              }}
+                            >
+                              <FaPen className="FaPen Fapen_body" />
+                            </Button>
+                            <Button
+                              className="btn_eliminar"
+                              onClick={() =>
+                                clickDeleteIcon(
+                                  producto.id,
+                                  producto.nombreProducto,
+                                )
+                              }
+                            >
+                              <FaTrashCan className="FaTrashCan FaTrashCan_body" />
+                            </Button>
+                          </td>
+                        )}
                       </tr>
                     );
                   })}
@@ -261,7 +276,10 @@ export default function ProductListComponent({ setShowModalCarga }) {
 
             {categorias.length === 0 && (
               <tr>
-                <td colSpan={9} className="text-muted mt-2 text-center celda_vacia">
+                <td
+                  colSpan={9}
+                  className="text-muted mt-2 text-center celda_vacia"
+                >
                   Crea una categoría para empezar a listar productos
                 </td>
               </tr>

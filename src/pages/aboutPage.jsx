@@ -26,19 +26,18 @@ export default function AboutPage() {
             negocio."
           </p>
           <div id="infoIntegrantes">
-            <p style={{ fontSize: "large", fontWeight: "500" }}>Integrante</p>
-            <p>Luciana Gallardo</p>
             <img
               src={avatar}
               alt="Avatar Luciana"
               width={"35%"}
-              style={{ borderRadius: "50%" }}
+              style={{ borderRadius: "50%", marginTop:"10px" }}
             />
+            <p>Luciana Gallardo</p>
+
             <div>
               <p
                 style={{
                   fontWeight: "500",
-                  marginTop: "10px",
                 }}
               >
                 GitHub: LucianaGallardoP

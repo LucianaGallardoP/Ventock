@@ -14,7 +14,6 @@ export default function PaymentModal({ show, onHide }) {
   const { productos, setProductos } = useContext(ProductContext);
 
   const procesarVenta = (metodo) => {
-    // Lógica para restar stock
     const nuevosProductos = productos.map((prodExistente) => {
       const itemEnCarrito = detallePedido.find(
         (item) => item.id === prodExistente.id,

@@ -62,20 +62,20 @@ export default function GestionarCatPage() {
 
   return (
     <section id="gestCat_container">
-      <h2>Dashboard Admin</h2>
+      {/* <h2>Dashboard Admin</h2> */}
 
       <div id="gestCategorias_header">
         <h5 id="gestCategorias_tittle">GESTIONAR CATEGORIAS</h5>
       </div>
 
-      <div id="categorias_main">
-        <table id="categorias_table">
-          <thead id="categoriasTable_thead">
-            <tr className="columns_TableCategorias">
-              <th>NOMBRE</th>
-              <th>ESTADO</th>
-              <th>FECHA REGISTRO</th>
-              <th>USUARIO</th>
+      <div id="categories_main">
+        <table id="categories_table">
+          <thead>
+            <tr>
+              <th>Nombre de Categoria</th>
+              <th>Estado</th>
+              <th>Fecha de Registro</th>
+              <th>Usuario</th>
               <th id="icons_container">
                 <FaPen /> <FaTrashCan />
               </th>

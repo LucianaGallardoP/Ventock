@@ -1,8 +1,8 @@
 #contact_main {
-  width: 100vw;
-  height: 82vh;
+  width: 89vw;
+  height: 100vh;
   /* background-color: #e4ebf0; */
-  background-image: url(../assets/fondoLogIn.jpg);
+  background-image: url(../assets/fondoLogIn.png);
   background-size: cover;
   background-position: center;
   display: flex;
@@ -26,7 +26,6 @@
   /* background-color: green; */
   height: auto;
   width: 38%;
-  /* border: 1.5px solid #8ab3cf; */
   border-radius: 20px;
   padding: 20px;
   color: #f3f3f2;

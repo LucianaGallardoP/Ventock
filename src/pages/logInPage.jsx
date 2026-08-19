@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { Button, Form } from "react-bootstrap";
-import VentockSVGblanco from "../assets/isotipoVentock.png";
+import { Button, Form, Spinner } from "react-bootstrap";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import isotipoVentock from "../assets/isotipoVentock.png";
 import logotipoVentock from "../assets/logotipoVentock.png";
 import "../styles/logInPage.css";
 
@@ -15,6 +16,9 @@ export default function LogInPage() {
     password: "",
   });
 
+  const [cargando, setCargando] = useState(false);
+  const [mostrarPassword, setMostrarPassword] = useState(false);
+
   const handleChange = (e) => {
     setDatos({
       ...datos,
@@ -24,17 +28,24 @@ export default function LogInPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Funcion login de AuthContext
-    const { success, usuario, mensaje } = await login(datos);
+    setCargando(true);
 
-    if (success && usuario) {
-      if (usuario.rol === "SuperAdmin") {
-        navigate("/superAdmin");
+    try {
+      const { success, usuario, mensaje } = await login(datos);
+
+      if (success && usuario) {
+        if (usuario.rol === "SuperAdmin") {
+          navigate("/superAdmin");
+        } else {
+          navigate("/");
+        }
       } else {
-        navigate("/");
+        alert(mensaje || "Error al iniciar sesión");
       }
-    } else {
-      alert(mensaje || "Error al iniciar sesión");
+    } catch (error) {
+      alert("Ocurrió un error en la conexión.");
+    } finally {
+      setCargando(false);
     }
   };
 
@@ -44,7 +55,7 @@ export default function LogInPage() {
         <Form id="logInForm_container" onSubmit={handleSubmit}>
           <div id="imgs_container">
             <img
-              src={VentockSVGblanco}
+              src={isotipoVentock}
               id="imgIsotipo"
               alt="isotipo de Ventock"
             />
@@ -66,6 +77,7 @@ export default function LogInPage() {
               type="email"
               placeholder="Email"
               required
+              disabled={cargando}
               value={datos.correo}
               onChange={(e) => {
                 setDatos({ ...datos, correo: e.target.value });
@@ -77,14 +89,26 @@ export default function LogInPage() {
             className="campos_Container"
             controlId="formGroupPassword"
           >
-            <Form.Control
-              type="password"
-              className="controls_formLogIn "
-              placeholder="Contraseña"
-              required
-              value={datos.password}
-              onChange={(e) => setDatos({ ...datos, password: e.target.value })}
-            />
+            <div className="password_container">
+              <Form.Control
+                type={mostrarPassword ? "text" : "password"}
+                className="controls_formLogIn"
+                placeholder="Contraseña"
+                required
+                disabled={cargando}
+                value={datos.password}
+                onChange={(e) =>
+                  setDatos({ ...datos, password: e.target.value })
+                }
+              />
+              <span 
+                className="ojo_icon" 
+                onClick={() => !cargando && setMostrarPassword(!mostrarPassword)}
+                style={{ cursor: cargando ? "not-allowed" : "pointer" }}
+              >
+                {mostrarPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
           </Form.Group>
 
           <Form.Text
@@ -95,15 +119,31 @@ export default function LogInPage() {
           </Form.Text>
 
           <Button
+            variant="link"
             className="text-light"
-            style={{ display: "flex", justifyContent: "center" }}
+            id="recupPassword"
+            onClick={() => navigate("/404")}
           >
             Olvidaste tu contraseña?
           </Button>
 
           <div id="btnEnviar_container">
-            <Button type="" id="btnIngresar">
-              Ingresar
+            <Button type="submit" id="btnIngresar" disabled={cargando}>
+              {cargando ? (
+                <>
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    className="me-2"
+                  />
+                  Cargando...
+                </>
+              ) : (
+                "Ingresar"
+              )}
             </Button>
           </div>
         </Form>

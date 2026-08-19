@@ -4,7 +4,7 @@ const url = "http://localhost:3001/api/usuarios";
 
 // Helper para obtener el token limpio
 const getAuthHeaders = () => {
-  const token = JSON.parse(localStorage.getItem("token"));
+  const token = localStorage.getItem("token");
   return {
     "Content-type": "application/json; charset=UTF-8",
     "x-token": token || "",
@@ -38,7 +38,7 @@ export const getUsuarioById = async (id) => {
   }
 };
 
-export const crearUsuario = async (datos) => {
+export const postUsuario = async (datos) => {
   try {
     const resp = await fetch(url, {
       method: "POST",
@@ -58,7 +58,7 @@ export const crearUsuario = async (datos) => {
   }
 };
 
-export const actualizarUsuario = async (id, datos) => {
+export const putUsuario = async (id, datos) => {
   try {
     const resp = await fetch(url + "/" + id, {
       method: "PUT",

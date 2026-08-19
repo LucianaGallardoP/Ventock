@@ -1,22 +1,20 @@
-/* MODAL CARGAR PRODUCTO NUEVO */
 #cargarProducto_container {
-  background-color: #f0f2f5;
+  background-color: #eef1f6;
   width: 100%;
-  height: 72vh;
+  height: 70vh;
   padding: 0%;
   margin: 0%;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 20px;
 }
 
 #cargarProducto_title {
   position: absolute;
   top: 12px;
-  color: #1e293b;
-  font-family: "Inter";
-  font-size: larger;
-  font-weight: 700;
+  color: #f0f2f5;
+  font-weight: 600;
 }
 
 #cargarProducto_form {
@@ -25,16 +23,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
+  justify-content: center;
   position: relative;
+  /* background-color: antiquewhite; */
 }
 
 .formGroup {
   width: 100%;
   height: fit-content;
-  /* margin: 4px; */
   margin-top: 8px;
-  /* background-color: orange; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,9 +41,9 @@
   width: 40%;
   height: 100%;
   color: #1e293b;
-  background-color: #8ab3cf;
+  background-color: #92a7c8;
   margin: 0;
-  border: 1px solid #4180ab;
+  border: 1px solid #5576aa;
   border-radius: 20px 0px 0px 20px;
   font-family: "Inter";
   font-weight: 500;
@@ -58,8 +55,8 @@
 .formGroupControl {
   width: 60%;
   height: 100%;
-  background-color: #bdd1de;
-  border: 1px solid #4180ab;
+  background-color: #d0d9e7;
+  border: 1px solid #5576aa;
   border-left: none;
   border-radius: 0px 20px 20px 0px;
 }
@@ -68,22 +65,24 @@
   width: 100%;
   height: auto;
   display: flex;
-  justify-content: center;
-  position: absolute;
-  bottom: 0%;
+  /* justify-content: center; */
+  /* position: absolute; */
+  /* bottom: 0%; */
+  /* background-color: pink; */
+  margin-top: 10px;
 }
 
 #dropdown-basic {
   width: 100%;
   color: #1e293b;
-  background-color: #bdd1de;
-  border: 1px solid #4180ab;
+  background-color: #d0d9e7;
+  border: 1px solid #5576aa;
   border-radius: 20px;
 }
 
 #dropdown-basic:hover {
   color: #1e293b;
-  background-color: #8ab3cf;
+  background-color: #5576aa;
 }
 
 #dropDownMenu {
@@ -125,15 +124,15 @@
 
 #btnAddProduct {
   width: 60%;
-  color: #1e293b;
-  background-color: #bdd1de;
-  border: 1px solid #4180ab;
+  color: #f0f2f5;
+  background-color: #1e293b;
+  border: none;
   border-radius: 20px;
   font-weight: 500;
 }
 
 #btnAddProduct:hover {
-  color: #f0f2f5;
-  background-color: #1e293b;
-  border: none;
+  color: #1e293b;
+  background-color: #92a7c8;
+  border: 1px solid #5576aa;
 }

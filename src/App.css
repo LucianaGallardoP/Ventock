@@ -1,10 +1,10 @@
-h5{
-  font-family: "Inter";
-  font-size: larger;
-  font-weight: 800;
-  text-align: center;
+.gral-container {
+  display: flex;
 }
 
-.app-container{
-display: flex;
+h5 {
+  font-family: "Inter";
+  font-size:larger;
+  font-weight: 800;
+  text-align: center;
 }

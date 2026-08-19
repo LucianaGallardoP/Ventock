@@ -33,8 +33,6 @@ export default function ProductModal({ show, onHide }) {
     const costo = Number(p) || 0;
     const porcGanancia = Number(g) || 0;
     const porcIva = Number(i) || 0;
-    // const precioConGanancia = costo + (costo * porcGanancia) / 100;
-    // const resultadoFinal = precioConGanancia + (precioConGanancia * porcIva) / 100;
     const precioConGanancia = costo * (1 + porcGanancia / 100);
     const resultadoFinal = precioConGanancia * (1 + porcIva / 100);
     setImporte(resultadoFinal.toFixed(2));
@@ -51,23 +49,21 @@ export default function ProductModal({ show, onHide }) {
     catSeleccionada !== "Crea una categoría";
 
   /* Modal CARGAR PRODUCTO */
-
   return (
     <Modal show={show} onHide={onHide} size="lg" backdrop="static">
       <Modal.Header
         closeButton
         style={{
-          backgroundColor: "#f0f2f5",
+          backgroundColor: "#1e293b",
           display: "flex",
           justifyContent: "center",
         }}
       >
         <h5 id="cargarProducto_title">
-          {modificandoId ? "MODIFICAR PRODUCTO" : "CARGAR PRODUCTO"}
+          {modificandoId ? "Modificar Producto" : "Cargar Producto"}
         </h5>
       </Modal.Header>
       <Modal.Body id="cargarProducto_container">
-        {/* Cada input tiene su 'value' conectado a un estado y su 'onChange' para actualizarlo */}
         <Form
           onSubmit={(e) => handleSubmitProducto(e, onHide)}
           id="cargarProducto_form"
@@ -132,20 +128,6 @@ export default function ProductModal({ show, onHide }) {
             />
           </Form.Group>
 
-          <Form.Group className="formGroup" controlId="formGroupGanancia">
-            <Form.Label className="formGroupLabel">% Ganancia</Form.Label>
-            <Form.Control
-              className="formGroupControl"
-              type="number"
-              placeholder="Ganancia del Producto"
-              value={ganancia}
-              onChange={(e) => {
-                setGanancia(e.target.value);
-                recalcularImporte(precioU, iva, e.target.value);
-              }}
-            />
-          </Form.Group>
-
           <Form.Group className="formGroup" controlId="formGroupIva">
             <Form.Label className="formGroupLabel">% IVA</Form.Label>
             <Form.Control
@@ -156,6 +138,20 @@ export default function ProductModal({ show, onHide }) {
               onChange={(e) => {
                 setIva(e.target.value);
                 recalcularImporte(precioU, e.target.value, ganancia);
+              }}
+            />
+          </Form.Group>
+
+          <Form.Group className="formGroup" controlId="formGroupGanancia">
+            <Form.Label className="formGroupLabel">% Ganancia</Form.Label>
+            <Form.Control
+              className="formGroupControl"
+              type="number"
+              placeholder="Ganancia del Producto"
+              value={ganancia}
+              onChange={(e) => {
+                setGanancia(e.target.value);
+                recalcularImporte(precioU, iva, e.target.value);
               }}
             />
           </Form.Group>
@@ -173,7 +169,6 @@ export default function ProductModal({ show, onHide }) {
           </Form.Group>
 
           <div id="selectCat_guardar_container">
-            {/* DropDowm Categorias */}
             <Dropdown
               style={{ width: "40%" }}
               onSelect={(val) => {
@@ -229,15 +224,13 @@ export default function ProductModal({ show, onHide }) {
             <Button
               id="btnAddProduct"
               type="submit"
-              // El botón se bloquea si el form no esta completo
               disabled={!formularioValido}
             >
-              {modificandoId ? "ACTUALIZAR PRODUCTO" : "GUARDAR"}
+              {modificandoId ? "Actualizar Producto" : "Guardar"}
             </Button>
           </div>
         </Form>
-      </Modal.Body>
-      <Modal.Footer style={{ backgroundColor: "#f0f2f5" }}></Modal.Footer>
+      </Modal.Body>    
     </Modal>
   );
 }

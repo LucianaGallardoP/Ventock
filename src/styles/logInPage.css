@@ -1,7 +1,7 @@
 #logIn_main {
   height: 100vh;
   width: 100%;
-  background-image: url(../assets/fondoLogIn.jpg);
+  background-image: url(../assets/fondoLogIn.png);
   background-size: cover;
   background-position: center;
   display: flex;
@@ -38,12 +38,12 @@
 }
 
 #imgIsotipo {
-  width: 30px;
+  width: 35px;
   margin-bottom: 3px;
 }
 
 #imgLogotipo {
-  width: 90px;
+  width: 110px;
 }
 
 #logIn_tittle {
@@ -58,10 +58,17 @@
   margin-bottom: 12px;
 }
 
+.password_container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
 .controls_formLogIn {
   height: 40px;
   background-color: rgba(30, 41, 59, 0.4) !important;
-  color: #f3f3f2 !important;
+  color: #f0f2f5 !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   border-radius: 20px !important;
   margin-bottom: 5px !important;
@@ -72,7 +79,6 @@
   font-size: 0.9rem;
 }
 
-/* Quitar el borde azul por defecto de Bootstrap al hacer click */
 .controls_formLogIn:focus {
   background-color: rgba(30, 41, 59, 0.6);
   color: #f0f2f5;
@@ -80,20 +86,52 @@
   border-color: rgb(243, 243, 242, 0.5);
 }
 
+.controls_formLogIn:-webkit-autofill,
+.controls_formLogIn:-webkit-autofill:hover, 
+.controls_formLogIn:-webkit-autofill:focus, 
+.controls_formLogIn:-webkit-autofill:active {
+  -webkit-text-fill-color: #f0f2f5 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.ojo_icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%); 
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  transition: color 0.2s ease;
+}
+
+#recupPassword {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  font-size: small;
+  margin-top: 5px;
+  padding: 0%;
+}
+
+#recupPassword:hover {
+  color: #92a7c8 !important;
+}
+
 #btnIngresar {
   width: 100%;
   border-radius: 20px;
   margin-top: 15px;
-  /* background-color: #8ab3cf; */
-  background-color: #92A7C8;
+  background-color: #92a7c8;
   color: #1e293b;
   border: none;
 }
 
 #btnIngresar:hover {
-  /* border: 1px solid #8ab3cf; */
-  border: 1px solid #92A7C8;
-  /* color: #8ab3cf; */
-  color: #92A7C8;
+  color: #92a7c8;
+  border: 1px solid #92a7c8;
   background-color: transparent;
 }

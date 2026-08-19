@@ -1,16 +1,16 @@
 #errorMain{
-background-color: #B5CADA;
+background-color: #859DC0;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-height: 82vh;
+height: 100vh;
+width: 89vw;
 position: relative;
 }
 
 #p{
     color: white;
-    /* font-family: "Lora"; */
     font-weight: 500;
     font-size:larger;
     position: absolute;

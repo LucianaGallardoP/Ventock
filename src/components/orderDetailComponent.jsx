@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { FaTrashCan } from "react-icons/fa6";
 import { OrderContext } from "../context/OrderContext";
+import DeleteModal from "./modals/deleteModal";
 import "../styles/orderDetailComponent.css";
 
 export default function OrderDetailComponent({ setShowConfirmModal }) {
@@ -14,6 +15,25 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
     setDescuentoPorc,
   } = useContext(OrderContext);
 
+// --- ESTADOS LOCALES PARA EL MODAL DE BORRADO ---
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [itemParaEliminar, setItemParaEliminar] = useState({ id: null, nombre: "" });
+
+  // Abre el modal visual y carga los datos del item seleccionado
+  const clickDeleteIcon = (id, nombre) => {
+    setItemParaEliminar({ id, nombre });
+    setShowDeleteModal(true);
+  };
+
+  // Se ejecuta si el usuario confirma la acción en el modal
+  const confirmarEliminacion = () => {
+    if (itemParaEliminar.id) {
+      eliminarDelDetalle(itemParaEliminar.id);
+      setShowDeleteModal(false);
+      setItemParaEliminar({ id: null, nombre: "" });
+    }
+  };
+
   return (
     <section id="orders_container">
       <div>
@@ -24,43 +44,48 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
         <table style={{ width: "100%" }}>
           <thead>
             <tr id="columns_OrderTable">
-              {/* <th>ID</th> */}
-              <th>PRODUCTO</th>
-              <th>CANTIDAD</th>
-              <th>IMPORTE</th>
-              <th>SUBTOTAL</th>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Importe</th>
+              <th>Subtotal</th>
               <th>
-                <FaTrashCan />
+                <FaTrashCan className="FaTrashCan"/>
               </th>
             </tr>
           </thead>
 
-          {/*  mapeamos 'detallePedido' para mostrar el carrito */}
           <tbody className="text-center">
             {detallePedido.length === 0 ? (
               <tr>
-                <td colSpan={6} className=" text-muted">
+                <td colSpan={6} className=" text-muted celda_vacia ">
                   No hay productos
                 </td>
               </tr>
             ) : (
               detallePedido.map((item) => (
                 <tr key={item.id}>
-                  {/* <td>{item.id}</td> */}
                   <td>{item.nombreProducto}</td>
                   <td>
                     <Form.Control
                       type="number"
-                      value={item.cantidad}
-                      min="1"
+                      className="no-spinners"
+                      value={item.cantidad === 0 ? "" : item.cantidad}
+                      min="0"
                       style={{
                         width: "90px",
                         margin: "auto",
                         backgroundColor: "transparent",
+                        textAlign: "center",
                       }}
-                      onChange={(e) =>
-                        manejarCambioCantidad(item.id, e.target.value)
-                      }
+                      onChange={(e) => {
+                        const valor = e.target.value;
+                        manejarCambioCantidad(item.id, valor);
+                      }}
+                      onBlur={(e) => {
+                        if (item.cantidad === 0) {
+                          manejarCambioCantidad(item.id, 1);
+                        }
+                      }}
                     />
                   </td>
                   <td>${item.importe}</td>
@@ -69,7 +94,7 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
                     <Button
                       className="btn_eliminar"
                       size="sm"
-                      onClick={() => eliminarDelDetalle(item.id)}
+                      onClick={() => clickDeleteIcon(item.id, item.nombreProducto)}
                     >
                       <FaTrashCan />
                     </Button>
@@ -103,6 +128,7 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
                   fontFamily: "Inter",
                   fontWeight: "500",
                   color: "#1e293b",
+
                 }}
               />
             </td>
@@ -113,11 +139,12 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
                 fontFamily: "Inter",
                 fontWeight: "500",
                 color: "#1e293b",
+                
               }}
             >
               IMPORTE TOTAL
             </th>
-            <th style={{ width: "55%", fontSize: "1.5rem", color: "#1e293b" }}>
+            <th style={{ width: "50%", fontSize: "1.5rem", color: "#1e293b" }}>
               ${totalConDescuento.toFixed(2)}
             </th>
           </tr>
@@ -132,6 +159,13 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
           Guardar Pedido
         </Button>
       </div>
+      <DeleteModal
+        show={showDeleteModal}
+        handleClose={() => setShowDeleteModal(false)}
+        onConfirm={confirmarEliminacion}
+        title="QUITAR PRODUCTO DEL PEDIDO"
+        message={`¿Estás seguro de que deseas quitar "${itemParaEliminar.nombre}" del detalle actual del pedido?`}
+      />
     </section>
   );
 }

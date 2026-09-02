@@ -3,11 +3,34 @@ import { Modal, Button, Form, Dropdown } from "react-bootstrap";
 import { ProductContext } from "../../context/ProductContext";
 import("../../styles/productModal.css");
 
+const sanitizarDecimal = (valor) => {
+  let formateado = valor.replace(",", ".");
+  formateado = formateado.replace(/[^0-9.]/g, "");
+
+  const partes = formateado.split(".");
+  if (partes.length > 2) {
+    formateado = `${partes[0]}.${partes.slice(1).join("")}`;
+  }
+
+  if (!formateado.includes(".") && formateado.length > 1) {
+    formateado = formateado.slice(0, 1);
+  }
+
+  if (partes[1] && partes[1].length > 2) {
+    formateado = `${partes[0]}.${partes[1].slice(0, 2)}`;
+  }
+
+  return formateado;
+};
+
 export default function ProductModal({ show, onHide }) {
   const {
+   
     categorias,
     crearNuevaCategoria,
     handleSubmitProducto,
+     codigoProd,
+  setCodigoProd,
     nombreProd,
     setNombreProd,
     stock,
@@ -29,24 +52,32 @@ export default function ProductModal({ show, onHide }) {
 
   const [nuevaCatInput, setNuevaCatInput] = useState("");
 
-  const recalcularImporte = (p, g, i) => {
+  const recalcularImporte = (p, i, u) => {
     const costo = Number(p) || 0;
-    const porcGanancia = Number(g) || 0;
-    const porcIva = Number(i) || 0;
-    const precioConGanancia = costo * (1 + porcGanancia / 100);
-    const resultadoFinal = precioConGanancia * (1 + porcIva / 100);
+
+    // const factorIva = Number(i) || 0;
+    const factorIva = Number(i) > 0 ? Number(i) : 1
+    // const factorUtilidad = Number(u) || 0;
+        const factorUtilidad = Number(u) > 0 ? Number(u) : 1;
+
+
+    const resultadoFinal = costo * factorIva * factorUtilidad;
     setImporte(resultadoFinal.toFixed(2));
   };
+
+  const esDecimalValido = (val) => val === "" || (val.includes(".") && !val.endsWith("."));
 
   const formularioValido =
     nombreProd.trim() !== "" &&
     stock !== "" &&
     precioU !== "" &&
-    ganancia !== "" &&
-    iva !== "" &&
-    importe !== "" &&
+    esDecimalValido(iva) &&
+    esDecimalValido(ganancia) &&
+    // importe !== "" &&
     catSeleccionada !== "Elige una categoría" &&
     catSeleccionada !== "Crea una categoría";
+
+
 
   /* Modal CARGAR PRODUCTO */
   return (
@@ -68,13 +99,14 @@ export default function ProductModal({ show, onHide }) {
           onSubmit={(e) => handleSubmitProducto(e, onHide)}
           id="cargarProducto_form"
         >
-          <Form.Group className="formGroup" controlId="formGroupIdProducto">
-            <Form.Label className="formGroupLabel">ID</Form.Label>
+          <Form.Group className="formGroup" controlId="formGroupCodigoProducto">
+            <Form.Label className="formGroupLabel">Código</Form.Label>
             <Form.Control
               className="formGroupControl"
               type="text"
-              placeholder="ID del producto"
-              disabled
+              placeholder="Código del producto"
+              value={codigoProd}
+    onChange={(e) => setCodigoProd(e.target.value)}
               required
             />
           </Form.Group>
@@ -119,6 +151,7 @@ export default function ProductModal({ show, onHide }) {
             <Form.Control
               className="formGroupControl"
               type="number"
+              step="any"
               placeholder="Precio Unitario del Producto"
               value={precioU}
               onChange={(e) => {
@@ -129,31 +162,49 @@ export default function ProductModal({ show, onHide }) {
           </Form.Group>
 
           <Form.Group className="formGroup" controlId="formGroupIva">
-            <Form.Label className="formGroupLabel">% IVA</Form.Label>
+            <Form.Label className="formGroupLabel">Factor IVA</Form.Label>
             <Form.Control
               className="formGroupControl"
-              type="number"
-              placeholder="IVA del Producto"
+              type="text"
+              inputMode="decimal"
+              placeholder="Ej: 1.21"
               value={iva}
               onChange={(e) => {
-                setIva(e.target.value);
-                recalcularImporte(precioU, e.target.value, ganancia);
+                // setIva(e.target.value);
+                // recalcularImporte(precioU, e.target.value, ganancia);
+                const valorLimpio = sanitizarDecimal(e.target.value);
+      setIva(valorLimpio);
+      recalcularImporte(precioU, valorLimpio, ganancia);
               }}
             />
+            {iva !== "" && !iva.includes(".") && (
+              <small className="text-danger" style={{ fontSize: "0.7rem" }}>
+                Debes incluir un punto decimal (ej: 1.21)
+              </small>
+            )}
           </Form.Group>
 
           <Form.Group className="formGroup" controlId="formGroupGanancia">
-            <Form.Label className="formGroupLabel">% Ganancia</Form.Label>
+            <Form.Label className="formGroupLabel">Factor Utilidad</Form.Label>
             <Form.Control
               className="formGroupControl"
-              type="number"
-              placeholder="Ganancia del Producto"
+              type="text"
+              inputMode="decimal"
+              placeholder="Ej: 1.40"
               value={ganancia}
               onChange={(e) => {
-                setGanancia(e.target.value);
-                recalcularImporte(precioU, iva, e.target.value);
-              }}
+                // setGanancia(e.target.value);
+                // recalcularImporte(precioU, iva, e.target.value);
+                const valorLimpio = sanitizarDecimal(e.target.value);
+      setGanancia(valorLimpio);
+      recalcularImporte(precioU, iva, valorLimpio);
+    }}
             />
+            {ganancia !== "" && !ganancia.includes(".") && (
+              <small className="text-danger" style={{ fontSize: "0.7rem" }}>
+                Debes incluir un punto decimal (ej: 1.40)
+              </small>
+            )}
           </Form.Group>
 
           <Form.Group className="formGroup" controlId="formGroupImporte">

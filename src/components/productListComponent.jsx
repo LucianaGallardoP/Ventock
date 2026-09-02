@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Dropdown, Form, Button } from "react-bootstrap";
 import { FaTrashCan } from "react-icons/fa6";
+import { IoIosSearch } from "react-icons/io";
 import { FaPen } from "react-icons/fa";
 import { IoIosAddCircle } from "react-icons/io";
 import { ProductContext } from "../context/ProductContext";
@@ -33,8 +34,12 @@ export default function ProductListComponent({ setShowModalCarga }) {
     nombre: "",
   });
 
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   const esAdmin = user?.rol === "Admin" || user?.rol === "SuperAdmin";
-  const columnasVisibles = esAdmin ? 8 : 7;
+  const columnasVisibles = esAdmin ? 10 : 9;
 
   const manejarFiltroCategoria = (nombreCategoria) => {
     setFiltro(nombreCategoria);
@@ -49,7 +54,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
     if (prodParaEliminar.id) {
       const exito = await eliminarProducto(prodParaEliminar.id);
       if (exito) {
-        // Si se borró de la base de datos, cerramos y limpiamos el estado local
         setShowDeleteModal(false);
         setProdParaEliminar({ id: null, nombre: "" });
       }
@@ -65,12 +69,70 @@ export default function ProductListComponent({ setShowModalCarga }) {
         month: "2-digit",
         hour: "2-digit",
         minute: "2-digit",
-      }) + " hs"
+        hour12: true
+      })
     );
   };
 
+  const coincideFiltro = (p, catNombre) => {
+    const coincideCategoria = filtro === "" || catNombre === filtro || p.categoria === filtro;
+    const busquedaTermino = filtro.toLowerCase().trim();
+    
+    if (busquedaTermino === "" || catNombre === filtro) {
+      return coincideCategoria;
+    }
+
+    const coincideNombre = p.nombreProducto?.toLowerCase().includes(busquedaTermino);
+    const coincideCodigo = p.codigo ? String(p.codigo).toLowerCase().includes(busquedaTermino) : false;
+
+    return (coincideNombre || coincideCodigo);
+  };
+
+  const productosVisibles = [];
+  categorias.forEach((cat) => {
+    const prodsCat = productos.filter((p) => p.categoria === cat.nombre && coincideFiltro(p, cat.nombre));
+    productosVisibles.push(...prodsCat);
+  });
+
+  useEffect(() => {
+    if (selectedIndex >= productosVisibles.length && productosVisibles.length > 0) {
+      setSelectedIndex(productosVisibles.length - 1);
+    }
+  }, [productosVisibles.length, selectedIndex]);
+
+  useEffect(() => {
+    const filaSeleccionada = document.querySelector(".fila_seleccionada");
+    if (filaSeleccionada) {
+      filaSeleccionada.scrollIntoView({
+        block: "nearest",
+        behavior: "smooth",
+      });
+    }
+  }, [selectedIndex]);
+
+ const handleKeyDown = (e) => {
+    if (productosVisibles.length === 0) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev < productosVisibles.length - 1 ? prev + 1 : prev));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : 0));
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      const productoSeleccionado = productosVisibles[selectedIndex];
+      if (productoSeleccionado) {
+        agregarAlDetalle(productoSeleccionado);
+      }
+    }
+  };
+
+  let contadorItem = 0;
+  let globalVisibleIndex = 0;
+
   return (
-    <section id="products_container">
+    <section id="products_container" tabIndex={0} onKeyDown={handleKeyDown}>
       <div id="products_header">
         <h5 id="products_tittle">INVENTARIO</h5>
 
@@ -83,17 +145,40 @@ export default function ProductListComponent({ setShowModalCarga }) {
                 setShowModalCarga(true);
               }}
             >
-              + Agregar Producto
+              +
             </button>
           )}
 
-          <Form.Control
-            id="controlBuscar"
-            type="search"
-            placeholder="Buscar producto..."
-            value={filtro}
-            onChange={(e) => setFiltro(e.target.value)}
-          />
+          <div
+            className={`search_wrapper ${
+              isSearchOpen || filtro.trim() !== "" ? "expanded" : ""
+            }`}
+          >
+            <button
+              type="button"
+              className="search_btn"
+              onClick={() => setIsSearchOpen(true)}
+            >
+              <IoIosSearch size={22} />
+            </button>
+            <Form.Control
+              id="controlBuscar"
+              type="search"
+              placeholder="Buscar..."
+              value={filtro}
+              onFocus={() => setIsSearchOpen(true)}
+              onBlur={() => {
+                if (filtro.trim() === "") {
+                  setIsSearchOpen(false);
+                }
+              }}
+              onChange={(e) => {
+                setFiltro(e.target.value);
+                setSelectedIndex(0);
+              }}
+              onKeyDown={handleKeyDown}
+            />
+          </div>
         </div>
       </div>
 
@@ -138,11 +223,13 @@ export default function ProductListComponent({ setShowModalCarga }) {
             </tr>
 
             <tr className="columns_TableProducts">
-              <th>Nombre</th>
+              <th>#</th>
+              <th>Código</th>
+              <th>Producto</th>
               <th>Stock</th>
-              <th>P.U</th>
-              <th>%IVA</th>
-              <th>%Ganancia</th>
+              <th>Prec.U</th>
+              <th>IVA</th>
+              <th>Utilidad</th>
               <th>Importe</th>
               <th>
                 <IoIosAddCircle />
@@ -180,12 +267,21 @@ export default function ProductListComponent({ setShowModalCarga }) {
               return (
                 <React.Fragment key={cat.id}>
                   <tr className="titleCategorie_row">
-                    <td className="titleCategorias_table" colSpan={9}>
+                    <td
+                      className="titleCategorias_table"
+                      colSpan={columnasVisibles}
+                    >
                       {cat.nombre.toUpperCase()}
                     </td>
                   </tr>
 
                   {productosFiltrados.map((producto) => {
+                    contadorItem++;
+                    const currentIndex = globalVisibleIndex;
+                    globalVisibleIndex++;
+
+                    const isSelected = currentIndex === selectedIndex;
+
                     const esCritico =
                       producto.stockCritico !== "" &&
                       Number(producto.stock) <= Number(producto.stockCritico);
@@ -195,12 +291,17 @@ export default function ProductListComponent({ setShowModalCarga }) {
                         key={producto.id}
                         className={`productItem_row ${esCritico ? "fila_stock_critico" : ""}`}
                       >
+                        {/* 1 */}
+                        <td style={{ fontWeight: "bold" }}>{contadorItem}</td>
+                        {/* 2 */}
+                        <td style={{ color: "#64748b" }}>{producto.codigo}</td>
+                        {/* 3 */}
                         <td className="productName_cell">
-                          <div className="productName_scroll">
+                          <div className="productName_scroll" title={producto.nombreProducto}>
                             {producto.nombreProducto}
                           </div>
                         </td>
-
+                        {/* 4 */}
                         <td
                           className="stock_Cell"
                           style={{
@@ -223,10 +324,27 @@ export default function ProductListComponent({ setShowModalCarga }) {
                         </td>
 
                         <td>${producto.precioUnitario}</td>
-                        <td>%{producto.iva}</td>
+                        <td>{producto.iva}</td>
 
-                        <td>%{producto.ganancia}</td>
-                        <td>${producto.importe}</td>
+                        <td>{producto.ganancia}</td>
+                        <td>
+                          <span
+                            style={{ color: "#a12e2e", fontWeight: "bold" }}
+                          >
+                            ${producto.importe}
+                          </span>
+                          <small
+                            style={{
+                              fontSize: "0.65rem",
+                              opacity: 0.8,
+                              display: "block",
+                              marginTop: "2px",
+                              fontWeight: "normal",
+                            }}
+                          >
+                            {formatearFecha(producto.fechaPrecio)}
+                          </small>
+                        </td>
                         <td style={{ textAlign: "center" }}>
                           <Button
                             id="btn_agg"

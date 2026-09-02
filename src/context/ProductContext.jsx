@@ -18,6 +18,7 @@ export function ProductProvider({ children }) {
   const [filtro, setFiltro] = useState("");
 
   const [modificandoId, setModificandoId] = useState(null);
+  const [codigoProd, setCodigoProd] = useState("");
   const [nombreProd, setNombreProd] = useState("");
   const [stock, setStock] = useState("");
   const [stockCritico, setStockCritico] = useState("");
@@ -30,8 +31,8 @@ export function ProductProvider({ children }) {
   const cargarCatsProds = async () => {
     try {
       const [dataCategorias, dataProductos] = await Promise.all([
-        getCategorias(0),
-        getProductos(0),
+        getCategorias(0, 1000),
+        getProductos(0, 10000),
       ]);
 
       if (dataCategorias?.categorias) {
@@ -45,8 +46,10 @@ export function ProductProvider({ children }) {
       }
 
       if (dataProductos?.productos) {
+        // console.log("Primer producto recibido del backend:", dataProductos.productos[0]);
         const prodsMapeados = dataProductos.productos.map((p) => ({
           id: p._id,
+          codigo: p.codigo || p._id,
           nombreProducto: p.nombre,
           stock: p.stock,
           stockCritico: p.stockCritico,
@@ -57,7 +60,7 @@ export function ProductProvider({ children }) {
           categoria: p.categoria?.nombre || "Sin Categoría",
           categoriaId: p.categoria?._id,
           fechaStock: p.fechaUltimoStock || p.fechaRegistro || p.updatedAt,
-        }));
+fechaPrecio: p.fechaUltimoPrecio || p.fechaRegistro || p.updatedAt,        }));
         setProductos(prodsMapeados);
       }
     } catch (error) {
@@ -93,35 +96,21 @@ export function ProductProvider({ children }) {
       p.id.toString().includes(filtro),
   );
 
-  // const eliminarProducto = async (id) => {
-  //   const producto = productos.find((p) => p.id === id);
-  //   if (
-  //     window.confirm(`¿Eliminar definitivamente ${producto.nombreProducto}?`)
-  //   ) {
-  //     try {
-  //       const res = await borrarProducto(id);
-  //       alert(res.mensaje || "Producto eliminado");
-  //       await cargarCatsProds();
-  //     } catch (error) {
-  //       alert("Error al intentar eliminar el producto.");
-  //     }
-  //   }
-  // };
-
   const eliminarProducto = async (id) => {
   try {
     const res = await borrarProducto(id);
     alert(res.mensaje || "Producto eliminado");
-    await cargarCatsProds(); // Refresca el inventario en tiempo real
+    await cargarCatsProds();
     return true; // Éxito
   } catch (error) {
     alert("Error al intentar eliminar el producto.");
-    return false; // Falló
+    return false;
   }
 };
 
   const resetearFormularioProducto = () => {
     setModificandoId(null);
+    setCodigoProd("");
     setNombreProd("");
     setStock("");
     setStockCritico("");
@@ -133,16 +122,54 @@ export function ProductProvider({ children }) {
   };
 
   function prepararEdicion(producto, showModalCargar) {
-    setModificandoId(producto.id);
-    setNombreProd(producto.nombreProducto);
-    setStock(producto.stock);
-    setStockCritico(producto.stockCritico || "");
-    setPrecioU(producto.precioUnitario);
-    setGanancia(producto.ganancia);
-    setIva(producto.iva);
-    setImporte(producto.importe);
-    setCatSeleccionada(producto.categoria);
-    showModalCargar(true);
+    // setModificandoId(producto.id);
+    // setCodigoProd(producto.codigo || "");
+    // setNombreProd(producto.nombreProducto);
+    // setStock(producto.stock);
+    // setStockCritico(producto.stockCritico || "");
+    // setPrecioU(producto.precioUnitario);
+    // setGanancia(producto.ganancia);
+    // setIva(producto.iva);
+  
+    // setImporte(producto.importe);
+    // setCatSeleccionada(producto.categoria);
+    // showModalCargar(true);
+    if (!producto) return;
+
+    setModificandoId(producto.id || producto._id);
+    setCodigoProd(producto.codigo ? String(producto.codigo) : "");
+    setNombreProd(producto.nombreProducto || producto.nombre || "");
+    setStock(producto.stock !== undefined && producto.stock !== null ? String(producto.stock) : "");
+    setStockCritico(
+      producto.stockCritico !== undefined && producto.stockCritico !== null
+        ? String(producto.stockCritico)
+        : ""
+    );
+    setPrecioU(
+      producto.precioUnitario !== undefined && producto.precioUnitario !== null
+        ? String(producto.precioUnitario)
+        : ""
+    );
+    setGanancia(
+      producto.ganancia !== undefined && producto.ganancia !== null
+        ? String(producto.ganancia)
+        : "1.40"
+    );
+    setIva(
+      producto.iva !== undefined && producto.iva !== null
+        ? String(producto.iva)
+        : "1.21"
+    );
+    setImporte(
+      producto.importe !== undefined && producto.importe !== null
+        ? String(producto.importe)
+        : "0"
+    );
+    setCatSeleccionada(producto.categoria || "Elige una categoría");
+
+    if (typeof showModalCargar === "function") {
+      showModalCargar(true);
+    }
   }
 
   const handleSubmitProducto = async (e, handleCloseModalCarga) => {
@@ -151,12 +178,15 @@ export function ProductProvider({ children }) {
     const catEncontrada = categorias.find((c) => c.nombre === catSeleccionada);
 
     const datosBackend = {
+      codigo: codigoProd,
       nombre: nombreProd,
       stock: Number(stock),
       stockCritico: stockCritico !== "" ? Number(stockCritico) : 0,
       precio: Number(precioU),
-      ganancia: Number(ganancia),
-      iva: Number(iva),
+      // ganancia: Number(ganancia),
+      ganancia: ganancia !== "" ? Number(ganancia) : 1,
+      // iva: Number(iva),
+      iva: iva !== "" ? Number(iva) : 1,
       categoria: catEncontrada?.id,
     };
 
@@ -177,17 +207,6 @@ export function ProductProvider({ children }) {
     } catch (error) {
       alert("Error al procesar la solicitud en el servidor.");
     }
-
-    // setModificandoId(null);
-    // setNombreProd("");
-    // setStock("");
-    // setStockCritico("");
-    // setPrecioU("");
-    // setGanancia("");
-    // setIva("");
-    // setImporte("0.00");
-    // setCatSeleccionada("Elige una categoría");
-    // handleCloseModalCarga();
   };
 
   return (
@@ -210,6 +229,8 @@ export function ProductProvider({ children }) {
         resetearFormularioProducto,
 
         //Estados del forumlario
+        codigoProd,
+        setCodigoProd,
         nombreProd,
         setNombreProd,
         stock,

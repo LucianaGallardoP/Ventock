@@ -63,39 +63,57 @@ export default function ProductListComponent({ setShowModalCarga }) {
   const formatearFecha = (fecha) => {
     if (!fecha) return "Sin datos";
     const date = new Date(fecha);
-    return (
-      date.toLocaleDateString("es-AR", {
-        day: "2-digit",
-        month: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true
-      })
-    );
+    return date.toLocaleDateString("es-AR", {
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
+  const formatearPrecio = (valor) => {
+    if (valor === undefined || valor === null || isNaN(valor)) return "$0,00";
+    return new Intl.NumberFormat("es-AR", {
+      style: "currency",
+      currency: "ARS",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(valor);
   };
 
   const coincideFiltro = (p, catNombre) => {
-    const coincideCategoria = filtro === "" || catNombre === filtro || p.categoria === filtro;
+    const coincideCategoria =
+      filtro === "" || catNombre === filtro || p.categoria === filtro;
     const busquedaTermino = filtro.toLowerCase().trim();
-    
+
     if (busquedaTermino === "" || catNombre === filtro) {
       return coincideCategoria;
     }
 
-    const coincideNombre = p.nombreProducto?.toLowerCase().includes(busquedaTermino);
-    const coincideCodigo = p.codigo ? String(p.codigo).toLowerCase().includes(busquedaTermino) : false;
+    const coincideNombre = p.nombreProducto
+      ?.toLowerCase()
+      .includes(busquedaTermino);
+    const coincideCodigo = p.codigo
+      ? String(p.codigo).toLowerCase().includes(busquedaTermino)
+      : false;
 
-    return (coincideNombre || coincideCodigo);
+    return coincideNombre || coincideCodigo;
   };
 
   const productosVisibles = [];
   categorias.forEach((cat) => {
-    const prodsCat = productos.filter((p) => p.categoria === cat.nombre && coincideFiltro(p, cat.nombre));
+    const prodsCat = productos.filter(
+      (p) => p.categoria === cat.nombre && coincideFiltro(p, cat.nombre),
+    );
     productosVisibles.push(...prodsCat);
   });
 
   useEffect(() => {
-    if (selectedIndex >= productosVisibles.length && productosVisibles.length > 0) {
+    if (
+      selectedIndex >= productosVisibles.length &&
+      productosVisibles.length > 0
+    ) {
       setSelectedIndex(productosVisibles.length - 1);
     }
   }, [productosVisibles.length, selectedIndex]);
@@ -110,12 +128,14 @@ export default function ProductListComponent({ setShowModalCarga }) {
     }
   }, [selectedIndex]);
 
- const handleKeyDown = (e) => {
+  const handleKeyDown = (e) => {
     if (productosVisibles.length === 0) return;
 
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setSelectedIndex((prev) => (prev < productosVisibles.length - 1 ? prev + 1 : prev));
+      setSelectedIndex((prev) =>
+        prev < productosVisibles.length - 1 ? prev + 1 : prev,
+      );
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setSelectedIndex((prev) => (prev > 0 ? prev - 1 : 0));
@@ -236,8 +256,8 @@ export default function ProductListComponent({ setShowModalCarga }) {
               </th>
               {esAdmin && (
                 <th id="icons_container">
-                  <FaPen className="FaPen" />
-                  <FaTrashCan className="FaTrashCan" />
+                  <FaPen />
+                  <FaTrashCan/>
                 </th>
               )}
             </tr>
@@ -289,7 +309,10 @@ export default function ProductListComponent({ setShowModalCarga }) {
                     return (
                       <tr
                         key={producto.id}
-                        className={`productItem_row ${esCritico ? "fila_stock_critico" : ""}`}
+                        onClick={() => setSelectedIndex(currentIndex)}
+                        className={`productItem_row ${esCritico ? "fila_stock_critico" : ""} ${
+                          isSelected ? "fila_seleccionada" : ""
+                        }`}
                       >
                         {/* 1 */}
                         <td style={{ fontWeight: "bold" }}>{contadorItem}</td>
@@ -297,7 +320,10 @@ export default function ProductListComponent({ setShowModalCarga }) {
                         <td style={{ color: "#64748b" }}>{producto.codigo}</td>
                         {/* 3 */}
                         <td className="productName_cell">
-                          <div className="productName_scroll" title={producto.nombreProducto}>
+                          <div
+                            className="productName_scroll"
+                            title={producto.nombreProducto}
+                          >
                             {producto.nombreProducto}
                           </div>
                         </td>
@@ -323,15 +349,18 @@ export default function ProductListComponent({ setShowModalCarga }) {
                           </small>
                         </td>
 
-                        <td>${producto.precioUnitario}</td>
-                        <td>{producto.iva}</td>
+                        {/* <td>${producto.precioUnitario}</td> */}
+                        <td>{formatearPrecio(producto.precioUnitario)}</td>
 
+                        <td>{producto.iva}</td>
                         <td>{producto.ganancia}</td>
+
                         <td>
                           <span
-                            style={{ color: "#a12e2e", fontWeight: "bold" }}
+                            style={{ color: "#a12e2e", fontSize:"0.85rem" }}
                           >
-                            ${producto.importe}
+                            {/* ${producto.importe} */}
+                            {formatearPrecio(producto.importe)}
                           </span>
                           <small
                             style={{

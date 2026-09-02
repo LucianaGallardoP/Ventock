@@ -22,11 +22,8 @@
   margin-top: 5px;
 }
 
+/* AGREGAR PRODUCTO + BUSCADOR */
 #addSearch_container {
-  /* width: fit-content;
-  display: flex;
-  justify-content: end; */
-
   width: auto;
   display: flex;
   align-items: center;
@@ -42,7 +39,7 @@
   padding: 6px;
   min-width: 38px;
   height: 38px;
-  font-weight: 900;
+  font-size: larger;
 }
 
 #addProduct:hover {
@@ -57,7 +54,6 @@
   align-items: center;
   width: 38px;
   height: 38px;
-  background-color: #ffffff;
   border: 1px solid #1e293b;
   border-radius: 50px;
   overflow: hidden;
@@ -65,7 +61,7 @@
 }
 
 .search_wrapper.expanded {
-  width: 200px;
+  width: 250px;
 }
 
 .search_btn {
@@ -78,21 +74,17 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 0;
   z-index: 2;
 }
 
 .search_btn:hover {
-  color: #1e293b;
+  background-color: #92a7c8;
 }
 
 #controlBuscar {
   border: none !important;
   background: transparent !important;
   box-shadow: none !important;
-  padding: 0 12px 0 0 !important;
-  height: 100% !important;
-  font-size: 0.85rem;
   color: #1e293b;
   width: 100%;
 }
@@ -102,19 +94,21 @@
   box-shadow: none !important;
 }
 
+/* Recuadro inventario */
 #products_main {
   height: 92vh;
   width: 100%;
   overflow-y: auto;
   margin-top: 8px;
-  background-color: #f0f2f5;
+  /* background-color: white; */
+  background-color: transparent !important;
   border-radius: 20px;
   border: 1px solid #cbd5e1;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   padding: 10px;
 }
 
-#products_table { 
+#products_table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -127,14 +121,13 @@
   z-index: 1000;
 }
 
+/* DROPDOWN CATEGORIAS */
 .dropd_categorias {
   width: 100%;
   padding: 10px !important;
   color: #1e293b !important;
-    border: none !important;
-  border-radius: 20px 20px 20px 20px !important;
-  /* background-color: #5576aa !important; */
-  /* border: 1px solid #5576aa !important; */
+  border: none !important;
+  border-radius: 20px !important;
   background-color: #d0d9e7 !important;
 }
 
@@ -152,11 +145,9 @@
 }
 
 .itemsCategorias_dropD:hover {
-  /* color: #f0f2f5 !important; */
   color: #1e293b !important;
-  /* background-color: #5576aa !important; */
   background-color: #f0f2f5 !important;
-  /* border: 1px solid #5576aa; */
+  border: 1px solid #5576aa;
   border-radius: 20px;
 }
 
@@ -166,6 +157,7 @@ td {
   height: fit-content;
 }
 
+/* Fila encabezado columnas */
 .columns_TableProducts th {
   color: #1e293b;
   background-color: #92a7c8;
@@ -190,19 +182,25 @@ td {
   border: none;
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  align-items: center;font-size: smaller;
 }
 
-/* #products_table tbody td.celda_vacia {
-  padding: 5px 0;
-  border-top-right-radius: 20px !important;
-  border-bottom-left-radius:20px !important ;
-} */
+/*  */
+.titleCategorias_table {
+  background-color: #d0d9e7;
+  font-weight: 500;
+  font-size: 0.8rem;
+  text-align: center;
+  border-radius: 20px !important;
+  border: none;
+  padding: 10px 0 !important;
+}
 
+/*  */
 #products_table tbody tr:not(.titleCategorie_row) td {
   padding: 3px;
   border: none;
-  border-bottom: 1px solid #cbd5e1; 
+  border-bottom: 1px solid #cbd5e1;
   border-right: 1px solid #cbd5e1;
   background-color: transparent;
   vertical-align: middle;
@@ -217,34 +215,10 @@ td {
   border-bottom: none !important;
 }
 
- #products_table tbody tr:not(.titleCategorie_row) td:first-child,
+#products_table tbody tr:not(.titleCategorie_row) td:first-child,
 #products_table tbody tr:not(.titleCategorie_row) td:last-child {
   border-radius: 0 !important;
 }
-
-#products_table tbody tr.fila_seleccionada td {
-  background-color: #92a7c8 !important; /* Azul/gris visible para destacar la fila activa */
-  color: #1e293b !important;
-  font-weight: 600;
-  border-top: 1px solid #5576aa !important;
-  border-bottom: 1px solid #5576aa !important;
-}
-
-#products_table tbody tr.fila_seleccionada.fila_stock_critico td:not(.stock_Cell) {
-  background-color: #fde68a !important;
-}
-
-#products_table tbody tr.fila_seleccionada td:first-child {
-  border-left: 3px solid #1e293b !important;
-}
-
-#products_table tbody tr.fila_seleccionada td:last-child {
-  border-right: 3px solid #1e293b !important;
-}
-
-/* #products_table tbody tr.productItem_row:not(.fila_stock_critico):hover td {
-  background-color: rgb(215, 215, 215) !important;
-} */
 
 .productItem_row.fila_stock_critico .stock_Cell {
   background-color: orange !important;
@@ -262,36 +236,18 @@ td {
   background-color: orange !important;
 }
 
-.titleCategorias_table {
-  background-color: #d0d9e7;
-  font-weight: 500;
-  font-size: 0.8rem;
-  text-align: center;
-  border-radius: 20px !important;
-  border: none;
-  padding: 10px 0 !important; 
-}
-
 .productItem_row td {
   font-size: 0.75rem;
 }
 
 .productName_cell {
   max-width: 12vw;
-  /* white-space: nowrap; */
   vertical-align: middle;
   padding: 0px 8px !important;
 }
 
 .productName_scroll {
   width: 100%;
-  /* overflow-x: hidden; */
-  /* white-space: nowrap;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  display: flex;
-  align-items: center; */
-
   white-space: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
@@ -351,11 +307,41 @@ td {
 
 .FaTrashCan {
   color: #a12e2e;
-    font-size: smaller;
-
+  font-size: smaller;
 }
 
 .FaTrashCan_body:hover {
   transform: scale(1.1);
   filter: drop-shadow(0px 0px 5px rgba(161, 46, 46, 2));
+}
+
+/*  */
+#products_container:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+#products_table tbody tr.productItem_row.fila_seleccionada td {
+  background-color: #92a7c8 !important;
+  color: #1e293b !important;
+  font-weight: 600;
+}
+
+#products_table tbody tr.productItem_row.fila_stock_critico.fila_seleccionada .stock_Cell {
+  background-color: orange !important;
+}
+
+#products_table tbody tr.productItem_row:not(.fila_stock_critico).fila_seleccionada .stock_Cell {
+  background-color: #92a7c8 !important;
+}
+
+/* Bordes redondeados para la fila seleccionada */
+#products_table tbody tr.productItem_row.fila_seleccionada td:first-child {
+  border-top-left-radius: 20px !important;
+  border-bottom-left-radius: 20px !important;
+}
+
+#products_table tbody tr.productItem_row.fila_seleccionada td:last-child {
+  border-top-right-radius: 20px !important;
+  border-bottom-right-radius: 20px !important;
 }

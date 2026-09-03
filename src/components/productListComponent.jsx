@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { Dropdown, Form, Button } from "react-bootstrap";
 import { FaTrashCan } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
@@ -6,7 +6,6 @@ import { FaPen } from "react-icons/fa";
 import { IoIosAddCircle } from "react-icons/io";
 import { ProductContext } from "../context/ProductContext";
 import { OrderContext } from "../context/OrderContext";
-
 import { AuthContext } from "../context/AuthContext";
 
 import DeleteModal from "./modals/deleteModal";
@@ -35,6 +34,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
   });
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const inputSearchRef = useRef(null);
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -148,8 +148,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
     }
   };
 
-  let contadorItem = 0;
-  let globalVisibleIndex = 0;
+  let globalIndex = 0;
 
   return (
     <section id="products_container" tabIndex={0} onKeyDown={handleKeyDown}>
@@ -177,11 +176,19 @@ export default function ProductListComponent({ setShowModalCarga }) {
             <button
               type="button"
               className="search_btn"
-              onClick={() => setIsSearchOpen(true)}
+              onClick={() => {
+                setIsSearchOpen(true);
+
+                setTimeout(() => {
+                  inputSearchRef.current?.focus();
+                }, 0);
+              }}
             >
               <IoIosSearch size={22} />
             </button>
+
             <Form.Control
+              ref={inputSearchRef}
               id="controlBuscar"
               type="search"
               placeholder="Buscar..."
@@ -244,7 +251,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
 
             <tr className="columns_TableProducts">
               <th>#</th>
-              <th>Código</th>
+              <th className="productCode_cell">Código</th>
               <th>Producto</th>
               <th>Stock</th>
               <th>Prec.U</th>
@@ -257,7 +264,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
               {esAdmin && (
                 <th id="icons_container">
                   <FaPen />
-                  <FaTrashCan/>
+                  <FaTrashCan />
                 </th>
               )}
             </tr>
@@ -265,22 +272,11 @@ export default function ProductListComponent({ setShowModalCarga }) {
 
           <tbody className="text-center">
             {categorias.map((cat) => {
-              const productosDeEstaCat = productos.filter(
+              const prodsCatVisibles = productosVisibles.filter(
                 (p) => p.categoria === cat.nombre,
               );
 
-              const productosFiltrados = productosDeEstaCat.filter((p) => {
-                if (filtro === "" || cat.nombre === filtro) return true;
-                return p.nombreProducto
-                  .toLowerCase()
-                  .includes(filtro.toLowerCase());
-              });
-
-              if (
-                productosFiltrados.length === 0 &&
-                filtro !== "" &&
-                cat.nombre !== filtro
-              ) {
+              if (prodsCatVisibles.length === 0) {
                 return null;
               }
 
@@ -295,10 +291,9 @@ export default function ProductListComponent({ setShowModalCarga }) {
                     </td>
                   </tr>
 
-                  {productosFiltrados.map((producto) => {
-                    contadorItem++;
-                    const currentIndex = globalVisibleIndex;
-                    globalVisibleIndex++;
+                  {prodsCatVisibles.map((producto) => {
+                    const currentIndex = globalIndex;
+                    globalIndex++;
 
                     const isSelected = currentIndex === selectedIndex;
 
@@ -314,11 +309,22 @@ export default function ProductListComponent({ setShowModalCarga }) {
                           isSelected ? "fila_seleccionada" : ""
                         }`}
                       >
-                        {/* 1 */}
-                        <td style={{ fontWeight: "bold" }}>{contadorItem}</td>
-                        {/* 2 */}
-                        <td style={{ color: "#64748b" }}>{producto.codigo}</td>
-                        {/* 3 */}
+                        <td style={{ fontWeight: "bold" }}>
+                          {currentIndex + 1}
+                        </td>
+
+                        <td
+                          className="productCode_cell"
+                          style={{ color: "#64748b" }}
+                        >
+                          <div
+                            className="productCode_scroll"
+                            title={producto.codigo}
+                          >
+                            {producto.codigo}
+                          </div>
+                        </td>
+
                         <td className="productName_cell">
                           <div
                             className="productName_scroll"
@@ -327,7 +333,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
                             {producto.nombreProducto}
                           </div>
                         </td>
-                        {/* 4 */}
+
                         <td
                           className="stock_Cell"
                           style={{
@@ -349,7 +355,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
                           </small>
                         </td>
 
-                        {/* <td>${producto.precioUnitario}</td> */}
                         <td>{formatearPrecio(producto.precioUnitario)}</td>
 
                         <td>{producto.iva}</td>
@@ -357,9 +362,8 @@ export default function ProductListComponent({ setShowModalCarga }) {
 
                         <td>
                           <span
-                            style={{ color: "#a12e2e", fontSize:"0.85rem" }}
+                            style={{ color: "#a12e2e", fontSize: "0.85rem" }}
                           >
-                            {/* ${producto.importe} */}
                             {formatearPrecio(producto.importe)}
                           </span>
                           <small
@@ -410,24 +414,25 @@ export default function ProductListComponent({ setShowModalCarga }) {
                     );
                   })}
 
-                  {productosFiltrados.length === 0 && (
+                  {/* {productosFiltrados.length === 0 && (
                     <tr>
                       <td colSpan={9}>
                         No hay productos cargados en "{cat.nombre}"
                       </td>
                     </tr>
-                  )}
+                  )} */}
                 </React.Fragment>
               );
             })}
 
-            {categorias.length === 0 && (
+            {productosVisibles.length === 0 && (
               <tr>
                 <td
-                  colSpan={9}
+                  colSpan={columnasVisibles}
                   className="text-muted mt-2 text-center celda_vacia"
                 >
-                  Crea una categoría para empezar a listar productos
+                  Crea una categoría para empezar a listar productos. No se
+                  encontraron productos
                 </td>
               </tr>
             )}

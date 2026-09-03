@@ -69,7 +69,7 @@ export default function ProductModal({ show, onHide }) {
 
   const formularioValido =
     nombreProd.trim() !== "" &&
-    stock !== "" &&
+    // stock !== "" &&
     precioU !== "" &&
     esDecimalValido(iva) &&
     esDecimalValido(ganancia) &&

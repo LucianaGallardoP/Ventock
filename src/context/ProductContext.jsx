@@ -60,7 +60,8 @@ export function ProductProvider({ children }) {
           categoria: p.categoria?.nombre || "Sin Categoría",
           categoriaId: p.categoria?._id,
           fechaStock: p.fechaUltimoStock || p.fechaRegistro || p.updatedAt,
-fechaPrecio: p.fechaUltimoPrecio || p.fechaRegistro || p.updatedAt,        }));
+          fechaPrecio: p.fechaUltimoPrecio || p.fechaRegistro || p.updatedAt,
+        }));
         setProductos(prodsMapeados);
       }
     } catch (error) {
@@ -97,16 +98,16 @@ fechaPrecio: p.fechaUltimoPrecio || p.fechaRegistro || p.updatedAt,        }));
   );
 
   const eliminarProducto = async (id) => {
-  try {
-    const res = await borrarProducto(id);
-    alert(res.mensaje || "Producto eliminado");
-    await cargarCatsProds();
-    return true; // Éxito
-  } catch (error) {
-    alert("Error al intentar eliminar el producto.");
-    return false;
-  }
-};
+    try {
+      const res = await borrarProducto(id);
+      alert(res.mensaje || "Producto eliminado");
+      await cargarCatsProds();
+      return true; // Éxito
+    } catch (error) {
+      alert("Error al intentar eliminar el producto.");
+      return false;
+    }
+  };
 
   const resetearFormularioProducto = () => {
     setModificandoId(null);
@@ -130,7 +131,7 @@ fechaPrecio: p.fechaUltimoPrecio || p.fechaRegistro || p.updatedAt,        }));
     // setPrecioU(producto.precioUnitario);
     // setGanancia(producto.ganancia);
     // setIva(producto.iva);
-  
+
     // setImporte(producto.importe);
     // setCatSeleccionada(producto.categoria);
     // showModalCargar(true);
@@ -139,31 +140,35 @@ fechaPrecio: p.fechaUltimoPrecio || p.fechaRegistro || p.updatedAt,        }));
     setModificandoId(producto.id || producto._id);
     setCodigoProd(producto.codigo ? String(producto.codigo) : "");
     setNombreProd(producto.nombreProducto || producto.nombre || "");
-    setStock(producto.stock !== undefined && producto.stock !== null ? String(producto.stock) : "");
+    setStock(
+      producto.stock !== undefined && producto.stock !== null
+        ? String(producto.stock)
+        : "",
+    );
     setStockCritico(
       producto.stockCritico !== undefined && producto.stockCritico !== null
         ? String(producto.stockCritico)
-        : ""
+        : "",
     );
     setPrecioU(
       producto.precioUnitario !== undefined && producto.precioUnitario !== null
         ? String(producto.precioUnitario)
-        : ""
+        : "",
     );
     setGanancia(
       producto.ganancia !== undefined && producto.ganancia !== null
         ? String(producto.ganancia)
-        : "1.40"
+        : "1.40",
     );
     setIva(
       producto.iva !== undefined && producto.iva !== null
         ? String(producto.iva)
-        : "1.21"
+        : "1.21",
     );
     setImporte(
       producto.importe !== undefined && producto.importe !== null
         ? String(producto.importe)
-        : "0"
+        : "0",
     );
     setCatSeleccionada(producto.categoria || "Elige una categoría");
 
@@ -180,7 +185,9 @@ fechaPrecio: p.fechaUltimoPrecio || p.fechaRegistro || p.updatedAt,        }));
     const datosBackend = {
       codigo: codigoProd,
       nombre: nombreProd,
-      stock: Number(stock),
+      // stock: Number(stock),
+      // stockCritico: stockCritico !== "" ? Number(stockCritico) : 0,
+      stock: stock !== "" ? Number(stock) : 0,
       stockCritico: stockCritico !== "" ? Number(stockCritico) : 0,
       precio: Number(precioU),
       // ganancia: Number(ganancia),

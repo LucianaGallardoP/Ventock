@@ -99,13 +99,13 @@
   height: 92vh;
   width: 100%;
   overflow-y: auto;
-  margin-top: 8px;
+  margin-top: 10px;
   /* background-color: white; */
-  background-color: transparent !important;
-  border-radius: 20px;
-  border: 1px solid #cbd5e1;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  padding: 10px;
+  /* background-color: transparent !important; */
+  /* border-radius: 20px; */
+  /* border: 1px solid #cbd5e1; */
+  /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); */
+  /* padding: 10px; */
 }
 
 #products_table {
@@ -183,6 +183,35 @@ td {
   display: flex;
   justify-content: space-around;
   align-items: center;font-size: smaller;
+}
+
+/* COLUMNA CODIGO PRODUCTO */
+
+.productCode_cell {
+  max-width: 65px;
+  vertical-align: middle;
+}
+
+.productCode_scroll {
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  text-overflow: clip;
+  display: block;
+}
+
+.productCode_scroll::-webkit-scrollbar {
+  height: 2px;
+}
+
+.productCode_scroll::-webkit-scrollbar-thumb {
+  background: #5576aa;
+  border-radius: 4px;
+}
+
+.productCode_scroll::-webkit-scrollbar-thumb:hover {
+  background: #1e293b;
 }
 
 /*  */

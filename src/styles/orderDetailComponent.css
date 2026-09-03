@@ -9,7 +9,7 @@
 #orders_tittle {
   color: #1e293b;
   margin-top: 10px;
-  margin-bottom: 13px;
+  margin-bottom: 20px;
 }
 
 #orderDetail_table {
@@ -20,19 +20,22 @@
 
 #orderDetail_table table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 6px;
+  border-collapse: collapse;
+  border-spacing: 0 2px;
 }
 
 #columns_OrderTable th {
   color: #1e293b;
   background-color: #92a7c8;
   font-family: "Inter";
-  font-weight: 500;
-  padding: 3px;
+    font-size: medium;
+  font-weight: 400;
+  padding: 10px;
   text-align: center;
   position: sticky;
   top: 0px;
+  z-index: 10;
+  border: none !important;
 }
 
 #columns_OrderTable th:first-child {
@@ -43,21 +46,119 @@
   border-radius: 0px 20px 20px 0px;
 }
 
-#orderDetail_table tbody td {
-  border: 1px solid #5576aa;
+/* Grilla continua en las filas */
+#orderDetail_table tbody tr td {
+  padding: 3px;
+  border: none;
+  border-bottom: 1px solid #cbd5e1;
+  border-right: 1px solid #cbd5e1;
+  background-color: transparent;
+  vertical-align: middle;
+  font-size: 0.75rem;
+  color: #1e293b;
 }
 
-#orderDetail_table tbody td:first-child {
-  border-radius: 20px 0px 0px 20px !important;
+#orderDetail_table tbody tr td:last-child {
+  border-right: none;
 }
 
-#orderDetail_table tbody td:last-child {
-  border-radius: 0px 20px 20px 0px;
+#orderDetail_table tbody tr:last-child td {
+  border-bottom: none !important;
 }
 
 #orderDetail_table tbody tr td.celda_vacia {
-  border-radius: 20px !important;
-  padding: 5px 0;
+  border: none !important;
+  padding: 10px 0;
+  font-size: 0.85rem;
+}
+
+.orderProductName_cell {
+  max-width: 10vw;
+  vertical-align: middle;
+  padding: 0 8px !important;
+}
+
+.orderProductName_scroll {
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  text-overflow: clip;
+  display: block;
+}
+
+.orderProductName_scroll::-webkit-scrollbar {
+  height: 2px;
+}
+
+.orderProductName_scroll::-webkit-scrollbar-thumb {
+  background: #5576aa;
+  border-radius: 4px;
+}
+
+.orderProductName_scroll::-webkit-scrollbar-thumb:hover {
+  background: #1e293b;
+}
+
+.input_cantidad {
+  width: 60px !important;
+  margin: auto;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  text-align: center;
+  font-size: 0.75rem !important;
+  font-weight: 600;
+  color: #1e293b !important;
+  padding: 0 !important;
+}
+
+.input_cantidad:focus {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.subtotal_cell {
+  color: #a12e2e !important;
+  font-weight: 500;
+}
+
+.btn_eliminar {
+  background-color: transparent !important;
+  border: none !important;
+  color: #a12e2e !important;
+}
+
+.FaTrashCan {
+  color: #a12e2e;
+  font-size: smaller;
+}
+
+.FaTrashCan_body:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0px 0px 5px rgba(161, 46, 46, 2));
+}
+
+.input_descuento {
+  height: 100%;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  color: #1e293b;
+  text-align: center;
+}
+
+.input_descuento:focus {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 #orderDetail_Importe {
@@ -68,14 +169,40 @@
   border-radius: 20px 20px 0px 0px;
 }
 
+.importe_total_cell {
+  padding: 4px 0;
+}
+
+.contenedor_precios_descuento {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 1.1;
+}
+
+.precio_original {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-decoration: line-through;
+}
+
+.precio_con_descuento {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #a12e2e;
+}
+
 #guardarPedido_btn {
   width: 100%;
   height: auto;
-  color: #f0f2f5;
-  background-color: #1e293b;
+  color: #1e293b;
+  background-color: #92a7c8;
   font-weight: 500;
   border-radius: 0px 0px 20px 20px;
   margin-bottom: 5px;
+  padding: 10px;
   border: none;
 }
 

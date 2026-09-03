@@ -15,6 +15,8 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
     setDescuentoPorc,
   } = useContext(OrderContext);
 
+  const totalSinDescuento = detallePedido.reduce((acc, item) => acc + item.subtotal, 0);
+
 // --- ESTADOS LOCALES PARA EL MODAL DE BORRADO ---
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [itemParaEliminar, setItemParaEliminar] = useState({ id: null, nombre: "" });
@@ -49,7 +51,7 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
               <th>Importe</th>
               <th>Subtotal</th>
               <th>
-                <FaTrashCan className="FaTrashCan"/>
+                <FaTrashCan style={{fontSize:"smaller"}}/>
               </th>
             </tr>
           </thead>
@@ -63,12 +65,19 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
               </tr>
             ) : (
               detallePedido.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.nombreProducto}</td>
+                <tr key={item.id} className="orderItem_row">
+                  {/* <td>{item.nombreProducto}</td> */}
+                  
+                  <td className="orderProductName_cell">
+                    <div className="orderProductName_scroll" title={item.nombreProducto}>
+                      {item.nombreProducto}
+                    </div>
+                  </td>
+                  
                   <td>
                     <Form.Control
                       type="number"
-                      className="no-spinners"
+                      className=" input_cantidad no-spinners"
                       value={item.cantidad === 0 ? "" : item.cantidad}
                       min="0"
                       style={{
@@ -89,14 +98,14 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
                     />
                   </td>
                   <td>${item.importe}</td>
-                  <td>${item.subtotal.toFixed(2)}</td>
+                  <td className="subtotal_cell">${item.subtotal.toFixed(2)}</td>
                   <td style={{ textAlign: "center" }}>
                     <Button
                       className="btn_eliminar"
                       size="sm"
-                      onClick={() => clickDeleteIcon(item.id, item.nombreProducto)}
+                      onClick={() => eliminarDelDetalle(item.id)}
                     >
-                      <FaTrashCan />
+                      <FaTrashCan className="FaTrashCan FaTrashCan_body"/>
                     </Button>
                   </td>
                 </tr>
@@ -109,10 +118,10 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
       <div style={{ width: "95%" }}>
         <table id="orderDetail_Importe">
           <tr>
-            <td>
+            <td style={{ width: "20%" }}>
               <Form.Control
                 type="number"
-                className="no-spinners"
+                className="input_descuento no-spinners"
                 placeholder="%Desc"
                 value={descuentoPorc === 0 ? "" : descuentoPorc}
                 onChange={(e) => {
@@ -137,15 +146,27 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
               style={{
                 width: "30%",
                 fontFamily: "Inter",
-                fontWeight: "500",
+                fontWeight: "600",
                 color: "#1e293b",
                 
               }}
             >
               IMPORTE TOTAL
             </th>
-            <th style={{ width: "50%", fontSize: "1.5rem", color: "#1e293b" }}>
-              ${totalConDescuento.toFixed(2)}
+
+            <th className="importe_total_cell" style={{ width: "50%", fontSize: "1.5rem", color: "#1e293b" }}>
+              {/* ${totalConDescuento.toFixed(2)} */}
+
+              {descuentoPorc > 0 ? (
+                  <div className="contenedor_precios_descuento">
+                    <span className="precio_original">${totalSinDescuento.toFixed(2)}</span>
+                    <span className="precio_con_descuento">${totalConDescuento.toFixed(2)}</span>
+                  </div>
+                ) : (
+                  <span className="precio_con_descuento" style={{ fontSize: "1.5rem" }}>
+                    ${totalConDescuento.toFixed(2)}
+                  </span>
+                )}
             </th>
           </tr>
         </table>

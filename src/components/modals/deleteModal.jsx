@@ -39,6 +39,7 @@ export default function DeleteModal({
           backgroundColor: "#eef1f6",
           color: "#1e293b",
           textAlign: "center",
+           whitespace: "pre-line",
         }}
       >
         <p style={{ margin: "0px" }}>{message}</p>

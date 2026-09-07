@@ -4,12 +4,21 @@ import OrderDetailComponent from "../components/orderDetailComponent.jsx";
 import ProductModal from "../components/modals/productModal.jsx";
 import ConfirmOrderModal from "../components/modals/confirmOrderModal.jsx";
 import PaymentModal from "../components/modals/paymentModal.jsx";
+import SuccessModal from "../components/modals/succesModal.jsx";
 import "../styles/adminPage.css";
 
 export default function AdminPage() {
   const [showProductModal, setShowProductModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const handleVentaExitosa = (mensaje) => {
+    setSuccessMessage(mensaje);
+    setShowSuccessModal(true);
+  };
 
   return (
     <section id="main_container">
@@ -35,6 +44,14 @@ export default function AdminPage() {
       <PaymentModal
         show={showPaymentModal}
         onHide={() => setShowPaymentModal(false)}
+        onSuccess={handleVentaExitosa}
+      />
+
+      <SuccessModal
+        show={showSuccessModal}
+        onHide={() => setShowSuccessModal(false)}
+        title="VENTA REGISTRADA"
+        message={successMessage}
       />
     </section>
   );

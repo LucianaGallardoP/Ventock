@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { FaTrashCan } from "react-icons/fa6";
 import { OrderContext } from "../context/OrderContext";
-import DeleteModal from "./modals/deleteModal";
 import "../styles/orderDetailComponent.css";
 
 export default function OrderDetailComponent({ setShowConfirmModal }) {
@@ -15,26 +14,10 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
     setDescuentoPorc,
   } = useContext(OrderContext);
 
-  const totalSinDescuento = detallePedido.reduce((acc, item) => acc + item.subtotal, 0);
-
-// --- ESTADOS LOCALES PARA EL MODAL DE BORRADO ---
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [itemParaEliminar, setItemParaEliminar] = useState({ id: null, nombre: "" });
-
-  // Abre el modal visual y carga los datos del item seleccionado
-  const clickDeleteIcon = (id, nombre) => {
-    setItemParaEliminar({ id, nombre });
-    setShowDeleteModal(true);
-  };
-
-  // Se ejecuta si el usuario confirma la acción en el modal
-  const confirmarEliminacion = () => {
-    if (itemParaEliminar.id) {
-      eliminarDelDetalle(itemParaEliminar.id);
-      setShowDeleteModal(false);
-      setItemParaEliminar({ id: null, nombre: "" });
-    }
-  };
+  const totalSinDescuento = detallePedido.reduce(
+    (acc, item) => acc + item.subtotal,
+    0,
+  );
 
   return (
     <section id="orders_container">
@@ -51,7 +34,7 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
               <th>Importe</th>
               <th>Subtotal</th>
               <th>
-                <FaTrashCan style={{fontSize:"smaller"}}/>
+                <FaTrashCan style={{ fontSize: "smaller" }} />
               </th>
             </tr>
           </thead>
@@ -67,13 +50,16 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
               detallePedido.map((item) => (
                 <tr key={item.id} className="orderItem_row">
                   {/* <td>{item.nombreProducto}</td> */}
-                  
+
                   <td className="orderProductName_cell">
-                    <div className="orderProductName_scroll" title={item.nombreProducto}>
+                    <div
+                      className="orderProductName_scroll"
+                      title={item.nombreProducto}
+                    >
                       {item.nombreProducto}
                     </div>
                   </td>
-                  
+
                   <td>
                     <Form.Control
                       type="number"
@@ -105,7 +91,7 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
                       size="sm"
                       onClick={() => eliminarDelDetalle(item.id)}
                     >
-                      <FaTrashCan className="FaTrashCan FaTrashCan_body"/>
+                      <FaTrashCan className="FaTrashCan FaTrashCan_body" />
                     </Button>
                   </td>
                 </tr>
@@ -137,7 +123,6 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
                   fontFamily: "Inter",
                   fontWeight: "500",
                   color: "#1e293b",
-
                 }}
               />
             </td>
@@ -148,25 +133,32 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
                 fontFamily: "Inter",
                 fontWeight: "600",
                 color: "#1e293b",
-                
               }}
             >
               IMPORTE TOTAL
             </th>
 
-            <th className="importe_total_cell" style={{ width: "50%", fontSize: "1.5rem", color: "#1e293b" }}>
-              {/* ${totalConDescuento.toFixed(2)} */}
-
+            <th
+              className="importe_total_cell"
+              style={{ width: "50%", fontSize: "1.5rem", color: "#1e293b" }}
+            >
               {descuentoPorc > 0 ? (
-                  <div className="contenedor_precios_descuento">
-                    <span className="precio_original">${totalSinDescuento.toFixed(2)}</span>
-                    <span className="precio_con_descuento">${totalConDescuento.toFixed(2)}</span>
-                  </div>
-                ) : (
-                  <span className="precio_con_descuento" style={{ fontSize: "1.5rem" }}>
+                <div className="contenedor_precios_descuento">
+                  <span className="precio_original">
+                    ${totalSinDescuento.toFixed(2)}
+                  </span>
+                  <span className="precio_con_descuento">
                     ${totalConDescuento.toFixed(2)}
                   </span>
-                )}
+                </div>
+              ) : (
+                <span
+                  className="precio_con_descuento"
+                  style={{ fontSize: "1.5rem" }}
+                >
+                  ${totalConDescuento.toFixed(2)}
+                </span>
+              )}
             </th>
           </tr>
         </table>
@@ -180,13 +172,6 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
           Guardar Pedido
         </Button>
       </div>
-      <DeleteModal
-        show={showDeleteModal}
-        handleClose={() => setShowDeleteModal(false)}
-        onConfirm={confirmarEliminacion}
-        title="QUITAR PRODUCTO DEL PEDIDO"
-        message={`¿Estás seguro de que deseas quitar "${itemParaEliminar.nombre}" del detalle actual del pedido?`}
-      />
     </section>
   );
 }

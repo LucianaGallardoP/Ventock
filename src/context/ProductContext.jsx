@@ -46,7 +46,6 @@ export function ProductProvider({ children }) {
       }
 
       if (dataProductos?.productos) {
-        // console.log("Primer producto recibido del backend:", dataProductos.productos[0]);
         const prodsMapeados = dataProductos.productos.map((p) => ({
           id: p._id,
           codigo: p.codigo || p._id,

@@ -23,7 +23,6 @@ export const getCategorias = async (desde = 0) => {
     const data = await resp.json();
     return data;
   } catch (error) {
-    console.error(error);
     throw new Error("No se pudo obtener las categorias.");
   }
 };
@@ -38,7 +37,6 @@ export const getCategoriaById = async (id) => {
     const data = await resp.json();
     return data;
   } catch (error) {
-    console.error(error);
     throw new Error("No se pudo obtener la informacion solicitada.");
   }
 };
@@ -54,7 +52,6 @@ export const crearCategoria = async (datos) => {
     const data = await resp.json();
     return data;
   } catch (error) {
-    console.error(error);
     throw new Error("No se pudo crear la categoria.");
   }
 };
@@ -70,7 +67,6 @@ export const actualizarCategoria = async (id, datos) => {
     const data = await resp.json();
     return data;
   } catch (error) {
-    console.log(error);
     return { mensaje: "No se conecto con backend, error al actualizar" };
   }
 };
@@ -86,7 +82,6 @@ export const borrarCategoria = async (id) => {
 
     return data;
   } catch (error) {
-    console.log(error);
     return { mensaje: "No se conecto con backend, error al eliminar" };
   }
 };

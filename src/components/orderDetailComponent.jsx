@@ -49,7 +49,6 @@ export default function OrderDetailComponent({ setShowConfirmModal }) {
             ) : (
               detallePedido.map((item) => (
                 <tr key={item.id} className="orderItem_row">
-                  {/* <td>{item.nombreProducto}</td> */}
 
                   <td className="orderProductName_cell">
                     <div

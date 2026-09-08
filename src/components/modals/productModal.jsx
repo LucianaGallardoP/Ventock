@@ -292,13 +292,6 @@ export default function ProductModal({ show, onHide }) {
                     <Button
                       id="btnCrearCat"
                       type="button"
-                      // onClick={(e) => {
-                      //   e.preventDefault();
-                      //   if (nuevaCatInput.trim() !== "") {
-                      //     crearNuevaCategoria(nuevaCatInput);
-                      //     setNuevaCatInput("");
-                      //   }
-                      // }}
                       onClick={handleCrearCategoria}
                     >
                       Crear

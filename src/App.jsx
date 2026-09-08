@@ -80,54 +80,6 @@ const DataProviders = ({ children }) => {
 
 function App() {
   return (
-    // <AuthProvider>
-    //   <ProductProvider>
-    //     <OrderProvider>
-    //       <BrowserRouter>
-    //         <Layout>
-    //           <Routes>
-    //             {/* RUTAS PUBLICAS */}
-    //             <Route path="/login" element={<LogInPage />} />
-    //             <Route path="/about" element={<AboutPage />} />
-    //             <Route path="/contact" element={<ContactPage />} />
-    //             <Route path="*" element={<ErrorPage />} />
-
-    //             {/* RUTA RAIZ*/}
-    //             <Route
-    //               path="/"
-    //               element={
-    //                 <ProtectedRoute>
-    //                   <RootRedirect />
-    //                 </ProtectedRoute>
-    //               }
-    //             />
-
-    //             {/* RUTA PROTEGIDA - SUPERADMIN */}
-    //             <Route
-    //               path="/superAdmin"
-    //               element={
-    //                 <ProtectedRoute allowedRoles={["SuperAdmin"]}>
-    //                   <SuperAdminPage />
-    //                 </ProtectedRoute>
-    //               }
-    //             />
-
-    //             {/* RUTA PROTEGIDA - SUPERADMIN Y ADMIN */}
-    //             <Route
-    //               path="/gestionarCategoria"
-    //               element={
-    //                 <ProtectedRoute allowedRoles={["Admin", "SuperAdmin"]}>
-    //                   <GestionarCatPage />
-    //                 </ProtectedRoute>
-    //               }
-    //             />
-    //           </Routes>
-    //         </Layout>
-    //       </BrowserRouter>
-    //     </OrderProvider>
-    //   </ProductProvider>
-    // </AuthProvider>
-
     <AuthProvider>
       <DataProviders>
         <BrowserRouter>
@@ -175,5 +127,4 @@ function App() {
     </AuthProvider>
   );
 }
-
 export default App;

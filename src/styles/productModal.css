@@ -25,7 +25,6 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  /* background-color: antiquewhite; */
 }
 
 .formGroup {
@@ -65,10 +64,6 @@
   width: 100%;
   height: auto;
   display: flex;
-  /* justify-content: center; */
-  /* position: absolute; */
-  /* bottom: 0%; */
-  /* background-color: pink; */
   margin-top: 10px;
 }
 

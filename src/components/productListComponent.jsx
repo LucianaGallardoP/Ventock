@@ -413,14 +413,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
                       </tr>
                     );
                   })}
-
-                  {/* {productosFiltrados.length === 0 && (
-                    <tr>
-                      <td colSpan={9}>
-                        No hay productos cargados en "{cat.nombre}"
-                      </td>
-                    </tr>
-                  )} */}
                 </React.Fragment>
               );
             })}

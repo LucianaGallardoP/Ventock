@@ -62,8 +62,6 @@ export default function GestionarCatPage() {
 
   return (
     <section id="gestCat_container">
-      {/* <h2>Dashboard Admin</h2> */}
-
       <div id="gestCategorias_header">
         <h5 id="gestCategorias_tittle">GESTIONAR CATEGORIAS</h5>
       </div>
@@ -152,22 +150,6 @@ export default function GestionarCatPage() {
                 onChange={handleChange}
               />
             </Form.Group>
-
-            {/* <Form.Group
-              className="formGroupUsuarios"
-              controlId="formGroupEstadoCat"
-            >
-              <Form.Label className="formGroupLabelUsuarios">Estado</Form.Label>
-              <Form.Select
-                name="estado"
-                className="formGroupControl"
-                value={categoriaForm.estado}
-                onChange={handleChange}
-              >
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
-              </Form.Select>
-            </Form.Group> */}
 
             <Button id="btnAddUsuario" type="submit" className="mt-4">
               ACTUALIZAR CATEGORIA

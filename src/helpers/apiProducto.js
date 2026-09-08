@@ -21,7 +21,6 @@ export const getProductos = async (desde = 0) => {
     const data = await resp.json();
     return data;
   } catch (error) {
-    console.error(error);
     throw new Error("No se pudo obtener la información de productos.");
   }
 };
@@ -37,7 +36,6 @@ export const getProductoById = async (id) => {
     const data = await resp.json();
     return data;
   } catch (error) {
-    console.error(error);
     throw new Error("No se pudo obtener el producto solicitado.");
   }
 };
@@ -53,7 +51,6 @@ export const crearProducto = async (datos) => {
     const data = await resp.json();
     return data;
   } catch (error) {
-    console.error(error);
     throw new Error("No se pudo conectar a la base de datos para crear el producto.");
   }
 };
@@ -69,7 +66,6 @@ export const actualizarProducto = async (id, datos) => {
     const data = await resp.json();
     return data;
   } catch (error) {
-    console.error(error);
     return { mensaje: "No se pudo conectar con el backend para actualizar." };
   }
 };
@@ -84,7 +80,6 @@ export const borrarProducto = async (id) => {
     const data = await resp.json();
     return data;
   } catch (error) {
-    console.error(error);
     return { mensaje: "No se pudo conectar con el backend para eliminar." };
   }
 };

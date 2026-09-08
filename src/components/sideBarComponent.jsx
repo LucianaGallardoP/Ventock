@@ -66,16 +66,8 @@ export default function SideBarComponent() {
                   Ventas Mensuales
                 </NavLink>
 
-                <NavLink to="/notas-credito" className="navLinks">
-                  Notas de Crédito
-                </NavLink>
-
                 <NavLink to="/gestionarCategoria" className="navLinks">
                   Gestionar Categorías
-                </NavLink>
-
-                <NavLink to="/efectivo-retirado" className="navLinks">
-                  Efectivo Retirado
                 </NavLink>
               </>
             )}

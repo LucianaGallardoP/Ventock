@@ -94,18 +94,12 @@
   box-shadow: none !important;
 }
 
-/* Recuadro inventario */
+/* RECUADRO INVENTARIO */
 #products_main {
   height: 92vh;
   width: 100%;
   overflow-y: auto;
   margin-top: 10px;
-  /* background-color: white; */
-  /* background-color: transparent !important; */
-  /* border-radius: 20px; */
-  /* border: 1px solid #cbd5e1; */
-  /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); */
-  /* padding: 10px; */
 }
 
 #products_table {
@@ -157,7 +151,7 @@ td {
   height: fit-content;
 }
 
-/* Fila encabezado columnas */
+/* FILA ENCABEZADO COLUMNAS */
 .columns_TableProducts th {
   color: #1e293b;
   background-color: #92a7c8;
@@ -186,7 +180,6 @@ td {
 }
 
 /* COLUMNA CODIGO PRODUCTO */
-
 .productCode_cell {
   max-width: 65px;
   vertical-align: middle;

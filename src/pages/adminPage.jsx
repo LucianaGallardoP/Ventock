@@ -11,7 +11,6 @@ export default function AdminPage() {
   const [showProductModal, setShowProductModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 

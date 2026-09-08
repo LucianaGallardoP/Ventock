@@ -17,7 +17,6 @@ export const authLogin = async (datos) => {
     return data;
 
   } catch (error) {
-    console.error(error);
     return { mensaje: "No se conecto con el backend!" };
   }
 };

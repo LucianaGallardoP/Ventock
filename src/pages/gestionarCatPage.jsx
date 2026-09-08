@@ -5,6 +5,7 @@ import { FaPen } from "react-icons/fa";
 import { ProductContext } from "../context/ProductContext";
 import { actualizarCategoria, borrarCategoria } from "../helpers/apiCategoria";
 import DeleteModal from "../components/modals/deleteModal";
+import SuccessModal from "../components/modals/succesModal";
 import("../styles/gestionarCatPage.css");
 
 export default function GestionarCatPage() {
@@ -25,8 +26,24 @@ export default function GestionarCatPage() {
     nombre: "",
   });
 
+  // MODAL ÉXITO
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successTitle, setSuccessTitle] = useState("OPERACIÓN EXITOSA");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const abrirNotificacion = (titulo, mensaje) => {
+    setSuccessTitle(titulo);
+    setSuccessMessage(mensaje);
+    setShowSuccessModal(true);
+  };
+
   const handleShow = (categoria) => {
-    setCategoriaForm(categoria);
+    const categoryId = categoria._id || categoria.id;
+    setCategoriaForm({
+      id: categoryId,
+      nombre: categoria.nombre,
+      estado: categoria.estado || "Activo",
+    });
     setShowModal(true);
   };
 
@@ -39,33 +56,48 @@ export default function GestionarCatPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!categoriaForm.id) return;
+
     try {
       const resp = await actualizarCategoria(categoriaForm.id, {
         nombre: categoriaForm.nombre,
+        estado: categoriaForm.estado,
       });
-      if (resp?.categoria) {
-        await cargarCategorias();
+
+      if (resp) {
         handleClose();
-      } else {
+        await cargarCategorias();
+        abrirNotificacion(
+          "CATEGORÍA ACTUALIZADA",
+          "La categoría se modificó correctamente.",
+        );
       }
     } catch (error) {}
   };
 
   const handleToggleEstado = async (cat) => {
+    const targetId = cat.id || cat._id;
     const nuevoEstado = cat.estado === "Activo" ? "Desactivo" : "Activo";
+
     try {
-      const resp = await actualizarCategoria(cat.id, {
+      const resp = await actualizarCategoria(targetId, {
         nombre: cat.nombre,
         estado: nuevoEstado,
       });
+
       if (resp) {
         await cargarCategorias();
+        abrirNotificacion(
+          "ESTADO ACTUALIZADO",
+          `La categoría ahora está ${nuevoEstado.toLowerCase()}.`,
+        );
       }
     } catch (error) {}
   };
 
-  const clickDeleteIcon = (id, nombre) => {
-    setCatParaEliminar({ id, nombre });
+  const clickDeleteIcon = (cat) => {
+    const targetId = cat.id || cat._id;
+    setCatParaEliminar({ id: targetId, nombre: cat.nombre });
     setShowDeleteModal(true);
   };
 
@@ -74,8 +106,12 @@ export default function GestionarCatPage() {
       try {
         const resp = await borrarCategoria(catParaEliminar.id);
         if (resp) {
-          await cargarCategorias();
           setShowDeleteModal(false);
+          await cargarCategorias();
+          abrirNotificacion(
+            "CATEGORÍA ELIMINADA",
+            `La categoría "${catParaEliminar.nombre}" se eliminó correctamente.`,
+          );
           setCatParaEliminar({ id: null, nombre: "" });
         }
       } catch (error) {}
@@ -126,10 +162,11 @@ export default function GestionarCatPage() {
               </tr>
             ) : (
               categorias.map((cat, index) => {
+                const targetId = cat.id || cat._id;
                 const esActivo = cat.estado === "Activo";
 
                 return (
-                  <tr key={cat.id} className=" categoryItem_row align-middle">
+                  <tr key={targetId} className=" categoryItem_row align-middle">
                     <td style={{ fontWeight: "bold" }}>{index + 1}</td>
 
                     <td className="categoryName_cell">{cat.nombre}</td>
@@ -138,7 +175,7 @@ export default function GestionarCatPage() {
                       <div className="d-flex align-items-center justify-content-center gap-2">
                         <Form.Check
                           type="switch"
-                          id={`switch-cat-${cat.id}`}
+                          id={`switch-cat-${targetId}`}
                           checked={esActivo}
                           onChange={() => handleToggleEstado(cat)}
                           className="custom_cat_switch"
@@ -165,7 +202,7 @@ export default function GestionarCatPage() {
                         </Button>
                         <Button
                           className="btn_eliminar"
-                          onClick={() => clickDeleteIcon(cat.id, cat.nombre)}
+                          onClick={() => clickDeleteIcon(cat)}
                         >
                           <FaTrashCan className="FaTrashCan FaTrashCan_body" />
                         </Button>
@@ -191,18 +228,16 @@ export default function GestionarCatPage() {
           closeButton
           style={{ backgroundColor: "#1e293b", color: "#f0f2f5" }}
         >
-          <h5 id="cargarUsuario_title">MODIFICAR CATEGORIA</h5>
+          <h5 id="modalEditarCat_title">MODIFICAR CATEGORIA</h5>
         </Modal.Header>
-        <Modal.Body id="cargarUsuario_container">
-          <Form id="cargarUsuario_form" onSubmit={handleSubmit}>
-            <Form.Group
-              className="formGroupUsuarios"
-              controlId="formGroupNombreCat"
-            >
-              <Form.Label className="formGroupLabelUsuarios">Nombre</Form.Label>
+        <Modal.Body id="editarCat_modalBody">
+          <Form id="editarCat_form" onSubmit={handleSubmit}>
+            <Form.Group className="formGroupCat">
+              <span className="formGroupLabelCat">Nombre</span>
+
               <Form.Control
                 name="nombre"
-                className="formGroupControl"
+                className="formGroupControlCat"
                 type="text"
                 required
                 value={categoriaForm.nombre}
@@ -219,12 +254,20 @@ export default function GestionarCatPage() {
           style={{ backgroundColor: "#f0f2f5", border: "none" }}
         ></Modal.Footer>
       </Modal>
+
       <DeleteModal
         show={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         onConfirm={confirmarEliminacion}
         title="ELIMINAR CATEGORÍA PERMANENTEMENTE"
         message={`¿Estás seguro de que deseas eliminar la categoría "${catParaEliminar.nombre}"? Esta acción no se puede deshacer.`}
+      />
+
+      <SuccessModal
+        show={showSuccessModal}
+        onHide={() => setShowSuccessModal(false)}
+        title={successTitle}
+        message={successMessage}
       />
     </section>
   );

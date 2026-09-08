@@ -36,13 +36,13 @@ export function ProductProvider({ children }) {
       ]);
 
       if (dataCategorias?.categorias) {
-        setCategorias(
-          dataCategorias.categorias.map((cat) => ({
-            ...cat,
-            id: cat._id,
-            nombre: cat.nombre,
-          })),
-        );
+        const catsMapeadas = dataCategorias.categorias.map((cat) => ({
+          ...cat,
+          id: cat._id || cat.id,
+          nombre: cat.nombre,
+          estado: cat.estado || "Activo",
+        }));
+        setCategorias([...catsMapeadas]);
       }
 
       if (dataProductos?.productos) {
@@ -61,7 +61,7 @@ export function ProductProvider({ children }) {
           fechaStock: p.fechaUltimoStock || p.fechaRegistro || p.updatedAt,
           fechaPrecio: p.fechaUltimoPrecio || p.fechaRegistro || p.updatedAt,
         }));
-        setProductos(prodsMapeados);
+        setProductos([...prodsMapeados]);
       }
     } catch (error) {
     }
@@ -216,6 +216,7 @@ export function ProductProvider({ children }) {
         // Funciones
         crearNuevaCategoria,
         cargarCatsProds,
+        cargarCategorias: cargarCatsProds,
         eliminarProducto,
         prepararEdicion,
         handleSubmitProducto,

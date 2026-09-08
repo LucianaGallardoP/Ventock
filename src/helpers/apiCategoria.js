@@ -1,5 +1,5 @@
 const url = "http://localhost:3001/api/categorias";
-const limite = 5;
+const limite = 50;
 
 // const url = "http://ventockbackend.vercel.app/api/categorias";
 
@@ -15,7 +15,7 @@ const getAuthHeaders = () => {
 
 export const getCategorias = async (desde = 0) => {
   try {
-    const resp = await fetch(url + "?limite= " + limite + "&desde= " + desde, {
+    const resp = await fetch(`${url}?limite=${limite}&desde=${desde}`, {
       method: "GET",
       headers: getAuthHeaders(),
     });
@@ -29,7 +29,7 @@ export const getCategorias = async (desde = 0) => {
 
 export const getCategoriaById = async (id) => {
   try {
-    const resp = await fetch(url + "/" + id, {
+    const resp = await fetch(`${url}/${id}`, {
       method: "GET",
       headers: getAuthHeaders(),
     });
@@ -58,7 +58,7 @@ export const crearCategoria = async (datos) => {
 
 export const actualizarCategoria = async (id, datos) => {
   try {
-    const resp = await fetch(url + "/" + id, {
+    const resp = await fetch(`${url}/${id}`, {
       method: "PUT",
       body: JSON.stringify(datos),
       headers: getAuthHeaders(),
@@ -73,13 +73,13 @@ export const actualizarCategoria = async (id, datos) => {
 
 export const borrarCategoria = async (id) => {
   try {
-    const resp = await fetch(url + "/" + id, {
+    const resp = await fetch(`${url}/${id}`, {
       method: "DELETE",
       headers: getAuthHeaders(),
     });
 
     const data = await resp.json();
-
+    if (!resp.ok) throw new Error(data.msg || "Error al eliminar");
     return data;
   } catch (error) {
     return { mensaje: "No se conecto con backend, error al eliminar" };

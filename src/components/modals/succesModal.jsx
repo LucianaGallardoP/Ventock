@@ -6,26 +6,29 @@ export default function SuccessModal({ show, onHide, title, message }) {
     <Modal show={show} onHide={onHide} size="md" backdrop="static" centered>
       <Modal.Header
         closeButton
-        style={{
-          backgroundColor: "#f0f2f5",
-          color: "#1e293b",
-          display: "flex",
-          justifyContent: "center",
-        }}
+        style={{ backgroundColor: "#1e293b", color: "#f0f2f5"}}
       >
         <h5
           style={{
-            margin: 0,
-            color: "#1e293b",
             fontSize: "1rem",
             fontWeight: "600",
             fontFamily: "Inter",
+            color: "#f0f2f5",
           }}
         >
           {title || "OPERACIÓN EXITOSA"}
         </h5>
       </Modal.Header>
-      <Modal.Body style={{ textAlign: "center", padding: "20px" }}>
+      <Modal.Body
+        style={{
+          textAlign: "center",
+          padding: "20px",
+          backgroundColor: "#eef1f6",
+          color: "#1e293b",
+          textAlign: "center",
+          whitespace: "pre-line",
+        }}
+      >
         <p
           style={{
             // fontSize: "1.05rem",
@@ -44,7 +47,7 @@ export default function SuccessModal({ show, onHide, title, message }) {
           style={{
             backgroundColor: "#1e293b",
             border: "none",
-             borderRadius: "20px",
+            borderRadius: "20px",
             padding: "6px 25px",
           }}
           onClick={onHide}

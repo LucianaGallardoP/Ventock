@@ -65,7 +65,6 @@ export function ProductProvider({ children }) {
         setProductos(prodsMapeados);
       }
     } catch (error) {
-      console.error("Error cargando datos:", error);
     }
   };
 
@@ -76,18 +75,18 @@ export function ProductProvider({ children }) {
   }, [token]);
 
   const crearNuevaCategoria = async (nombre) => {
-    if (!nombre || nombre.trim() === "") return;
+    if (!nombre || nombre.trim() === "") return { ok: false, mensaje: "Nombre inválido." };
 
     try {
       const resp = await crearCategoria({ nombre });
       if (resp?.categoria) {
-        alert("Categoria creada con exito");
         await cargarCatsProds();
+        return { ok: true, mensaje: "Categoría creada con éxito." };
       } else {
-        alert(resp.mensaje || "Error al crear la categoria.");
+        return { ok: false, mensaje: resp.mensaje || "Error al crear la categoría." };
       }
     } catch (error) {
-      alert("Error de conexión");
+      return { ok: false, mensaje: "Error de conexión al crear categoría." };
     }
   };
 
@@ -100,12 +99,10 @@ export function ProductProvider({ children }) {
   const eliminarProducto = async (id) => {
     try {
       const res = await borrarProducto(id);
-      alert(res.mensaje || "Producto eliminado");
       await cargarCatsProds();
-      return true; // Éxito
+      return { ok: true, mensaje: res.mensaje || "Producto eliminado con éxito." };
     } catch (error) {
-      alert("Error al intentar eliminar el producto.");
-      return false;
+      return { ok: false, mensaje: "Error al intentar eliminar el producto." };
     }
   };
 
@@ -123,18 +120,6 @@ export function ProductProvider({ children }) {
   };
 
   function prepararEdicion(producto, showModalCargar) {
-    // setModificandoId(producto.id);
-    // setCodigoProd(producto.codigo || "");
-    // setNombreProd(producto.nombreProducto);
-    // setStock(producto.stock);
-    // setStockCritico(producto.stockCritico || "");
-    // setPrecioU(producto.precioUnitario);
-    // setGanancia(producto.ganancia);
-    // setIva(producto.iva);
-
-    // setImporte(producto.importe);
-    // setCatSeleccionada(producto.categoria);
-    // showModalCargar(true);
     if (!producto) return;
 
     setModificandoId(producto.id || producto._id);
@@ -177,7 +162,7 @@ export function ProductProvider({ children }) {
     }
   }
 
-  const handleSubmitProducto = async (e, handleCloseModalCarga) => {
+  const handleSubmitProducto = async (e) => {
     e.preventDefault();
 
     const catEncontrada = categorias.find((c) => c.nombre === catSeleccionada);
@@ -185,34 +170,36 @@ export function ProductProvider({ children }) {
     const datosBackend = {
       codigo: codigoProd,
       nombre: nombreProd,
-      // stock: Number(stock),
-      // stockCritico: stockCritico !== "" ? Number(stockCritico) : 0,
       stock: stock !== "" ? Number(stock) : 0,
       stockCritico: stockCritico !== "" ? Number(stockCritico) : 0,
       precio: Number(precioU),
-      // ganancia: Number(ganancia),
       ganancia: ganancia !== "" ? Number(ganancia) : 1,
-      // iva: Number(iva),
       iva: iva !== "" ? Number(iva) : 1,
       categoria: catEncontrada?.id,
     };
 
     try {
       let res;
-      if (modificandoId) {
+      const esEdicion = !!modificandoId;
+
+      if (esEdicion) {
         res = await actualizarProducto(modificandoId, datosBackend);
       } else {
         res = await crearProducto(datosBackend);
       }
 
       if (res) {
-        alert(res.mensaje || "Operación exitosa");
         await cargarCatsProds();
         resetearFormularioProducto();
-        handleCloseModalCarga();
+        return {
+          ok: true,
+          esEdicion,
+          mensaje: res.mensaje || (esEdicion ? "Producto actualizado correctamente." : "Producto cargado correctamente."),
+        };
       }
+      return { ok: false, mensaje: "No se obtuvo respuesta del servidor." };
     } catch (error) {
-      alert("Error al procesar la solicitud en el servidor.");
+      return { ok: false, mensaje: "Error al procesar la solicitud en el servidor." };
     }
   };
 

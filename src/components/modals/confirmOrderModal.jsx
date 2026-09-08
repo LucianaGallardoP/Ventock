@@ -1,15 +1,31 @@
 import React, { useContext } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { OrderContext } from "../../context/OrderContext";
-import ("../../styles/confirmOrderModal.css");
+import("../../styles/confirmOrderModal.css");
 
-export default function ConfirmOrderModal({ show, onHide, onConfirm }) {
+export default function ConfirmOrderModal({
+  show,
+  onHide,
+  onConfirm,
+  onSuccess,
+}) {
   const { limpiarPedido } = useContext(OrderContext);
 
   const manejarPresupuesto = () => {
-    alert("Presupuesto guardado con éxito.");
-    limpiarPedido();
     onHide();
+
+    if (onSuccess) {
+      onSuccess(
+        <>
+          <div>Presupuesto guardado con éxito.</div>
+          <div style={{ marginTop: "4px" }}>
+            Los productos permanecen guardados en el historial de presupuestos.
+          </div>
+        </>,
+      );
+    }
+    
+    limpiarPedido();
   };
 
   /* Modal GUARDAR PEDIDO */
@@ -30,11 +46,11 @@ export default function ConfirmOrderModal({ show, onHide, onConfirm }) {
           ¿Cómo desea registrar esta operación?
         </p>
         <div id="btnsGuardarVenta_container">
-          <Button 
-          className="btnsGuardarVenta" 
-          onClick={() => {
+          <Button
+            className="btnsGuardarVenta"
+            onClick={() => {
               onHide();
-              onConfirm(); 
+              onConfirm();
             }}
           >
             Vendido

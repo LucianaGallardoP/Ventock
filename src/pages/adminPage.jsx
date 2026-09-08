@@ -12,9 +12,18 @@ export default function AdminPage() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const [successTitle, setSuccessTitle] = useState("OPERACIÓN EXITOSA");
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleVentaExitosa = (mensaje) => {
+    setSuccessTitle("VENTA REGISTRADA");
+    setSuccessMessage(mensaje);
+    setShowSuccessModal(true);
+  };
+
+  const handlePresupuestoExitoso = (mensaje) => {
+    setSuccessTitle("PRESUPUESTO GUARDADO");
     setSuccessMessage(mensaje);
     setShowSuccessModal(true);
   };
@@ -38,6 +47,7 @@ export default function AdminPage() {
           setShowConfirmModal(false);
           setShowPaymentModal(true);
         }}
+        onSuccess={handlePresupuestoExitoso}
       />
 
       <PaymentModal
@@ -49,7 +59,7 @@ export default function AdminPage() {
       <SuccessModal
         show={showSuccessModal}
         onHide={() => setShowSuccessModal(false)}
-        title="VENTA REGISTRADA"
+        title={successTitle}
         message={successMessage}
       />
     </section>

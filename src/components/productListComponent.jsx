@@ -9,6 +9,7 @@ import { OrderContext } from "../context/OrderContext";
 import { AuthContext } from "../context/AuthContext";
 
 import DeleteModal from "./modals/deleteModal";
+import SuccessModal from "./modals/succesModal";
 import "../styles/productListComponent.css";
 
 export default function ProductListComponent({ setShowModalCarga }) {
@@ -18,7 +19,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
     categorias,
     filtro,
     setFiltro,
-    resultadosBusqueda,
     eliminarProducto,
     prepararEdicion,
     productos,
@@ -27,22 +27,34 @@ export default function ProductListComponent({ setShowModalCarga }) {
 
   const { agregarAlDetalle } = useContext(OrderContext);
 
+  // MODAL PARA CONFIRMAR ELIMINACION
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [prodParaEliminar, setProdParaEliminar] = useState({
     id: null,
     nombre: "",
   });
 
+  // MODAL EXITO TRAS ELIMINACION
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const inputSearchRef = useRef(null);
+  const containerRef = useRef(null);
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const esAdmin = user?.rol === "Admin" || user?.rol === "SuperAdmin";
   const columnasVisibles = esAdmin ? 10 : 9;
 
-  const manejarFiltroCategoria = (nombreCategoria) => {
+  const manejarFiltroCategoria = (e, nombreCategoria) => {
+    if (e && e.target) {
+      e.target.blur();
+    }
     setFiltro(nombreCategoria);
+    setSelectedIndex(0);
+    setTimeout(() => {
+      containerRef.current?.focus();
+    }, 0);
   };
 
   const clickDeleteIcon = (id, nombre) => {
@@ -55,7 +67,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
       const exito = await eliminarProducto(prodParaEliminar.id);
       if (exito) {
         setShowDeleteModal(false);
-        setProdParaEliminar({ id: null, nombre: "" });
+        setShowSuccessModal(true);
       }
     }
   };
@@ -151,7 +163,12 @@ export default function ProductListComponent({ setShowModalCarga }) {
   let globalIndex = 0;
 
   return (
-    <section id="products_container" tabIndex={0} onKeyDown={handleKeyDown}>
+    <section
+      id="products_container"
+      ref={containerRef}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+    >
       <div id="products_header">
         <h5 id="products_tittle">INVENTARIO</h5>
 
@@ -178,7 +195,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
               className="search_btn"
               onClick={() => {
                 setIsSearchOpen(true);
-
                 setTimeout(() => {
                   inputSearchRef.current?.focus();
                 }, 0);
@@ -230,7 +246,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
                   >
                     <Dropdown.Item
                       className="itemsCategorias_dropD"
-                      onClick={() => manejarFiltroCategoria("")}
+                      onClick={(e) => manejarFiltroCategoria(e, "")}
                     >
                       --- Mostrar Todo ---
                     </Dropdown.Item>
@@ -239,7 +255,7 @@ export default function ProductListComponent({ setShowModalCarga }) {
                       <Dropdown.Item
                         key={cat.id}
                         className="itemsCategorias_dropD"
-                        onClick={() => manejarFiltroCategoria(cat.nombre)}
+                        onClick={(e) => manejarFiltroCategoria(e, cat.nombre)}
                       >
                         {cat.nombre}
                       </Dropdown.Item>
@@ -305,9 +321,9 @@ export default function ProductListComponent({ setShowModalCarga }) {
                       <tr
                         key={producto.id}
                         onClick={() => setSelectedIndex(currentIndex)}
-                        className={`productItem_row ${esCritico ? "fila_stock_critico" : ""} ${
-                          isSelected ? "fila_seleccionada" : ""
-                        }`}
+                        className={`productItem_row ${
+                          esCritico ? "fila_stock_critico" : ""
+                        } ${isSelected ? "fila_seleccionada" : ""}`}
                       >
                         <td style={{ fontWeight: "bold" }}>
                           {currentIndex + 1}
@@ -438,6 +454,16 @@ export default function ProductListComponent({ setShowModalCarga }) {
         onConfirm={confirmarEliminacion}
         title="ELIMINAR PRODUCTO PERMANENTEMENTE"
         message={`¿Estás seguro de que deseas eliminar "${prodParaEliminar.nombre}" del inventario de stock? Esta acción no se puede deshacer.`}
+      />
+
+      <SuccessModal
+        show={showSuccessModal}
+        onHide={() => {
+          setShowSuccessModal(false);
+          setProdParaEliminar({ id: null, nombre: "" });
+        }}
+        title="PRODUCTO ELIMINADO"
+        message="El producto se eliminó correctamente."
       />
     </section>
   );

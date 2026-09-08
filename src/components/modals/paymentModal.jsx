@@ -11,10 +11,19 @@ export default function PaymentModal({ show, onHide, onSuccess }) {
   const { productos, setProductos, cargarCatsProds } =
     useContext(ProductContext);
 
+  const formatearPrecio = (valor) => {
+    return new Intl.NumberFormat("es-AR", {
+      style: "currency",
+      currency: "ARS",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(valor);
+  };
+
   const procesarVenta = async (metodo) => {
     if (!detallePedido || detallePedido.length === 0) return;
 
-    const totalCobrado = totalConDescuento.toFixed(2);
+    const totalCobrado = formatearPrecio(totalConDescuento);
     const copiaDetalle = [...detallePedido];
 
     try {
@@ -33,7 +42,7 @@ export default function PaymentModal({ show, onHide, onSuccess }) {
         const stockActual = Number(prodEncontrado.stock) || 0;
         const cantidadVendida = Number(item.cantidad) || 0;
         const nuevoStock = stockActual - cantidadVendida;
-    
+
         const datosBackend = {
           nombre: prodEncontrado.nombreProducto || prodEncontrado.nombre,
           stock: nuevoStock,
@@ -83,25 +92,34 @@ export default function PaymentModal({ show, onHide, onSuccess }) {
 
       if (onSuccess) {
         onSuccess(
-          `Venta procesada con éxito en ${metodo}.\nTotal cobrado: $${totalCobrado}\nEl stock ha sido actualizado.`,
+          <>
+            <div>Venta procesada con éxito en {metodo}.</div>
+            <div style={{ marginTop: "4px" }}>
+              Total cobrado:{" "}
+              <span style={{ color: "#a12e2e", fontWeight: "bold" }}>
+                {totalCobrado}
+              </span>
+            </div>
+            <div style={{ marginTop: "4px" }}>
+              El stock ha sido actualizado.
+            </div>
+          </>,
         );
       }
 
       onHide();
       limpiarPedido();
     } catch (error) {
-      console.error("Detalle del error al actualizar el stock:", error);
       alert(`Hubo un error al procesar la venta: ${error.message}`);
     }
   };
 
-  /* Modal Metodo de Pago */
   return (
     <Modal show={show} onHide={onHide} size="sm" backdrop="static" centered>
       <Modal.Header
         closeButton
         style={{
-          backgroundColor: "#F0F2F5",
+          backgroundColor: "#1e293b",
           display: "flex",
           justifyContent: "center",
         }}

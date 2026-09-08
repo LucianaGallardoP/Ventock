@@ -3,17 +3,26 @@ import { Form, Button, Modal } from "react-bootstrap";
 import { FaTrashCan } from "react-icons/fa6";
 import { FaPen } from "react-icons/fa";
 import { ProductContext } from "../context/ProductContext";
-import {actualizarCategoria, borrarCategoria} from "../helpers/apiCategoria"
+import { actualizarCategoria, borrarCategoria } from "../helpers/apiCategoria";
+import DeleteModal from "../components/modals/deleteModal";
 import("../styles/gestionarCatPage.css");
 
 export default function GestionarCatPage() {
-  const {categorias, setCategorias, cargarCategorias} = useContext(ProductContext);
+  const { categorias, cargarCategorias } = useContext(ProductContext);
 
+  // MODAL EDITAR
   const [showModal, setShowModal] = useState(false);
   const [categoriaForm, setCategoriaForm] = useState({
     id: null,
     nombre: "",
     estado: "Activo",
+  });
+
+  // MODAL ELIMINAR
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [catParaEliminar, setCatParaEliminar] = useState({
+    id: null,
+    nombre: "",
   });
 
   const handleShow = (categoria) => {
@@ -32,32 +41,58 @@ export default function GestionarCatPage() {
     e.preventDefault();
     try {
       const resp = await actualizarCategoria(categoriaForm.id, {
-        nombre: categoriaForm.nombre
+        nombre: categoriaForm.nombre,
       });
       if (resp?.categoria) {
-        alert("Categoría actualizada!");
         await cargarCategorias();
         handleClose();
       } else {
-        alert(resp.mensaje || "Error al actualizar");
       }
-    } catch (error) {
-      console.error(error);
+    } catch (error) {}
+  };
+
+  const handleToggleEstado = async (cat) => {
+    const nuevoEstado = cat.estado === "Activo" ? "Desactivo" : "Activo";
+    try {
+      const resp = await actualizarCategoria(cat.id, {
+        nombre: cat.nombre,
+        estado: nuevoEstado,
+      });
+      if (resp) {
+        await cargarCategorias();
+      }
+    } catch (error) {}
+  };
+
+  const clickDeleteIcon = (id, nombre) => {
+    setCatParaEliminar({ id, nombre });
+    setShowDeleteModal(true);
+  };
+
+  const confirmarEliminacion = async () => {
+    if (catParaEliminar.id) {
+      try {
+        const resp = await borrarCategoria(catParaEliminar.id);
+        if (resp) {
+          await cargarCategorias();
+          setShowDeleteModal(false);
+          setCatParaEliminar({ id: null, nombre: "" });
+        }
+      } catch (error) {}
     }
   };
 
-  const handleEliminar = async (id) => {
-    if (window.confirm("Estas seguro de eliminar esta categoria permanentemente?")) {
-      try {
-        const resp = await borrarCategoria(id);
-        if (resp) {
-          alert("Categoria eliminada con exito");
-          await cargarCategorias();
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
+  const formatearFecha = (fecha) => {
+    if (!fecha) return "Sin datos";
+    const date = new Date(fecha);
+    return date.toLocaleDateString("es-AR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
   };
 
   return (
@@ -70,54 +105,75 @@ export default function GestionarCatPage() {
         <table id="categories_table">
           <thead>
             <tr>
+              <th>#</th>
               <th>Nombre de Categoria</th>
               <th>Estado</th>
               <th>Fecha de Registro</th>
               <th>Usuario</th>
-              <th id="icons_container">
-                <FaPen /> <FaTrashCan />
-              </th>
+              <th id="icons_container">Acciones</th>
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="text-center">
             {categorias.length === 0 ? (
               <tr>
-                <td colSpan={5} className="text-center p-3">
+                <td
+                  colSpan={6}
+                  className=" text-muted text-center p-3 celda_vacia"
+                >
                   No hay categorías registradas
                 </td>
               </tr>
             ) : (
-              categorias.map((cat) => (
-                <tr key={cat.id} className="text-center align-middle">
-                  <td>{cat.nombre}</td>
-                  <td>
-                    <span
-                      className={
-                        cat.estado === "Activo" ? "text-success" : "text-danger"
-                      }
-                    >
-                      {cat.estado}
-                    </span>
-                  </td>
-                  <td>{cat.fechaRegistro}</td>
-                  <td>{cat.usuario?.correo || cat.usuario || "Admin"}</td>
-                  <td>
-                    <div id="icons_container">
-                      <Button variant="link" onClick={() => handleShow(cat)}>
-                        <FaPen color="#1e293b" />
-                      </Button>
-                      <Button
-                        variant="link"
-                        className="text-danger"
-                        onClick={() => handleEliminar(cat.id)}
-                      >
-                        <FaTrashCan />
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))
+              categorias.map((cat, index) => {
+                const esActivo = cat.estado === "Activo";
+
+                return (
+                  <tr key={cat.id} className=" categoryItem_row align-middle">
+                    <td style={{ fontWeight: "bold" }}>{index + 1}</td>
+
+                    <td className="categoryName_cell">{cat.nombre}</td>
+
+                    <td>
+                      <div className="d-flex align-items-center justify-content-center gap-2">
+                        <Form.Check
+                          type="switch"
+                          id={`switch-cat-${cat.id}`}
+                          checked={esActivo}
+                          onChange={() => handleToggleEstado(cat)}
+                          className="custom_cat_switch"
+                        />
+                        <span
+                          className={`estado_texto ${
+                            esActivo ? "texto_activo" : "texto_desactivo"
+                          }`}
+                        >
+                          {esActivo ? "Activo" : "Desactivo"}
+                        </span>
+                      </div>
+                    </td>
+
+                    <td>{formatearFecha(cat.fechaRegistro)}</td>
+                    <td>{cat.usuario?.correo || cat.usuario || "Admin"}</td>
+                    <td>
+                      <div id="icons_container">
+                        <Button
+                          className="btn_modificar"
+                          onClick={() => handleShow(cat)}
+                        >
+                          <FaPen className="FaPen Fapen_body" />
+                        </Button>
+                        <Button
+                          className="btn_eliminar"
+                          onClick={() => clickDeleteIcon(cat.id, cat.nombre)}
+                        >
+                          <FaTrashCan className="FaTrashCan FaTrashCan_body" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
             )}
           </tbody>
         </table>
@@ -131,7 +187,10 @@ export default function GestionarCatPage() {
         backdrop="static"
         centered
       >
-        <Modal.Header closeButton style={{ backgroundColor: "#f0f2f5" }}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "#1e293b", color: "#f0f2f5" }}
+        >
           <h5 id="cargarUsuario_title">MODIFICAR CATEGORIA</h5>
         </Modal.Header>
         <Modal.Body id="cargarUsuario_container">
@@ -151,7 +210,7 @@ export default function GestionarCatPage() {
               />
             </Form.Group>
 
-            <Button id="btnAddUsuario" type="submit" className="mt-4">
+            <Button id="btnAddCategorySubmit" type="submit" className="mt-4">
               ACTUALIZAR CATEGORIA
             </Button>
           </Form>
@@ -160,6 +219,13 @@ export default function GestionarCatPage() {
           style={{ backgroundColor: "#f0f2f5", border: "none" }}
         ></Modal.Footer>
       </Modal>
+      <DeleteModal
+        show={showDeleteModal}
+        handleClose={() => setShowDeleteModal(false)}
+        onConfirm={confirmarEliminacion}
+        title="ELIMINAR CATEGORÍA PERMANENTEMENTE"
+        message={`¿Estás seguro de que deseas eliminar la categoría "${catParaEliminar.nombre}"? Esta acción no se puede deshacer.`}
+      />
     </section>
   );
 }

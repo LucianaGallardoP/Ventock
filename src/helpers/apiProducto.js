@@ -1,4 +1,6 @@
-const url = "http://localhost:3001/api/productos";
+// const url = "http://localhost:3001/api/productos";
+const API_URL = import.meta.env.VITE_API_URL;
+const url = `${API_URL}/api/productos`;
 const limite = 50;
 
 // const url = "http://ventockbackend.vercel.app/api/productos";

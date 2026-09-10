@@ -13,15 +13,15 @@
   width: 60%;
   height: fit-content;
   color: #1e293b;
-  background-color: #8ab3cf;
-  border: 1px solid #4180ab;
+  background-color: #92a7c8;
+  border: 1px solid #5576aa;
   border-radius: 50px;
   padding: 10px;
   font-size: large;
 }
 
 .btnsMetodoPago:hover {
-  background-color: #1e293b;
-  border: none;
+  background-color: #92a7c8;
+    border: 1px solid #5576aa;
   color: #f0f2f5;
 }

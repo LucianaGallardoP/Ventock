@@ -13,7 +13,6 @@ export default function SuperAdminPage() {
   const [usuarios, setUsuarios] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [busqueda, setBusqueda] = useState("");
-
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [idParaEliminar, setIdParaEliminar] = useState(null);
 
@@ -65,18 +64,6 @@ export default function SuperAdminPage() {
     setIdParaEliminar(id);
     setShowDeleteModal(true);
   };
-
-  // const handleEliminar = async (id) => {
-  //   if (
-  //     window.confirm("¿Estás seguro de eliminar este usuario permanentemente?")
-  //   ) {
-  //     const data = await deleteUsuario(id);
-  //     if (data) {
-  //       alert("Usuario eliminado exitosamente.");
-  //       obtenerUsuarios();
-  //     }
-  //   }
-  // };
 
   const confirmarEliminacion = async () => {
     if (idParaEliminar) {

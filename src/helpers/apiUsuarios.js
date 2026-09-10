@@ -1,4 +1,7 @@
-const url = "http://localhost:3001/api/usuarios";
+// const url = "http://localhost:3001/api/usuarios";
+
+const API_URL = import.meta.env.VITE_API_URL;
+const url = `${API_URL}/api/usuarios`;
 
 // const url = "http://ventockbackend.vercel.app/api/usuarios";
 
@@ -21,7 +24,6 @@ export const getUsuarios = async (desde = 0, limite = 10) => {
     const data = await resp.json();
     return data;
   } catch (error) {
-    console.error(error);
     throw new Error("No se pudo obtener la informacion solicitada.");
   }
 };
@@ -33,7 +35,6 @@ export const getUsuarioById = async (id) => {
 
     return data;
   } catch (error) {
-    console.error(error);
     throw new Error("No se pudo obtener la informacion solicitada.");
   }
 };
@@ -51,7 +52,6 @@ export const postUsuario = async (datos) => {
     const data = await resp.json();
     return data;
   } catch (error) {
-    console.error(error);
     return {
       mensaje: "No se conecto al backend.",
     };
@@ -81,7 +81,6 @@ export const deleteUsuario = async (id) => {
     const data = await resp.json();
     return data;
   } catch (error) {
-    console.error(error);
     return { mensaje: "No se conectó con el backend." };
   }
 };

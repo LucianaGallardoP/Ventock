@@ -25,7 +25,6 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  /* background-color: antiquewhite; */
 }
 
 .formGroup {
@@ -65,10 +64,6 @@
   width: 100%;
   height: auto;
   display: flex;
-  /* justify-content: center; */
-  /* position: absolute; */
-  /* bottom: 0%; */
-  /* background-color: pink; */
   margin-top: 10px;
 }
 
@@ -86,7 +81,7 @@
 }
 
 #dropDownMenu {
-  background-color: #bdd1de;
+  background-color: #d0d9e7;
   width: 100%;
 }
 
@@ -97,8 +92,8 @@
 }
 
 .dropDownItem:hover {
-  background-color: #8ab3cf;
-  border: 1px solid #4180ab;
+  background-color: #92a7c8;
+  border: 1px solid #5576aa;
   border-radius: 15px;
 }
 

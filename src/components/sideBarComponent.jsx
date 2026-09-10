@@ -20,8 +20,9 @@ export default function SideBarComponent() {
     navigate("/login");
   };
 
-  const isSuperAdmin = user?.rol === "SuperAdmin";
+  // const isSuperAdmin = user?.rol === "SuperAdmin";
   const isAdminOrVendedor = user?.rol === "Admin" || user?.rol === "Vendedor";
+  const canManageCategories = user?.rol === "Admin" || user?.rol === "SuperAdmin";
   const isInvitado = !token;
 
   return (
@@ -66,18 +67,16 @@ export default function SideBarComponent() {
                   Ventas Mensuales
                 </NavLink>
 
-                <NavLink to="/notas-credito" className="navLinks">
-                  Notas de Crédito
-                </NavLink>
-
-                <NavLink to="/gestionarCategoria" className="navLinks">
+                {/* <NavLink to="/gestionarCategoria" className="navLinks">
                   Gestionar Categorías
-                </NavLink>
-
-                <NavLink to="/efectivo-retirado" className="navLinks">
-                  Efectivo Retirado
-                </NavLink>
+                </NavLink> */}
               </>
+            )}
+
+            {canManageCategories && (
+              <NavLink to="/gestionarCategoria" className="navLinks">
+                Gestionar Categorías
+              </NavLink>
             )}
 
             <div className="sidebar-footer-links">

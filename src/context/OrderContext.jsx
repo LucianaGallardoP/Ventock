@@ -48,7 +48,16 @@ export function OrderProvider({ children }) {
   }
 
   function eliminarDelDetalle(id) {
-    setDetallePedido(detallePedido.filter((item) => item.id !== id));
+    const nuevoDetalle = detallePedido.filter((item) => item.id !== id);
+    setDetallePedido(nuevoDetalle);
+    if (nuevoDetalle.length === 0) {
+      setDescuentoPorc(0);
+    }
+  }
+
+  function limpiarPedido() {
+    setDetallePedido([]);
+    setDescuentoPorc(0);
   }
 
   function manejarCambioCantidad(id, nuevaCantidad) {
@@ -95,6 +104,7 @@ export function OrderProvider({ children }) {
         agregarAlDetalle,
         eliminarDelDetalle,
         manejarCambioCantidad,
+        limpiarPedido,
         showModalGuardarPedido,
         setShowModalGuardarPedido,
         showModalMetodoPago,

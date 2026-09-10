@@ -28,7 +28,6 @@
   width: fit-content;
   height: 20px;
   margin-top: 10px;
-  /* background-color: pink; */
 }
 
 #navLinks_Container {
@@ -39,7 +38,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: start;
-  /* background-color: blue; */
 }
 
 .navLinks {
@@ -52,7 +50,6 @@
   font-size: 0.8rem;
   text-decoration: none;
   text-align: center;
-  /* background-color: green; */
 }
 
 .navLinks:hover, .navLinks.active {

@@ -18,6 +18,8 @@ export default function SuperAdminPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [idParaEliminar, setIdParaEliminar] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successTitle, setSuccessTitle] = useState("OPERACIÓN EXITOSA");
+  const [successMessage, setSuccessMessage] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const inputSearchRef = useRef(null);
 
@@ -73,12 +75,18 @@ export default function SuperAdminPage() {
   const confirmarEliminacion = async () => {
     if (idParaEliminar) {
       const data = await deleteUsuario(idParaEliminar);
-      if (data) {
-        setShowSuccessModal(true);
-        obtenerUsuarios();
-      }
-
       setShowDeleteModal(false);
+
+      if (data?.ok) {
+        obtenerUsuarios();
+        setSuccessTitle("USUARIO ELIMINADO");
+        setSuccessMessage("El usuario se eliminó correctamente.");
+      } else {
+        setSuccessTitle("ERROR");
+        setSuccessMessage(data?.mensaje || "No se pudo eliminar el usuario.");
+      }
+      setShowSuccessModal(true);
+
       setIdParaEliminar(null);
     }
   };
@@ -257,8 +265,8 @@ export default function SuperAdminPage() {
       <SuccessModal
         show={showSuccessModal}
         onHide={() => setShowSuccessModal(false)}
-        title="USUARIO ELIMINADO"
-        message="El usuario se eliminó correctamente."
+        title={successTitle}
+        message={successMessage}
       />
     </section>
   );

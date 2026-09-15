@@ -12,8 +12,10 @@
   height: auto;
   margin-top: 20px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
 
 #users_title {
@@ -21,30 +23,74 @@
 }
 
 #add_search_container {
-  width: 36%;
+  width: auto;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
 }
 
 #addUser {
-  width: fit-content;
   background-color: #1e293b;
   color: #f0f2f5;
   border: none;
-  border-radius: 20px;
+  border-radius: 50px;
   padding: 6px;
+  min-width: 38px;
+  height: 38px;
+  font-size: larger;
 }
 
 #addUser:hover {
   color: #1e293b;
-  background-color: #d0d9e7;
+  background-color: #92a7c8;
   border: 1px solid #5576aa;
 }
 
+.search_wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #1e293b;
+  border-radius: 50px;
+  overflow: hidden;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search_wrapper.expanded {
+  width: min(250px, 55vw);
+}
+
+.search_btn {
+  min-width: 38px;
+  height: 38px;
+  background: transparent;
+  border: none;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.search_btn:hover {
+  background-color: #92a7c8;
+}
+
 #controlSearch {
-  width: fit-content;
-  border-radius: 20px;
-  border: 1px solid #5576aa;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #1e293b;
+  width: 100%;
+}
+
+#controlSearch:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 #users_main {
@@ -52,12 +98,14 @@
   width: 90%;
   margin-top: 10px;
   overflow-y: auto;
+  overflow-x: auto;
 }
 
 #users_table {
   width: 100%;
+  min-width: 600px;
   border-collapse: separate;
-  border-spacing: 0 5px;
+  border-spacing: 0;
   border: none;
 }
 
@@ -74,39 +122,51 @@
   text-align: center;
   position: sticky;
   font-family: "Inter";
-  font-weight: 600;
-    padding: 6px;
+  font-size: medium;
+  font-weight: 400;
+  padding: 10px;
 }
 
 #users_table thead tr th:first-child {
-  border-radius: 20px 0 0 20px;
+  border-radius: 20px 0px 0px 20px;
 }
 
 #users_table thead tr th:last-child {
   border-radius: 0 20px 20px 0;
 }
 
-/* TBODY */
-#users_table tbody tr {
-  background-color: #f0f2f5;
+#users_table thead .FaPen,
+#users_table thead .FaTrashCan {
+  color: #1e293b;
 }
 
+table,
+th,
+td {
+  height: fit-content;
+}
+
+/* TBODY */
 #users_table tbody tr:hover td {
   background-color: #d0d9e7;
 }
 
 #users_table tbody tr td {
-  border: 1px solid #5576aa;
-}
-
-#users_table tbody tr td:first-child {
-  border-radius: 20px 0 0 20px;
-  border-left: 1px solid #5576aa;
+  padding: 3px;
+  border: none;
+  border-bottom: 1px solid #cbd5e1;
+  border-right: 1px solid #cbd5e1;
+  background-color: transparent;
+  vertical-align: middle;
+  font-size: 0.75rem;
 }
 
 #users_table tbody tr td:last-child {
-  border-radius: 0 20px 20px 0;
-  border-right: 1px solid #5576aa;
+  border-right: none;
+}
+
+#users_table tbody tr:last-child td {
+  border-bottom: none;
 }
 
 .rol-admin {
@@ -123,6 +183,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  font-size: smaller;
 }
 
 .u-Inactivo td {
@@ -131,6 +192,7 @@
 
 .FaPen {
   color: orange;
+  font-size: smaller;
 }
 
 .Fapen_body:hover {
@@ -140,6 +202,7 @@
 
 .FaTrashCan {
   color: #a12e2e;
+  font-size: smaller;
 }
 
 .FaTrashCan_body:hover{

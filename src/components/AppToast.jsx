@@ -35,7 +35,7 @@ export default function AppToast({
         >
           {esError ? (
             <FaCircleExclamation
-              style={{ color: "#dc2626", fontSize: "1.2rem", flexShrink: 0 }}
+              style={{ color: "#a12e2e", fontSize: "1.2rem", flexShrink: 0 }}
             />
           ) : (
             <FaCircleCheck

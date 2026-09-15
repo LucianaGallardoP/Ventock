@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { OrderContext } from "../../context/OrderContext";
 import { ProductContext } from "../../context/ProductContext";
 import { actualizarProducto } from "../../helpers/apiProducto";
+import AppToast from "../AppToast";
 import("../../styles/paymentModal.css");
 
 export default function PaymentModal({ show, onHide, onSuccess }) {
@@ -10,6 +11,8 @@ export default function PaymentModal({ show, onHide, onSuccess }) {
     useContext(OrderContext);
   const { productos, setProductos, cargarCatsProds } =
     useContext(ProductContext);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const formatearPrecio = (valor) => {
     return new Intl.NumberFormat("es-AR", {
@@ -110,34 +113,46 @@ export default function PaymentModal({ show, onHide, onSuccess }) {
       onHide();
       limpiarPedido();
     } catch (error) {
-      alert(`Hubo un error al procesar la venta: ${error.message}`);
+      setToastMessage(`Hubo un error al procesar la venta: ${error.message}`);
+      setShowToast(true);
     }
   };
 
   return (
-    <Modal show={show} onHide={onHide} size="sm" backdrop="static" centered>
-      <Modal.Header
-        closeButton
-        style={{
-          backgroundColor: "#1e293b",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <h5 id="cargarProducto_title">MÉTODO DE PAGO</h5>
-      </Modal.Header>
-      <Modal.Body id="metodoPago_container">
-        {["Efectivo", "Transferencia", "Débito", "Crédito"].map((metodo) => (
-          <Button
-            key={metodo}
-            className="btnsMetodoPago"
-            onClick={() => procesarVenta(metodo)}
-          >
-            {metodo}
-          </Button>
-        ))}
-      </Modal.Body>
-      <Modal.Footer style={{ backgroundColor: "#e4ebf0" }}></Modal.Footer>
-    </Modal>
+    <>
+      <Modal show={show} onHide={onHide} size="sm" backdrop="static" centered>
+        <Modal.Header
+          closeButton
+          style={{
+            backgroundColor: "#1e293b",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <h5 id="cargarProducto_title">MÉTODO DE PAGO</h5>
+        </Modal.Header>
+        <Modal.Body id="metodoPago_container">
+          {["Efectivo", "Transferencia", "Débito", "Crédito"].map(
+            (metodo) => (
+              <Button
+                key={metodo}
+                className="btnsMetodoPago"
+                onClick={() => procesarVenta(metodo)}
+              >
+                {metodo}
+              </Button>
+            ),
+          )}
+        </Modal.Body>
+        <Modal.Footer style={{ backgroundColor: "#e4ebf0" }}></Modal.Footer>
+      </Modal>
+
+      <AppToast
+        show={showToast}
+        onClose={() => setShowToast(false)}
+        type="error"
+        message={toastMessage}
+      />
+    </>
   );
 }

@@ -15,9 +15,10 @@ const getAuthHeaders = () => {
   };
 };
 
-export const getCategorias = async (desde = 0) => {
+export const getCategorias = async (desde = 0, todas = false) => {
   try {
-    const resp = await fetch(`${url}?limite=${limite}&desde=${desde}`, {
+    const query = `?limite=${limite}&desde=${desde}${todas ? "&todas=true" : ""}`;
+    const resp = await fetch(`${url}${query}`, {
       method: "GET",
       headers: getAuthHeaders(),
     });
@@ -67,9 +68,36 @@ export const actualizarCategoria = async (id, datos) => {
     });
 
     const data = await resp.json();
-    return data;
+    if (!resp.ok || !data?.categoria) {
+      return {
+        ok: false,
+        mensaje: data?.mensaje || "Error al actualizar la categoría.",
+      };
+    }
+    return { ok: true, ...data };
   } catch (error) {
-    return { mensaje: "No se conecto con backend, error al actualizar" };
+    return { ok: false, mensaje: "No se conectó con el backend, error al actualizar." };
+  }
+};
+
+// Habilita/deshabilita una categoría (alterna el campo booleano "estado" en el backend)
+export const cambiarEstadoCategoria = async (id) => {
+  try {
+    const resp = await fetch(`${url}/${id}`, {
+      method: "PATCH",
+      headers: getAuthHeaders(),
+    });
+
+    const data = await resp.json();
+    if (!resp.ok || !data?.categoria) {
+      return {
+        ok: false,
+        mensaje: data?.mensaje || "Error al cambiar el estado de la categoría.",
+      };
+    }
+    return { ok: true, ...data };
+  } catch (error) {
+    return { ok: false, mensaje: "No se conectó con el backend, error al cambiar el estado." };
   }
 };
 
@@ -81,9 +109,14 @@ export const borrarCategoria = async (id) => {
     });
 
     const data = await resp.json();
-    if (!resp.ok) throw new Error(data.msg || "Error al eliminar");
-    return data;
+    if (!resp.ok || !data?.categoriaBorrada) {
+      return {
+        ok: false,
+        mensaje: data?.mensaje || data?.msg || "Error al eliminar la categoría.",
+      };
+    }
+    return { ok: true, ...data };
   } catch (error) {
-    return { mensaje: "No se conecto con backend, error al eliminar" };
+    return { ok: false, mensaje: "No se conectó con el backend, error al eliminar." };
   }
 };

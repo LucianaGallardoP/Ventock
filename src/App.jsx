@@ -12,6 +12,7 @@ import {
 
 import LogInPage from "./pages/logInPage";
 import SideBarComponent from "./components/sideBarComponent";
+import LoginToast from "./components/LoginToast";
 import SuperAdminPage from "./pages/superAdminPage";
 import AdminPage from "./pages/adminPage";
 import GestionarCatPage from "./pages/gestionarCatPage";
@@ -65,6 +66,7 @@ const Layout = ({ children }) => {
       <div className="content-container">
         <main>{children}</main>
       </div>
+      <LoginToast />
     </div>
   );
 };

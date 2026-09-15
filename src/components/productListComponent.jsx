@@ -219,7 +219,6 @@ export default function ProductListComponent({ setShowModalCarga }) {
                 setFiltro(e.target.value);
                 setSelectedIndex(0);
               }}
-              onKeyDown={handleKeyDown}
             />
           </div>
         </div>

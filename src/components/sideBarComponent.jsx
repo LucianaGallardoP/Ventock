@@ -20,9 +20,9 @@ export default function SideBarComponent() {
     navigate("/login");
   };
 
-  // const isSuperAdmin = user?.rol === "SuperAdmin";
+  const isSuperAdmin = user?.rol === "SuperAdmin";
   const isAdminOrVendedor = user?.rol === "Admin" || user?.rol === "Vendedor";
-  const canManageCategories = user?.rol === "Admin" || user?.rol === "SuperAdmin";
+  const canManageCategories = user?.rol === "Admin";
   const isInvitado = !token;
 
   return (
@@ -86,9 +86,11 @@ export default function SideBarComponent() {
                 Sobre Nosotros
               </NavLink>
 
-              <NavLink to="/contact" className="navLinks">
-                Contacto
-              </NavLink>
+              {!isSuperAdmin && (
+                <NavLink to="/contact" className="navLinks">
+                  Contacto
+                </NavLink>
+              )}
 
               {token && (
                 <Button

@@ -1,30 +1,44 @@
 #aboutMain {
-  width: 89vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
   background-image: url(../assets/fondoLogIn.png);
   background-size: cover;
   background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px 16px;
+  box-sizing: border-box;
 }
 
 #about_container {
-  width: 65%;
-  height: 85%;
-  padding: 10px;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  padding: 20px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background-color: rgba(30, 41, 59, 0.05);
   backdrop-filter: blur(1px);
   box-shadow: 0 15px 25px 0 rgb(228, 235, 240, 0.5);
+  box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 16px;
+}
+
+#about_logoBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(160px, 45%);
 }
 
 #about_contenido {
-  width: 75%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,6 +47,7 @@
 
 #about_tittle {
   color: #f0f2f5;
+  text-align: center;
 }
 
 #aboutUs_parrafo {
@@ -42,18 +57,45 @@
   font-weight: 500;
   border-radius: 10px;
   padding: 15px;
-  margin: 10px;
+  margin: 10px 0;
   text-align: center;
+  box-sizing: border-box;
 }
 
 #infoIntegrantes {
   color: #f0f2f5;
-  width: 50%;
+  width: 100%;
+  max-width: 280px;
   border-radius: 20px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #1E293B;
+  background-color: #1e293b;
   border: 2px solid rgba(255, 255, 255, 0.1);
+  box-sizing: border-box;
+}
+
+/* Tablets and up: side-by-side layout */
+@media (min-width: 768px) {
+  #about_container {
+    width: 65%;
+    max-width: none;
+    height: 85%;
+    flex-direction: row;
+    padding: 10px;
+  }
+
+  #about_logoBlock {
+    width: 20%;
+  }
+
+  #about_contenido {
+    width: 75%;
+  }
+
+  #infoIntegrantes {
+    width: 50%;
+  }
 }

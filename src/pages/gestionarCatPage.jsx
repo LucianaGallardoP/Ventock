@@ -1,22 +1,51 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 import { FaTrashCan } from "react-icons/fa6";
 import { FaPen } from "react-icons/fa";
 import { ProductContext } from "../context/ProductContext";
-import { actualizarCategoria, borrarCategoria } from "../helpers/apiCategoria";
+import {
+  getCategorias,
+  actualizarCategoria,
+  borrarCategoria,
+  cambiarEstadoCategoria,
+} from "../helpers/apiCategoria";
 import DeleteModal from "../components/modals/deleteModal";
 import SuccessModal from "../components/modals/succesModal";
 import("../styles/gestionarCatPage.css");
 
 export default function GestionarCatPage() {
-  const { categorias, cargarCategorias } = useContext(ProductContext);
+  const { cargarCategorias: sincronizarCategoriasGlobal } =
+    useContext(ProductContext);
+
+  const [categorias, setCategorias] = useState([]);
+
+  const cargarTodasLasCategorias = useCallback(async () => {
+    const data = await getCategorias(0, true);
+    if (data?.categorias) {
+      const catsMapeadas = data.categorias.map((cat) => ({
+        ...cat,
+        id: cat._id || cat.id,
+        estado: cat.estado ?? true,
+      }));
+      setCategorias(catsMapeadas);
+    }
+  }, []);
+
+  useEffect(() => {
+    cargarTodasLasCategorias();
+  }, [cargarTodasLasCategorias]);
+
+  const cargarCategorias = async () => {
+    await cargarTodasLasCategorias();
+    await sincronizarCategoriasGlobal();
+  };
 
   // MODAL EDITAR
   const [showModal, setShowModal] = useState(false);
   const [categoriaForm, setCategoriaForm] = useState({
     id: null,
     nombre: "",
-    estado: "Activo",
+    estado: true,
   });
 
   // MODAL ELIMINAR
@@ -42,7 +71,7 @@ export default function GestionarCatPage() {
     setCategoriaForm({
       id: categoryId,
       nombre: categoria.nombre,
-      estado: categoria.estado || "Activo",
+      estado: categoria.estado ?? true,
     });
     setShowModal(true);
   };
@@ -61,38 +90,47 @@ export default function GestionarCatPage() {
     try {
       const resp = await actualizarCategoria(categoriaForm.id, {
         nombre: categoriaForm.nombre,
-        estado: categoriaForm.estado,
       });
 
-      if (resp) {
+      if (resp?.ok) {
         handleClose();
         await cargarCategorias();
         abrirNotificacion(
           "CATEGORÍA ACTUALIZADA",
           "La categoría se modificó correctamente.",
         );
+      } else {
+        abrirNotificacion(
+          "ERROR",
+          resp?.mensaje || "No se pudo actualizar la categoría.",
+        );
       }
-    } catch (error) {}
+    } catch (error) {
+      abrirNotificacion("ERROR", "Ocurrió un error al actualizar la categoría.");
+    }
   };
 
   const handleToggleEstado = async (cat) => {
     const targetId = cat.id || cat._id;
-    const nuevoEstado = cat.estado === "Activo" ? "Desactivo" : "Activo";
 
     try {
-      const resp = await actualizarCategoria(targetId, {
-        nombre: cat.nombre,
-        estado: nuevoEstado,
-      });
+      const resp = await cambiarEstadoCategoria(targetId);
 
-      if (resp) {
+      if (resp?.ok) {
         await cargarCategorias();
         abrirNotificacion(
           "ESTADO ACTUALIZADO",
-          `La categoría ahora está ${nuevoEstado.toLowerCase()}.`,
+          `La categoría ahora está ${resp.categoria.estado ? "activa" : "desactivada"}.`,
+        );
+      } else {
+        abrirNotificacion(
+          "ERROR",
+          resp?.mensaje || "No se pudo cambiar el estado de la categoría.",
         );
       }
-    } catch (error) {}
+    } catch (error) {
+      abrirNotificacion("ERROR", "Ocurrió un error al cambiar el estado.");
+    }
   };
 
   const clickDeleteIcon = (cat) => {
@@ -105,16 +143,25 @@ export default function GestionarCatPage() {
     if (catParaEliminar.id) {
       try {
         const resp = await borrarCategoria(catParaEliminar.id);
-        if (resp) {
-          setShowDeleteModal(false);
+        setShowDeleteModal(false);
+
+        if (resp?.ok) {
           await cargarCategorias();
           abrirNotificacion(
             "CATEGORÍA ELIMINADA",
             `La categoría "${catParaEliminar.nombre}" se eliminó correctamente.`,
           );
-          setCatParaEliminar({ id: null, nombre: "" });
+        } else {
+          abrirNotificacion(
+            "ERROR",
+            resp?.mensaje || "No se pudo eliminar la categoría.",
+          );
         }
-      } catch (error) {}
+        setCatParaEliminar({ id: null, nombre: "" });
+      } catch (error) {
+        setShowDeleteModal(false);
+        abrirNotificacion("ERROR", "Ocurrió un error al eliminar la categoría.");
+      }
     }
   };
 
@@ -163,7 +210,7 @@ export default function GestionarCatPage() {
             ) : (
               categorias.map((cat, index) => {
                 const targetId = cat.id || cat._id;
-                const esActivo = cat.estado === "Activo";
+                const esActivo = cat.estado === true;
 
                 return (
                   <tr key={targetId} className=" categoryItem_row align-middle">

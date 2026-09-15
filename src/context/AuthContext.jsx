@@ -49,6 +49,7 @@ export function AuthProvider({ children }) {
       localStorage.setItem("token", data.token);
       localStorage.setItem("usuario", JSON.stringify(data.usuario));
       localStorage.setItem("sesion_expira_en", tiempoDeExpiracion.toString());
+      sessionStorage.setItem("loginExitoso", data.usuario?.nombre || "1");
 
       return { success: true, usuario: data.usuario };
     } else {

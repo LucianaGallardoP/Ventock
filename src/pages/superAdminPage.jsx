@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Form, Button } from "react-bootstrap";
 import { FaTrashCan } from "react-icons/fa6";
+import { IoIosSearch } from "react-icons/io";
 import { FaPen } from "react-icons/fa";
 import { getUsuarios, deleteUsuario, putUsuario } from "../helpers/apiUsuarios";
 
 import UsersModal from "../components/modals/usersModal";
 import DeleteModal from "../components/modals/deleteModal";
+import SuccessModal from "../components/modals/succesModal";
 
 import("../styles/superAdminPage.css");
 
@@ -15,6 +17,11 @@ export default function SuperAdminPage() {
   const [busqueda, setBusqueda] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [idParaEliminar, setIdParaEliminar] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successTitle, setSuccessTitle] = useState("OPERACIÓN EXITOSA");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const inputSearchRef = useRef(null);
 
   const [usuarioForm, setUsuarioForm] = useState({
     id: null,
@@ -68,12 +75,18 @@ export default function SuperAdminPage() {
   const confirmarEliminacion = async () => {
     if (idParaEliminar) {
       const data = await deleteUsuario(idParaEliminar);
-      if (data) {
-        alert("Usuario eliminado exitosamente.");
-        obtenerUsuarios();
-      }
-
       setShowDeleteModal(false);
+
+      if (data?.ok) {
+        obtenerUsuarios();
+        setSuccessTitle("USUARIO ELIMINADO");
+        setSuccessMessage("El usuario se eliminó correctamente.");
+      } else {
+        setSuccessTitle("ERROR");
+        setSuccessMessage(data?.mensaje || "No se pudo eliminar el usuario.");
+      }
+      setShowSuccessModal(true);
+
       setIdParaEliminar(null);
     }
   };
@@ -92,15 +105,42 @@ export default function SuperAdminPage() {
 
         <div id="add_search_container">
           <button id="addUser" onClick={() => handleShow()}>
-            + Agregar Usuario
+            +
           </button>
-          <Form.Control
-            id="controlSearch"
-            type="search"
-            placeholder="Buscar usuario..."
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-          />
+
+          <div
+            className={`search_wrapper ${
+              isSearchOpen || busqueda.trim() !== "" ? "expanded" : ""
+            }`}
+          >
+            <button
+              type="button"
+              className="search_btn"
+              onClick={() => {
+                setIsSearchOpen(true);
+                setTimeout(() => {
+                  inputSearchRef.current?.focus();
+                }, 0);
+              }}
+            >
+              <IoIosSearch size={22} />
+            </button>
+
+            <Form.Control
+              ref={inputSearchRef}
+              id="controlSearch"
+              type="search"
+              placeholder="Buscar usuario..."
+              value={busqueda}
+              onFocus={() => setIsSearchOpen(true)}
+              onBlur={() => {
+                if (busqueda.trim() === "") {
+                  setIsSearchOpen(false);
+                }
+              }}
+              onChange={(e) => setBusqueda(e.target.value)}
+            />
+          </div>
         </div>
       </div>
 
@@ -155,7 +195,25 @@ export default function SuperAdminPage() {
                   <td>{new Date(u.fechaRegistro).toLocaleDateString()}</td>
 
                   <td id="icons_container">
-                    <Button variant="link" onClick={() => handleShow(u)}>
+                    <Button
+                      variant="link"
+                      disabled={u.rol === "SuperAdmin"}
+                      onClick={() => {
+                        if (u.rol !== "SuperAdmin") {
+                          handleShow(u);
+                        }
+                      }}
+                      style={{
+                        opacity: u.rol === "SuperAdmin" ? 0.4 : 1,
+                        cursor:
+                          u.rol === "SuperAdmin" ? "not-allowed" : "pointer",
+                      }}
+                      title={
+                        u.rol === "SuperAdmin"
+                          ? "No se puede modificar al Administrador Principal"
+                          : "Modificar usuario"
+                      }
+                    >
                       <FaPen className="FaPen Fapen_body" />
                     </Button>
 
@@ -202,6 +260,13 @@ export default function SuperAdminPage() {
         onConfirm={confirmarEliminacion}
         title="Eliminar Usuario"
         message="¿Estás seguro de que deseas eliminar este usuario del sistema permanentemente?"
+      />
+
+      <SuccessModal
+        show={showSuccessModal}
+        onHide={() => setShowSuccessModal(false)}
+        title={successTitle}
+        message={successMessage}
       />
     </section>
   );

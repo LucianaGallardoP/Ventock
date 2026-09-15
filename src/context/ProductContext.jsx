@@ -31,7 +31,7 @@ export function ProductProvider({ children }) {
   const cargarCatsProds = async () => {
     try {
       const [dataCategorias, dataProductos] = await Promise.all([
-        getCategorias(0, 1000),
+        getCategorias(0),
         getProductos(0, 10000),
       ]);
 
@@ -40,7 +40,7 @@ export function ProductProvider({ children }) {
           ...cat,
           id: cat._id || cat.id,
           nombre: cat.nombre,
-          estado: cat.estado || "Activo",
+          estado: cat.estado ?? true,
         }));
         setCategorias([...catsMapeadas]);
       }

@@ -27,10 +27,12 @@
   width: 95%;
   margin-top: 5px;
   overflow-y: auto;
+  overflow-x: auto;
 }
 
 #categories_table {
   width: 100%;
+  min-width: 600px;
   border-collapse: separate;
   border-spacing: 0 5px;
   border: none;

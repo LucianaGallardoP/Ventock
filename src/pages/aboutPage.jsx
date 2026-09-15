@@ -7,14 +7,7 @@ export default function AboutPage() {
   return (
     <section id="aboutMain">
       <div id="about_container">
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            width: "20%",
-          }}
-        >
+        <div id="about_logoBlock">
           <img src={SVGwhite} alt="" width={"40%"} />
           <img src={logotipo} alt="" width={"100%"} />
         </div>

@@ -3,8 +3,6 @@ const API_URL = import.meta.env.VITE_API_URL;
 const url = `${API_URL}/api/productos`;
 const limite = 50;
 
-// const url = "http://ventockbackend.vercel.app/api/productos";
-
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
   return {

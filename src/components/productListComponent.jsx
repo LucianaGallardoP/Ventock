@@ -27,14 +27,12 @@ export default function ProductListComponent({ setShowModalCarga }) {
 
   const { agregarAlDetalle } = useContext(OrderContext);
 
-  // MODAL PARA CONFIRMAR ELIMINACION
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [prodParaEliminar, setProdParaEliminar] = useState({
     id: null,
     nombre: "",
   });
 
-  // MODAL EXITO TRAS ELIMINACION
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);

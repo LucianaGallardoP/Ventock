@@ -3,9 +3,6 @@
 const API_URL = import.meta.env.VITE_API_URL;
 const url = `${API_URL}/api/usuarios`;
 
-// const url = "http://ventockbackend.vercel.app/api/usuarios";
-
-// Helper para obtener el token limpio
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
   return {

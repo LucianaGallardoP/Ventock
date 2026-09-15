@@ -31,7 +31,6 @@ export default function SuccessModal({ show, onHide, title, message }) {
       >
         <p
           style={{
-            // fontSize: "1.05rem",
             color: "#1e293b",
             margin: 0,
             whitespace: "pre-line",

@@ -77,7 +77,6 @@
   box-sizing: border-box;
 }
 
-/* Tablets and up: side-by-side layout */
 @media (min-width: 768px) {
   #about_container {
     width: 65%;

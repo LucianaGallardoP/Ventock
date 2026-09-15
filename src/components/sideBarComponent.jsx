@@ -66,10 +66,6 @@ export default function SideBarComponent() {
                 <NavLink to="/ventas-mensuales" className="navLinks">
                   Ventas Mensuales
                 </NavLink>
-
-                {/* <NavLink to="/gestionarCategoria" className="navLinks">
-                  Gestionar Categorías
-                </NavLink> */}
               </>
             )}
 

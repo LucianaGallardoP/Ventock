@@ -31,11 +31,7 @@ export default function UsersModal({
       data = await postUsuario(usuarioForm);
     }
 
-    if (
-      data?.mensaje === "Usuario logueado con exito" ||
-      data?._id ||
-      !data?.errors
-    ) {
+    if (data?.ok) {
       obtenerUsuarios();
       handleClose();
       setModalTitle(
@@ -49,7 +45,7 @@ export default function UsersModal({
       setShowSuccessModal(true);
     } else {
       setModalTitle("ERROR");
-      setModalMessage(data.mensaje || "Revisar los datos.");
+      setModalMessage(data?.mensaje || "Revisar los datos.");
       setShowSuccessModal(true);
     }
   };

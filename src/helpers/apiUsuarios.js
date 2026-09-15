@@ -50,11 +50,15 @@ export const postUsuario = async (datos) => {
     });
 
     const data = await resp.json();
-    return data;
+    if (!resp.ok || !data?.usuario) {
+      return {
+        ok: false,
+        mensaje: data?.mensaje || "Error al crear el usuario.",
+      };
+    }
+    return { ok: true, ...data };
   } catch (error) {
-    return {
-      mensaje: "No se conecto al backend.",
-    };
+    return { ok: false, mensaje: "No se conectó con el backend, error al crear el usuario." };
   }
 };
 
@@ -65,9 +69,17 @@ export const putUsuario = async (id, datos) => {
       body: JSON.stringify(datos),
       headers: getAuthHeaders(),
     });
-    return await resp.json();
+
+    const data = await resp.json();
+    if (!resp.ok || !data?.usuario) {
+      return {
+        ok: false,
+        mensaje: data?.mensaje || "Error al actualizar el usuario.",
+      };
+    }
+    return { ok: true, ...data };
   } catch (error) {
-    return { mensaje: "No se conectó al backend" };
+    return { ok: false, mensaje: "No se conectó con el backend, error al actualizar el usuario." };
   }
 };
 
@@ -79,8 +91,14 @@ export const deleteUsuario = async (id) => {
     });
 
     const data = await resp.json();
-    return data;
+    if (!resp.ok || !data?.usuarioBorrado) {
+      return {
+        ok: false,
+        mensaje: data?.mensaje || "Error al eliminar el usuario.",
+      };
+    }
+    return { ok: true, ...data };
   } catch (error) {
-    return { mensaje: "No se conectó con el backend." };
+    return { ok: false, mensaje: "No se conectó con el backend, error al eliminar el usuario." };
   }
 };

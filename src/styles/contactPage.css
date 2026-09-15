@@ -1,6 +1,7 @@
 #contact_main {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   background-image: url(../assets/fondoLogIn.png);
   background-size: cover;
   background-position: center;
@@ -8,6 +9,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 24px 16px;
+  box-sizing: border-box;
 }
 
 #contact_tittle {
@@ -22,7 +25,8 @@
 
 #contactForm_container {
   height: auto;
-  width: 38%;
+  width: 100%;
+  max-width: 420px;
   border-radius: 20px;
   padding: 20px;
   color: #f3f3f2;
@@ -30,11 +34,13 @@
   background-color: rgba(30, 41, 59, 0.05);
   backdrop-filter: blur(5px);
   box-shadow: 0 15px 20px 0 rgb(228, 235, 240, 0.5);
+  box-sizing: border-box;
 }
 
 .contactCampos_Container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
   margin: 15px 15px 5px 15px;
 }
 
@@ -58,9 +64,10 @@
 }
 
 .labels_formContacto {
-  width: 20%;
+  width: 100%;
   text-align: start;
-  margin-right: 5px;
+  margin-right: 0;
+  margin-bottom: 4px;
 }
 
 .text {
@@ -75,18 +82,37 @@
 }
 
 #btnEnviarMensaje {
-  border: 1px solid #4180ab;
+  border: 1px solid #5576aa;
   color: #1e293b;
   text-align: center;
   margin: 20px 0px 5px 0px;
   width: 95%;
   border-radius: 25px;
-  background-color: #8ab3cf;
+  background-color: #92a7c8;
   border: none;
 }
 
 #btnEnviarMensaje:hover {
-  border: 1px solid #8ab3cf;
-  color: #8ab3cf;
+  border: 1px solid #92a7c8;
+  color: #92a7c8;
   background-color: transparent;
+}
+
+@media (min-width: 1024px) {
+  #contactForm_container {
+    width: 38%;
+    max-width: none;
+  }
+
+  .contactCampos_Container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .labels_formContacto {
+    width: 20%;
+    margin-right: 5px;
+    margin-bottom: 0;
+  }
 }

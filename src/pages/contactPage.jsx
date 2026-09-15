@@ -1,10 +1,14 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import emailjs from "@emailjs/browser";
+import AppToast from "../components/AppToast";
 import "../styles/contactPage.css";
 
 export default function ContactPage() {
   const form = useRef();
+  const [showToast, setShowToast] = useState(false);
+  const [toastType, setToastType] = useState("success");
+  const [toastMessage, setToastMessage] = useState("");
 
   const enviarEmail = (e) => {
     e.preventDefault();
@@ -16,14 +20,20 @@ export default function ContactPage() {
     emailjs.sendForm(serviceID, templateID, form.current, publicKey).then(
       (result) => {
         console.log(result.text);
-        alert("¡Consulta enviada con éxito! Nos contactaremos pronto.");
+        setToastType("success");
+        setToastMessage(
+          "¡Consulta enviada con éxito! Nos contactaremos pronto.",
+        );
+        setShowToast(true);
         e.target.reset();
       },
       (error) => {
         console.log("DETALLE TÉCNICO:", error);
-        alert(
+        setToastType("error");
+        setToastMessage(
           "Lo sentimos, hubo un problema técnico al enviar tu consulta. Por favor, intentá más tarde.",
         );
+        setShowToast(true);
       },
     );
   };
@@ -88,6 +98,13 @@ export default function ContactPage() {
           </Button>
         </div>
       </Form>
+
+      <AppToast
+        show={showToast}
+        onClose={() => setShowToast(false)}
+        type={toastType}
+        message={toastMessage}
+      />
     </section>
   );
 }

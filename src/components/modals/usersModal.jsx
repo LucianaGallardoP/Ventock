@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 import { postUsuario, putUsuario } from "../../helpers/apiUsuarios";
+import SuccessModal from "./succesModal";
 import ("../../styles/usersModal.css");
 
-export default function UsersModal({ 
-  show, 
-  handleClose, 
-  usuarioForm, 
-  setUsuarioForm, 
-  obtenerUsuarios 
+export default function UsersModal({
+  show,
+  handleClose,
+  usuarioForm,
+  setUsuarioForm,
+  obtenerUsuarios
 }) {
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("OPERACIÓN EXITOSA");
+  const [modalMessage, setModalMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,15 +36,26 @@ export default function UsersModal({
       data?._id ||
       !data?.errors
     ) {
-      alert(usuarioForm.id ? "Usuario actualizado" : "Usuario creado");
       obtenerUsuarios();
-      handleClose();    
+      handleClose();
+      setModalTitle(
+        usuarioForm.id ? "USUARIO ACTUALIZADO" : "USUARIO CREADO",
+      );
+      setModalMessage(
+        usuarioForm.id
+          ? "El usuario se actualizó correctamente."
+          : "El usuario se creó correctamente.",
+      );
+      setShowSuccessModal(true);
     } else {
-      alert(`Error: ${data.mensaje || "Revisar los datos."}`);
+      setModalTitle("ERROR");
+      setModalMessage(data.mensaje || "Revisar los datos.");
+      setShowSuccessModal(true);
     }
   };
 
   return (
+    <>
     <Modal show={show} onHide={handleClose} size="md" backdrop="static" centered>
       <Modal.Header
         closeButton
@@ -161,5 +176,13 @@ export default function UsersModal({
         </Form>
       </Modal.Body>
     </Modal>
+
+    <SuccessModal
+      show={showSuccessModal}
+      onHide={() => setShowSuccessModal(false)}
+      title={modalTitle}
+      message={modalMessage}
+    />
+    </>
   );
 }

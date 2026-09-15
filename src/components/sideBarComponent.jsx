@@ -78,11 +78,13 @@ export default function SideBarComponent() {
             <div className="sidebar-footer-links">
               <hr style={{ color: "white", margin: "0", width: "80%" }} />
 
-              <NavLink to="/about" className="navLinks">
-                Sobre Nosotros
-              </NavLink>
+              {!isInvitado && (
+                <NavLink to="/about" className="navLinks">
+                  Sobre Nosotros
+                </NavLink>
+              )}
 
-              {!isSuperAdmin && (
+              {!isInvitado && !isSuperAdmin && (
                 <NavLink to="/contact" className="navLinks">
                   Contacto
                 </NavLink>

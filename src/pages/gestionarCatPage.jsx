@@ -40,7 +40,6 @@ export default function GestionarCatPage() {
     await sincronizarCategoriasGlobal();
   };
 
-  // MODAL EDITAR
   const [showModal, setShowModal] = useState(false);
   const [categoriaForm, setCategoriaForm] = useState({
     id: null,
@@ -48,14 +47,12 @@ export default function GestionarCatPage() {
     estado: true,
   });
 
-  // MODAL ELIMINAR
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [catParaEliminar, setCatParaEliminar] = useState({
     id: null,
     nombre: "",
   });
 
-  // MODAL ÉXITO
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successTitle, setSuccessTitle] = useState("OPERACIÓN EXITOSA");
   const [successMessage, setSuccessMessage] = useState("");

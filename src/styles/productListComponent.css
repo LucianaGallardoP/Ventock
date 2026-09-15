@@ -368,7 +368,6 @@ td {
   background-color: #92a7c8 !important;
 }
 
-/* Bordes redondeados para la fila seleccionada */
 #products_table tbody tr.productItem_row.fila_seleccionada td:first-child {
   border-top-left-radius: 20px !important;
   border-bottom-left-radius: 20px !important;

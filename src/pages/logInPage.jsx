@@ -5,6 +5,7 @@ import { Button, Form, Spinner } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import isotipoVentock from "../assets/isotipoVentock.png";
 import logotipoVentock from "../assets/logotipoVentock.png";
+import AppToast from "../components/AppToast";
 import "../styles/logInPage.css";
 
 export default function LogInPage() {
@@ -18,6 +19,8 @@ export default function LogInPage() {
 
   const [cargando, setCargando] = useState(false);
   const [mostrarPassword, setMostrarPassword] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const handleChange = (e) => {
     setDatos({
@@ -40,10 +43,12 @@ export default function LogInPage() {
           navigate("/");
         }
       } else {
-        alert(mensaje || "Error al iniciar sesión");
+        setToastMessage(mensaje || "Error al iniciar sesión");
+        setShowToast(true);
       }
     } catch (error) {
-      alert("Ocurrió un error en la conexión.");
+      setToastMessage("Ocurrió un error en la conexión.");
+      setShowToast(true);
     } finally {
       setCargando(false);
     }
@@ -148,6 +153,13 @@ export default function LogInPage() {
           </div>
         </Form>
       </div>
+
+      <AppToast
+        show={showToast}
+        onClose={() => setShowToast(false)}
+        type="error"
+        message={toastMessage}
+      />
     </section>
   );
 }

@@ -110,7 +110,6 @@
   color: #f0f2f5;
 }
 
-/* Tablets and up: sidebar becomes a fixed vertical column */
 @media (min-width: 768px) {
   .gral-container {
     flex-direction: row;

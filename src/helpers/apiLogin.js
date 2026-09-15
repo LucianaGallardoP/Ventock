@@ -3,8 +3,6 @@
 const API_URL = import.meta.env.VITE_API_URL;
 const url = `${API_URL}/api/auth/login`;
 
-// const url = "http://ventockbackend.vercel.app/api/auth/login";
-
 export const authLogin = async (datos) => {
   try {
     const resp = await fetch(url, {

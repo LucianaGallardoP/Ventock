@@ -3,10 +3,6 @@ const API_URL = import.meta.env.VITE_API_URL;
 const url = `${API_URL}/api/categorias`;
 const limite = 50;
 
-// const url = "http://ventockbackend.vercel.app/api/categorias";
-
-// const token = JSON.parse(localStorage.getItem("token"));
-
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
   return {
@@ -80,7 +76,6 @@ export const actualizarCategoria = async (id, datos) => {
   }
 };
 
-// Habilita/deshabilita una categoría (alterna el campo booleano "estado" en el backend)
 export const cambiarEstadoCategoria = async (id) => {
   try {
     const resp = await fetch(`${url}/${id}`, {

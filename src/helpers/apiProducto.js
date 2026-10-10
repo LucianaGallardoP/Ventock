@@ -13,7 +13,7 @@ const getAuthHeaders = () => {
 
 export const getProductos = async (desde = 0) => {
   try {
-    const resp = await fetch (url + "?limite= " + limite + "&desde= " + desde, {
+    const resp = await fetch(`${url}?limite=${limite}&desde=${desde}`, {
       method: "GET",
       headers: getAuthHeaders(),
     });
